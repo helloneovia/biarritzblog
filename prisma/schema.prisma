@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  compareAt   Float?   // Prix barré
+  images      String[] // URLs of images
+  features    String[] // USP points
+  isPopular   Boolean  @default(false)
+  
+  variants    Variant[]
+  reviews     Review[]
+  orders      OrderItem[]
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Variant {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  size      String?  // EU 35-56
+  color     String?
+  sku       String   @unique
+  stock     Int      @default(0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bundle {
+  id          String   @id @default(cuid())
+  name        String   // "1 paire", "2 paires (most popular)", "3 paires (best value)"
+  quantity    Int      // 1, 2, 3
+  discount    Float    // percentage or flat
+  badge       String?  // "most popular", "best value"
+  
+  price       Float
+  compareAt   Float?
+}
+
+model PromoCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  discount    Float    // Value of discount
+  isPercent   Boolean  @default(true)
+  active      Boolean  @default(true)
+  usageCount  Int      @default(0)
+  maxUses     Int?
+  
+  orders      Order[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  email         String
+  firstName     String
+  lastName      String
+  
+  address       String
+  city          String
+  postalCode    String
+  country       String   @default("FR")
+  
+  totalAmount   Float
+  status        OrderStatus @default(PENDING)
+  stripeSession String?     @unique
+  
+  promoCodeId   String?
+  promoCode     PromoCode?  @relation(fields: [promoCodeId], references: [id], onDelete: SetNull)
+  
+  items         OrderItem[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  
+  quantity  Int
+  price     Float    // Price at the time of purchase
+  size      String?
+  color     String?
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  author      String
+  rating      Int      // 1-5
+  content     String?
+  isVerified  Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+}

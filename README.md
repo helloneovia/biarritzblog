@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 StepPrs - Premium Orthopaedic Insoles Store 
 
-## Getting Started
+Ce projet est une boutique e-commerce premium, mobile-first, développée avec **Next.js 14+ (App Router)** et **Tailwind CSS**. 
+Il a été conçu pour maximiser les conversions et optimiser la vitesse de chargement (Core Web Vitals) et le SEO.
 
-First, run the development server:
+## 🚀 Fonctionnalités
+- Design système haut de gamme fluide (Framer Motion, Shadcn UI).
+- Interface Mobile-first.
+- Page produit optimisée avec sélecteur de variantes (tailles) et "Bundles" pour booster l'AOV (Average Order Value).
+- Checkout Stripe sécurisé.
+- Base de données PostgreSQL via Prisma (Commandes, Stocks, Codes promotionnels).
+- Dashboard d'administration simple.
+- Intégrations Analytics : Google Analytics 4 (GA4) et Meta Pixel.
+- SEO prêt : Schema.org Product (JSON-LD) et balises Meta dynamiques.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Prérequis
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Node.js**: v18.17+
+- **Base de données**: PostgreSQL (Local ou cloud, ex: Supabase / Vercel Postgres)
+- **Stripe**: Compte Stripe pour les clés API (`STRIPE_SECRET_KEY` & `STRIPE_WEBHOOK_SECRET`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚙️ Installation & Lancement Local
 
-## Learn More
+1.  **Cloner le repository :**
+    ```bash
+    git clone https://github.com/helloneovia/biarritzblog.git
+    cd biarritzblog
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Installer les dépendances :**
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Configurer l'environnement :**
+    Copiez le fichier d'exemple et remplissez-le.
+    ```bash
+    cp .env.example .env
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Variables requises :
+    ```env
+    DATABASE_URL="postgresql://user:password@localhost:5432/steppprs"
+    STRIPE_SECRET_KEY="sk_test_..."
+    STRIPE_WEBHOOK_SECRET="whsec_..."
+    NEXT_PUBLIC_APP_URL="http://localhost:3000"
+    NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
+    NEXT_PUBLIC_FB_PIXEL_ID="XXXXXXXXXXXXXXX"
+    ```
 
-## Deploy on Vercel
+4.  **Initialiser la base de données :**
+    ```bash
+    npx prisma db push
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5.  **Démarrer en mode développement :**
+    ```bash
+    npm run dev
+    ```
+    L'application sera accessible sur [http://localhost:3000](http://localhost:3000).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## ☁️ Déploiement sur Ubuntu 24.04 (CloudPanel)
+
+Ce projet inclut un script pré-configuré dans `package.json` pour simplifier le déploiement de production via CI/CD sur CloudPanel. L'application tournera en tâche de fond avec PM2.
+
+1.  Assurez-vous que Node.js et PM2 sont installés globalement sur votre serveur VPS CloudPanel :
+    ```bash
+    npm install -g pm2
+    ```
+
+2.  Une fois le code récupéré sur le serveur (via GitHub Webhooks ou manuellement), rendez-vous dans le dossier de l'app et exécutez le script deploy :
+    ```bash
+    npm install
+    npm run deploy
+    ```
+    Ce script :
+    * Compile l'application Next.js (`npm run build`).
+    * Tente de redémarrer le processus PM2 nommé **biarritzblog**. S'il n'existe pas, il le crée.
+
+3. Configurez CloudPanel (Reverse Proxy) :
+    * Dans la configuration Vhost Nginx de CloudPanel, pointez le trafic HTTPS/HTTP vers le port local de l'application (par défaut `3000` ou précisé via la variable d'env `PORT`).
+
+---
+
+## 🤝 Contribution & Maintenance
+
+-   Le système de composants UI est géré par **shadcn/ui**. Pour ajouter un composant : `npx shadcn@latest add [composant]`.
+-   Le schéma de base de données se trouve dans `prisma/schema.prisma`. N'oubliez pas de générer les migrations après toute modification.
