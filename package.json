@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint",
     "deploy": "npm run build && pm2 restart biarritzblog || pm2 start npm --name 'biarritzblog' -- run start"
