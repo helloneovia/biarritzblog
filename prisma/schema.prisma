@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -116,6 +115,15 @@ model OrderItem {
   price     Float    // Price at the time of purchase
   size      String?
   color     String?
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELED
+  REFUNDED
 }
 
 model Review {
