@@ -5,13 +5,7 @@ export const dynamic = "force-dynamic"
 
 export async function GET() {
     try {
-        const localPrisma = new PrismaClient({
-            datasources: {
-                db: {
-                    url: process.env.DATABASE_URL,
-                },
-            },
-        } as any)
+        const localPrisma = new PrismaClient()
 
         const testQuery = await localPrisma.user.findFirst()
         await localPrisma.$disconnect()
