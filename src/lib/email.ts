@@ -1,30 +1,32 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy-init: do NOT call new Resend() at module level — it crashes during Next.js static build
+// because RESEND_API_KEY is not available at build time.
+const getResend = () => new Resend(process.env.RESEND_API_KEY)
 
 const FROM_EMAIL = process.env.EMAIL_FROM || 'StepPrs <no-reply@biarritz.blog>'
 
 export async function sendAccountCreatedEmail({
-    email,
-    name,
-    tempPassword,
-    orderId,
+  email,
+  name,
+  tempPassword,
+  orderId,
 }: {
-    email: string
-    name: string
-    tempPassword: string
-    orderId: string
+  email: string
+  name: string
+  tempPassword: string
+  orderId: string
 }) {
-    if (!process.env.RESEND_API_KEY) {
-        console.warn('RESEND_API_KEY not set, skipping email')
-        return
-    }
-    try {
-        await resend.emails.send({
-            from: FROM_EMAIL,
-            to: email,
-            subject: '🎉 Votre compte StepPrs a été créé',
-            html: `
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not set, skipping email')
+    return
+  }
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: '🎉 Votre compte StepPrs a été créé',
+      html: `
 <!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
@@ -67,33 +69,33 @@ export async function sendAccountCreatedEmail({
   </div>
 </body>
 </html>`,
-        })
-        console.log(`Account creation email sent to ${email}`)
-    } catch (err) {
-        console.error('Failed to send account creation email:', err)
-    }
+    })
+    console.log(`Account creation email sent to ${email}`)
+  } catch (err) {
+    console.error('Failed to send account creation email:', err)
+  }
 }
 
 export async function sendOrderConfirmationEmail({
-    email,
-    name,
-    orderId,
-    orderItems,
-    totalAmount,
-    address,
+  email,
+  name,
+  orderId,
+  orderItems,
+  totalAmount,
+  address,
 }: {
-    email: string
-    name: string
-    orderId: string
-    orderItems: Array<{ name: string; quantity: number; price: number; size?: string }>
-    totalAmount: number
-    address: string
+  email: string
+  name: string
+  orderId: string
+  orderItems: Array<{ name: string; quantity: number; price: number; size?: string }>
+  totalAmount: number
+  address: string
 }) {
-    if (!process.env.RESEND_API_KEY) {
-        console.warn('RESEND_API_KEY not set, skipping email')
-        return
-    }
-    const itemsHtml = orderItems.map(item => `
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not set, skipping email')
+    return
+  }
+  const itemsHtml = orderItems.map(item => `
       <tr>
         <td style="padding:12px 0; color:#1e293b; font-size:14px;">${item.name}${item.size ? ` (${item.size})` : ''}</td>
         <td style="padding:12px 0; color:#64748b; font-size:14px; text-align:center;">${item.quantity}</td>
@@ -101,12 +103,12 @@ export async function sendOrderConfirmationEmail({
       </tr>
     `).join('')
 
-    try {
-        await resend.emails.send({
-            from: FROM_EMAIL,
-            to: email,
-            subject: `✅ Confirmation de commande #${orderId}`,
-            html: `
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: `✅ Confirmation de commande #${orderId}`,
+      html: `
 <!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
@@ -162,9 +164,9 @@ export async function sendOrderConfirmationEmail({
   </div>
 </body>
 </html>`,
-        })
-        console.log(`Order confirmation email sent to ${email}`)
-    } catch (err) {
-        console.error('Failed to send order confirmation email:', err)
-    }
+    })
+    console.log(`Order confirmation email sent to ${email}`)
+  } catch (err) {
+    console.error('Failed to send order confirmation email:', err)
+  }
 }
