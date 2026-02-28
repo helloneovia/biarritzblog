@@ -24,7 +24,7 @@ export function Footer() {
                         <ul className="space-y-2 text-sm text-muted-foreground">
                             <li><Link href="/contact" className="hover:text-primary">Contact Us</Link></li>
                             <li><Link href="/#faq" className="hover:text-primary">FAQ</Link></li>
-                            <li><Link href="/track-order" className="hover:text-primary">Track Order</Link></li>
+                            <li><Link href="/login?callbackUrl=/dashboard" className="hover:text-primary">Track Order</Link></li>
                         </ul>
                     </div>
                     <div>
