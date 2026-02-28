@@ -12,6 +12,9 @@ export function Navbar() {
                         <span className="font-bold text-xl tracking-tight">StepPrs</span>
                     </Link>
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+                        <Link href="/blog" className="transition-colors hover:text-foreground/80 font-bold text-primary">
+                            Blog
+                        </Link>
                         <Link href="/#benefits" className="transition-colors hover:text-foreground/80 text-foreground/60">
                             Benefits
                         </Link>

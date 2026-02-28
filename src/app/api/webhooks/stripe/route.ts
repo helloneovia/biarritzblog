@@ -3,9 +3,14 @@ import { NextResponse } from "next/server"
 import { stripe } from "@/lib/stripe"
 // import prisma from "@/lib/prisma" // uncomment when DB is connected
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
+export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+
+    if (!webhookSecret) {
+        return NextResponse.json({ error: "Webhook secret missing" }, { status: 500 })
+    }
     try {
         const body = await req.text()
         const h = await headers()
