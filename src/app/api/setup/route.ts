@@ -10,9 +10,7 @@ export async function GET() {
         return NextResponse.json({ error: "No database configured" }, { status: 500 })
     }
 
-    const localPrisma = new PrismaClient({
-        datasourceUrl: process.env.DATABASE_URL,
-    })
+    const localPrisma = new PrismaClient()
 
     try {
         const email = "admin@biarritz.blog"
