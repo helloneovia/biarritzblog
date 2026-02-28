@@ -1,7 +1,7 @@
 import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 import { stripe } from "@/lib/stripe"
-// import prisma from "@/lib/prisma" // uncomment when DB is connected
+import { prisma } from "@/lib/prisma"
 
 export const dynamic = "force-dynamic"
 
@@ -30,32 +30,64 @@ export async function POST(req: Request) {
 
             // 1. Retrieve items from metadata
             const items = JSON.parse(session.metadata?.items || "[]")
+            const email = session.customer_details?.email;
 
-            // 2. Save order to database via Prisma
-            // await prisma.order.create({
-            //   data: {
-            //     email: session.customer_details?.email,
-            //     firstName: session.customer_details?.name?.split(' ')[0] || '',
-            //     lastName: session.customer_details?.name?.split(' ').slice(1).join(' ') || '',
-            //     address: session.customer_details?.address?.line1 || '',
-            //     city: session.customer_details?.address?.city || '',
-            //     postalCode: session.customer_details?.address?.postal_code || '',
-            //     country: session.customer_details?.address?.country || 'FR',
-            //     totalAmount: session.amount_total / 100,
-            //     status: "COMPLETED",
-            //     stripeSession: session.id,
-            //     items: {
-            //       create: items.map((item: any) => ({
-            //         productId: item.id,
-            //         quantity: item.q,
-            //         size: item.size
-            //       }))
-            //     }
-            //   }
-            // })
+            if (!email) {
+                return NextResponse.json({ error: "No email provided by Stripe" }, { status: 400 })
+            }
+
+            // Generate a deterministic temporary password if the user needs to be created
+            const tempPassword = `Biarritz-${session.id.slice(-6)}`;
+
+            // We use dynamic import for bcrypt to avoid Next.js edge runtime issues just in case,
+            // though Stripe webhooks should be Node.js runtime.
+            const bcrypt = require("bcryptjs");
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+            // 2. Save order to database via Prisma & Upsert User
+            let user = await prisma.user.findUnique({ where: { email } });
+            let isNewUser = false;
+
+            if (!user) {
+                user = await prisma.user.create({
+                    data: {
+                        email,
+                        password: hashedPassword,
+                        name: session.customer_details?.name || "Client",
+                        role: "USER"
+                    }
+                });
+                isNewUser = true;
+            }
+
+            const firstName = session.customer_details?.name?.split(' ')[0] || '';
+            const lastName = session.customer_details?.name?.split(' ').slice(1).join(' ') || '';
+
+            await prisma.order.create({
+                data: {
+                    email,
+                    firstName,
+                    lastName,
+                    address: session.customer_details?.address?.line1 || '',
+                    city: session.customer_details?.address?.city || '',
+                    postalCode: session.customer_details?.address?.postal_code || '',
+                    country: session.customer_details?.address?.country || 'FR',
+                    totalAmount: session.amount_total / 100,
+                    status: "PAID",
+                    stripeSession: session.id,
+                    userId: user.id,
+                    items: {
+                        create: items.map((item: any) => ({
+                            productId: item.id,
+                            quantity: item.q,
+                            size: item.size
+                        }))
+                    }
+                }
+            })
 
             // 3. Send email confirmation (via Resend/Nodemailer)
-            console.log(`Order ${session.id} processed for ${session.customer_details?.email}`)
+            console.log(`Order ${session.id} processed for ${email}. New User: ${isNewUser}`)
         }
 
         return NextResponse.json({ received: true })
