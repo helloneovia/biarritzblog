@@ -2,6 +2,7 @@ import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
+import { sendAccountCreatedEmail, sendOrderConfirmationEmail } from "@/lib/email"
 
 export const dynamic = "force-dynamic"
 
@@ -59,8 +60,6 @@ export async function POST(req: Request) {
             // Generate a deterministic temporary password if the user needs to be created
             const tempPassword = `Biarritz-${session.id.slice(-6)}`;
 
-            // We use dynamic import for bcrypt to avoid Next.js edge runtime issues just in case,
-            // though Stripe webhooks should be Node.js runtime.
             const bcrypt = require("bcryptjs");
             const hashedPassword = await bcrypt.hash(tempPassword, 10);
             log(`Password hashed`);
@@ -83,10 +82,16 @@ export async function POST(req: Request) {
 
             const firstName = session.customer_details?.name?.split(' ')[0] || '';
             const lastName = session.customer_details?.name?.split(' ').slice(1).join(' ') || '';
+            const fullAddress = [
+                session.customer_details?.address?.line1,
+                session.customer_details?.address?.postal_code,
+                session.customer_details?.address?.city,
+                session.customer_details?.address?.country,
+            ].filter(Boolean).join(', ');
 
             log(`Creating order in DB... User Id: ${user.id}`);
 
-            await prisma.order.create({
+            const order = await prisma.order.create({
                 data: {
                     email,
                     firstName,
@@ -120,14 +125,42 @@ export async function POST(req: Request) {
                 }
             })
 
-            // 3. Send email confirmation (via Resend/Nodemailer)
-            log(`Order ${session.id} processed for ${email}. New User: ${isNewUser}`)
+            log(`Order created: ${order.id}`)
+
+            // 3. Send emails
+            const orderItemsForEmail = items.map((item: any) => ({
+                name: `Semelles StepPrs (Bundle ${item.id})`,
+                quantity: item.q || 1,
+                price: Number(item.p) || 0,
+                size: item.size || '',
+            }))
+
+            // Send order confirmation to everyone
+            await sendOrderConfirmationEmail({
+                email,
+                name: session.customer_details?.name || 'Client',
+                orderId: order.id.slice(-8).toUpperCase(),
+                orderItems: orderItemsForEmail,
+                totalAmount: session.amount_total / 100,
+                address: fullAddress,
+            })
+
+            // Send account creation email only for new users
+            if (isNewUser) {
+                await sendAccountCreatedEmail({
+                    email,
+                    name: firstName || 'Client',
+                    tempPassword,
+                    orderId: order.id.slice(-8).toUpperCase(),
+                })
+            }
+
+            log(`Emails sent. Order ${order.id} processed for ${email}. New User: ${isNewUser}`)
         }
 
         return NextResponse.json({ received: true })
 
     } catch (error: any) {
-        // Must use the global log since log is defined inside the block
         ((global as any).__WEBHOOK_LOGS__ || []).unshift(`[${new Date().toISOString()}] STRIPE_WEBHOOK_ERROR: ${error.message || error}`);
         console.error("STRIPE_WEBHOOK_ERROR", error)
         return NextResponse.json({ error: error.message || "Webhook handler failed" }, { status: 500 })
