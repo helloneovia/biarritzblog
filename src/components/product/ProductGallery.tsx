@@ -11,7 +11,9 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
         "https://images.unsplash.com/photo-1620056910398-35ed5f6d7dd0?q=80&w=2160&auto=format&fit=crop"
     ]
 
-    const images = (productImages && productImages.length > 0) ? productImages : fallbackImages;
+    // Filter out any empty strings or invalid URLs that might be in the DB
+    const validImages = productImages?.filter(img => typeof img === 'string' && img.trim() !== '') || [];
+    const images = validImages.length > 0 ? validImages : fallbackImages;
 
     const [activeIndex, setActiveIndex] = useState(0)
 

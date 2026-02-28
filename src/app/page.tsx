@@ -14,6 +14,12 @@ import Link from "next/link" // Re-added as it's used in CTA
 export default async function Home() {
   const config = await prisma.siteConfig.findUnique({ where: { id: "global" } });
   const texts = (config?.texts as any) || {};
+
+  // Fetch primary product to dynamize the Hero image (avoiding static shoes)
+  const dbProduct = await prisma.product.findFirst({
+    orderBy: { createdAt: 'desc' }
+  })
+
   // Assuming 't' is meant to be 'texts' based on the original code's context
   // If 't' is meant to come from i18n, the setup for 't' would need to be added here.
   // For now, I'll use 'texts' where 't' was indicated in the provided snippet,
@@ -21,7 +27,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Hero texts={texts} />
+      <Hero texts={texts} dbProduct={dbProduct} />
       <Features texts={texts} /> {/* Changed 't' to 'texts' for consistency with current file logic */}
 
       {/* Visual Break - Science section */}

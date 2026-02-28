@@ -2,7 +2,19 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Star } from "lucide-react"
 
-export function Hero({ texts = {} }: { texts?: any }) {
+export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }) {
+    const defaultWhiteShoeId = "1608231387042-66d1773070a5";
+    const hasCustomHeroImage = texts?.heroImage && !texts.heroImage.includes(defaultWhiteShoeId);
+
+    // Prioritize the actual product image over the generic white shoe placeholder
+    let heroSrc = "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop"; // Zen generic
+
+    if (hasCustomHeroImage) {
+        heroSrc = texts.heroImage;
+    } else if (dbProduct?.images?.[0] && dbProduct.images[0].trim() !== "") {
+        heroSrc = dbProduct.images[0];
+    }
+
     return (
         <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32">
             <div className="container px-4 md:px-6 mx-auto">
@@ -54,7 +66,7 @@ export function Hero({ texts = {} }: { texts?: any }) {
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
                             <img
-                                src={texts?.heroImage || "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
+                                src={heroSrc}
                                 alt="Premium Orthopaedic Insoles"
                                 className="object-cover w-full h-full"
                             />
