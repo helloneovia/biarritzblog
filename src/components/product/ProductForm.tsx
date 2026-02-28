@@ -7,6 +7,7 @@ import { ShoppingCart, ShieldCheck } from "lucide-react"
 export function ProductForm() {
     const [size, setSize] = useState<string>("EU 40-41")
     const [bundle, setBundle] = useState<number>(2) // 1, 2, 3
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const sizes = ["EU 35-37", "EU 38-39", "EU 40-41", "EU 42-43", "EU 44-45", "EU 46-48"]
 
@@ -17,6 +18,39 @@ export function ProductForm() {
     ]
 
     const activeBundle = bundles.find(b => b.id === bundle)!
+
+    const handleCheckout = async () => {
+        setIsLoading(true)
+        try {
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: [{
+                        id: activeBundle.id,
+                        name: "Premium Orthopaedic Insoles",
+                        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff", // Using a placeholder shoe image
+                        bundle: activeBundle.name,
+                        size: size,
+                        price: activeBundle.price,
+                        quantity: 1
+                    }]
+                })
+            })
+
+            const data = await response.json()
+            if (data.url) {
+                window.location.href = data.url
+            } else {
+                alert(data.error || "Checkout failed")
+            }
+        } catch (error) {
+            console.error("Checkout error:", error)
+            alert("An error occurred during checkout")
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <div className="flex flex-col gap-8">
@@ -93,9 +127,13 @@ export function ProductForm() {
                 </div>
             </div>
 
-            <Button size="lg" className="w-full h-14 rounded-full text-lg font-bold shadow-xl">
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart - €{activeBundle.price}
+            <Button size="lg" className="w-full h-14 rounded-full text-lg font-bold shadow-xl" onClick={handleCheckout} disabled={isLoading}>
+                {isLoading ? "Processing..." : (
+                    <>
+                        <ShoppingCart className="mr-2 h-5 w-5" />
+                        Add to Cart - €{activeBundle.price}
+                    </>
+                )}
             </Button>
 
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground py-4 border-y">
