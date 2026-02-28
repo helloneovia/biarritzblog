@@ -34,7 +34,7 @@ export default async function TicketDetailPage({
         senderId: m.senderId,
         createdAt: m.createdAt.toISOString(),
         isCurrentUser: m.senderId === session?.user?.id,
-        senderName: m.senderId === session?.user?.id ? 'Vous' : 'Support StepPrs',
+        senderName: m.senderId === session?.user?.id ? 'Vous' : 'Support Biarritz',
     }))
 
     const statusColors: Record<string, string> = {

@@ -17,7 +17,7 @@ export function CartDrawer() {
     const cartItems = [
         {
             id: 1,
-            name: "StepPrs Orthopaedic Insoles",
+            name: "Biarritz Orthopaedic Insoles",
             bundle: "2 Pairs (Most Popular)",
             size: "EU 40-41",
             price: 59.00,

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { headers } from "next/headers"
 import { cookies } from "next/headers"
@@ -18,7 +19,7 @@ export async function Navbar() {
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
                 <div className="flex items-center gap-6">
                     <Link href="/" className="flex items-center space-x-2">
-                        <span className="font-bold text-xl tracking-tight">StepPrs</span>
+                        <Image src="/logo.png" alt="Biarritz Logo" width={110} height={32} className="h-8 w-auto object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
                         <Link href="/blog" className="transition-colors hover:text-foreground/80 font-bold text-primary">

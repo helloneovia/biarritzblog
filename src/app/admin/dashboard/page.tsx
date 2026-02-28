@@ -6,7 +6,7 @@ import { OrdersTable } from "@/components/admin/OrdersTable"
 export const dynamic = "force-dynamic"
 
 export const metadata = {
-    title: "Admin Dashboard - StepPrs",
+    title: "Admin Dashboard - Biarritz",
 }
 
 export default async function AdminDashboard() {

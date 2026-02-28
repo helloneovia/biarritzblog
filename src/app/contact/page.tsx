@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label"
 import { Mail, MapPin, Phone } from "lucide-react"
 
 export const metadata = {
-    title: "Contact Us - StepPrs",
+    title: "Contact Us - Biarritz",
 }
 
 export default function ContactPage() {

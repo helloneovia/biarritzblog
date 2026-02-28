@@ -72,7 +72,7 @@ function OrderCard({ order }: { order: Order }) {
                             {order.items.map(item => (
                                 <div key={item.id} className="flex justify-between items-center bg-muted/30 rounded-xl px-4 py-3">
                                     <div>
-                                        <p className="font-semibold text-sm">{item.product?.name || 'Semelles StepPrs'}</p>
+                                        <p className="font-semibold text-sm">{item.product?.name || 'Semelles Biarritz'}</p>
                                         <p className="text-xs text-muted-foreground">
                                             {item.size && `Taille: ${item.size}`}
                                             {item.size && item.color && ' · '}

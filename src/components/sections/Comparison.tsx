@@ -9,7 +9,7 @@ export function Comparison() {
                         Not All Insoles Are Equal
                     </h2>
                     <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-                        See why thousands are switching from generic drugstore brands to StepPrs.
+                        See why thousands are switching from generic drugstore brands to Biarritz.
                     </p>
                 </div>
 
@@ -18,7 +18,7 @@ export function Comparison() {
                         <div className="font-semibold text-muted-foreground">Features</div>
                         <div className="font-bold text-center">Generic Brands</div>
                         <div className="font-extrabold text-center text-primary text-lg flex flex-col items-center">
-                            StepPrs
+                            Biarritz
                             <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full mt-1">Our Choice</span>
                         </div>
                     </div>

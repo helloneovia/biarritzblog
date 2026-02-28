@@ -244,7 +244,7 @@ export function OrdersTable({ initialOrders }: { initialOrders: Order[] }) {
                                             <tbody className="divide-y">
                                                 {selectedOrder.items.map((item: any, i: number) => (
                                                     <tr key={i}>
-                                                        <td className="px-4 py-3 font-medium">{item.product?.name || 'Semelle StepPrs'}</td>
+                                                        <td className="px-4 py-3 font-medium">{item.product?.name || 'Semelle Biarritz'}</td>
                                                         <td className="px-4 py-3 text-center text-muted-foreground">{item.size || '—'}</td>
                                                         <td className="px-4 py-3 text-center">{item.quantity}</td>
                                                         <td className="px-4 py-3 text-right font-bold text-indigo-700">{formatCurrency(item.price * item.quantity)}</td>

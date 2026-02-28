@@ -66,7 +66,7 @@ export default async function CheckoutSuccessPage({
                             {order.items.map((item: any) => (
                                 <div key={item.id} className="flex justify-between items-center py-2 border-b last:border-0">
                                     <div>
-                                        <p className="font-medium text-sm">{item.product?.name || 'Semelles StepPrs'}</p>
+                                        <p className="font-medium text-sm">{item.product?.name || 'Semelles Biarritz'}</p>
                                         {item.size && <p className="text-xs text-muted-foreground">Taille: {item.size}</p>}
                                         <p className="text-xs text-muted-foreground">Qté: {item.quantity}</p>
                                     </div>

@@ -4,7 +4,7 @@ import { Resend } from 'resend'
 // because RESEND_API_KEY is not available at build time.
 const getResend = () => new Resend(process.env.RESEND_API_KEY)
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'StepPrs <no-reply@biarritz.blog>'
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Biarritz <no-reply@biarritz.blog>'
 
 export async function sendAccountCreatedEmail({
   email,
@@ -25,7 +25,7 @@ export async function sendAccountCreatedEmail({
     await getResend().emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: '🎉 Votre compte StepPrs a été créé',
+      subject: '🎉 Votre compte Biarritz a été créé',
       html: `
 <!DOCTYPE html>
 <html lang="fr">
@@ -33,7 +33,7 @@ export async function sendAccountCreatedEmail({
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#f8fafc; margin:0; padding:0;">
   <div style="max-width:560px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.08);">
     <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding:40px 32px; text-align:center;">
-      <h1 style="color:#fff; margin:0; font-size:28px; font-weight:800;">StepPrs</h1>
+      <h1 style="color:#fff; margin:0; font-size:28px; font-weight:800;">Biarritz</h1>
       <p style="color:rgba(255,255,255,0.85); margin:8px 0 0; font-size:14px;">Semelles Orthopédiques Premium</p>
     </div>
     <div style="padding:40px 32px;">
@@ -64,7 +64,7 @@ export async function sendAccountCreatedEmail({
       </a>
     </div>
     <div style="background:#f8fafc; padding:24px 32px; text-align:center; border-top:1px solid #e2e8f0;">
-      <p style="color:#94a3b8; font-size:12px; margin:0;">© ${new Date().getFullYear()} StepPrs · <a href="https://biarritz.blog" style="color:#6366f1;">biarritz.blog</a></p>
+      <p style="color:#94a3b8; font-size:12px; margin:0;">© ${new Date().getFullYear()} Biarritz · <a href="https://biarritz.blog" style="color:#6366f1;">biarritz.blog</a></p>
     </div>
   </div>
 </body>
@@ -115,7 +115,7 @@ export async function sendOrderConfirmationEmail({
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#f8fafc; margin:0; padding:0;">
   <div style="max-width:560px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.08);">
     <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding:40px 32px; text-align:center;">
-      <h1 style="color:#fff; margin:0; font-size:28px; font-weight:800;">StepPrs</h1>
+      <h1 style="color:#fff; margin:0; font-size:28px; font-weight:800;">Biarritz</h1>
       <p style="color:rgba(255,255,255,0.85); margin:8px 0 0; font-size:14px;">Confirmation de Commande</p>
     </div>
     <div style="padding:40px 32px;">
@@ -159,7 +159,7 @@ export async function sendOrderConfirmationEmail({
       </a>
     </div>
     <div style="background:#f8fafc; padding:24px 32px; text-align:center; border-top:1px solid #e2e8f0;">
-      <p style="color:#94a3b8; font-size:12px; margin:0;">© ${new Date().getFullYear()} StepPrs · <a href="https://biarritz.blog" style="color:#6366f1;">biarritz.blog</a></p>
+      <p style="color:#94a3b8; font-size:12px; margin:0;">© ${new Date().getFullYear()} Biarritz · <a href="https://biarritz.blog" style="color:#6366f1;">biarritz.blog</a></p>
     </div>
   </div>
 </body>

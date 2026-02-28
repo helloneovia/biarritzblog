@@ -6,7 +6,7 @@ export function Footer() {
             <div className="container mx-auto px-4 py-8 md:py-12 md:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="space-y-4">
-                        <h3 className="font-bold text-lg">StepPrs</h3>
+                        <h3 className="font-bold text-lg">Biarritz</h3>
                         <p className="text-sm text-muted-foreground">
                             Premium orthopaedic insoles designed for maximum comfort, posture correction, and pain relief.
                         </p>
@@ -37,7 +37,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-                    <p>&copy; {new Date().getFullYear()} StepPrs. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} Biarritz. All rights reserved.</p>
                 </div>
             </div>
         </footer>

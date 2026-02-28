@@ -3,7 +3,7 @@ import { ProductsManager } from "@/components/admin/ProductsManager"
 
 export const dynamic = "force-dynamic"
 
-export const metadata = { title: "Produits - Admin StepPrs" }
+export const metadata = { title: "Produits - Admin Biarritz" }
 
 export default async function AdminProductsPage() {
     const [products, bundles] = await Promise.all([

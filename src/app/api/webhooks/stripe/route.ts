@@ -129,7 +129,7 @@ export async function POST(req: Request) {
 
             // 3. Send emails
             const orderItemsForEmail = items.map((item: any) => ({
-                name: `Semelles StepPrs (Bundle ${item.id})`,
+                name: `Semelles Biarritz (Bundle ${item.id})`,
                 quantity: item.q || 1,
                 price: Number(item.p) || 0,
                 size: item.size || '',

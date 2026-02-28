@@ -26,7 +26,7 @@ export default async function Home() {
             {texts.ctaTitle || "Ready to Take Your Life Back?"}
           </h2>
           <p className="text-primary-foreground/80 max-w-[600px] text-lg mx-auto whitespace-pre-wrap">
-            {texts.ctaSubtitle || "Join 50,000+ others who have found instant pain relief with StepPrs. Your feet will thank you."}
+            {texts.ctaSubtitle || "Join 50,000+ others who have found instant pain relief with Biarritz. Your feet will thank you."}
           </p>
           <Button size="lg" variant="secondary" className="rounded-full font-bold h-14 px-10 text-lg shadow-2xl" asChild>
             <Link href="/product">

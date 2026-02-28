@@ -11,7 +11,7 @@ const FALLBACK_REVIEWS = [
     },
     {
         author: "DAVID K.",
-        content: "Working 10-hour shifts on concrete floors ruined my knees. StepPrs completely absorbed the shock. Highly recommended!",
+        content: "Working 10-hour shifts on concrete floors ruined my knees. Biarritz completely absorbed the shock. Highly recommended!",
         rating: 5,
         isVerified: true,
     },

@@ -7,7 +7,7 @@ import { Faq } from "@/components/sections/Faq"
 export const dynamic = "force-dynamic"
 
 export const metadata = {
-    title: "Premium Orthopaedic Insoles - StepPrs",
+    title: "Premium Orthopaedic Insoles - Biarritz",
     description: "Buy the #1 rated orthopaedic insoles for pain relief.",
 }
 

@@ -7,7 +7,7 @@ const policies: Record<string, { title: string, content: React.ReactNode }> = {
             <>
                 <p>Last updated: {new Date().toLocaleDateString()}</p>
                 <h2>1. Introduction</h2>
-                <p>Welcome to StepPrs. By accessing our website and purchasing our orthopaedic insoles, you agree to these Terms and Conditions.</p>
+                <p>Welcome to Biarritz. By accessing our website and purchasing our orthopaedic insoles, you agree to these Terms and Conditions.</p>
                 <h2>2. Purchases and Payment</h2>
                 <p>All payments are securely processed via Stripe. Prices are subject to change, but changes will not affect orders that have already been accepted.</p>
                 <h2>3. Shipping</h2>
@@ -39,7 +39,7 @@ const policies: Record<string, { title: string, content: React.ReactNode }> = {
             <>
                 <p>Last updated: {new Date().toLocaleDateString()}</p>
                 <h2>30-Day Comfort Guarantee</h2>
-                <p>We want you to be completely satisfied with your StepPrs insoles. If you do not experience the pain relief and comfort you expected, you may return them within 30 days of delivery.</p>
+                <p>We want you to be completely satisfied with your Biarritz insoles. If you do not experience the pain relief and comfort you expected, you may return them within 30 days of delivery.</p>
                 <h2>Condition of Returns</h2>
                 <p>Insoles can be returned even if they have been worn or trimmed to fit your shoes, provided they are clean and accompanied by the original packaging.</p>
                 <h2>How to initiate a return</h2>
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const p = await params;
     const policy = policies[p.slug]
     if (!policy) return { title: "Not Found" }
-    return { title: `${policy.title} - StepPrs` }
+    return { title: `${policy.title} - Biarritz` }
 }
 
 export default async function LegalPage({ params }: { params: Promise<{ slug: string }> }) {

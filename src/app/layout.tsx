@@ -10,13 +10,13 @@ import { Providers } from "@/components/auth/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "StepPrs | Premium Orthopaedic Insoles",
-  description: "Experience ultimate comfort and pain relief with StepPrs orthopaedic insoles. Designed for posture correction, foot support, and all-day comfort. Shop now!",
+  title: "Biarritz | Premium Orthopaedic Insoles",
+  description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles. Designed for posture correction, foot support, and all-day comfort. Shop now!",
   openGraph: {
-    title: "StepPrs | Premium Orthopaedic Insoles",
-    description: "Experience ultimate comfort and pain relief with StepPrs orthopaedic insoles.",
+    title: "Biarritz | Premium Orthopaedic Insoles",
+    description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles.",
     url: "https://steppprs.com",
-    siteName: "StepPrs",
+    siteName: "Biarritz",
     locale: "fr_FR",
     type: "website",
   },

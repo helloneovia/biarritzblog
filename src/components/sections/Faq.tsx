@@ -9,14 +9,14 @@ export function Faq() {
     const faqs = [
         {
             question: "Do these fit in any type of shoe?",
-            answer: "Yes! StepPrs are designed to fit effortlessly into most footwear, including sneakers, work boots, casual shoes, and even some dress shoes. If they are slightly too long, you can easily trim the front edge with scissors.",
+            answer: "Yes! Biarritz are designed to fit effortlessly into most footwear, including sneakers, work boots, casual shoes, and even some dress shoes. If they are slightly too long, you can easily trim the front edge with scissors.",
         },
         {
             question: "How long does it take to feel relief?",
             answer: "Many of our customers report feeling immediate relief as soon as they put them on. For structural issues like plantar fasciitis, we recommend wearing them daily for at least 7-14 days to allow your foot to fully realign.",
         },
         {
-            question: "Can I wash my StepPrs insoles?",
+            question: "Can I wash my Biarritz insoles?",
             answer: "Absolutely. We recommend hand-washing them with warm water and mild soap. Let them air dry completely before putting them back into your shoes. Do not machine wash or dry.",
         },
         {

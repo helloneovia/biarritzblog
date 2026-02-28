@@ -24,7 +24,7 @@ export function Features({ texts = {} }: { texts?: any }) {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-                        {texts?.featuresTitle || "Why Choose StepPrs?"}
+                        {texts?.featuresTitle || "Why Choose Biarritz?"}
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto text-lg whitespace-pre-wrap">
                         {texts?.featuresSubtitle || "Built with advanced podiatric technology, our insoles target the root cause of foot and back pain."}
