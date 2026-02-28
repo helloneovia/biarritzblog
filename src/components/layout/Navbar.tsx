@@ -31,10 +31,18 @@ export async function Navbar() {
                 </div>
                 <div className="flex items-center gap-4">
                     {session ? (
-                        <Link href="/dashboard" className="hidden sm:flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors">
-                            <UserCircle className="h-5 w-5" />
-                            Dashboard
-                        </Link>
+                        <div className="hidden sm:flex items-center gap-4">
+                            {session.user?.role === "ADMIN" && (
+                                <Link href="/admin" className="flex items-center gap-1 text-sm font-bold text-red-600 hover:text-red-800 transition-colors">
+                                    <UserCircle className="h-5 w-5" />
+                                    Admin
+                                </Link>
+                            )}
+                            <Link href="/dashboard" className="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary/80 transition-colors">
+                                <UserCircle className="h-5 w-5" />
+                                Dashboard
+                            </Link>
+                        </div>
                     ) : (
                         <Link href="/login" className="hidden sm:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
                             <UserCircle className="h-5 w-5" />
