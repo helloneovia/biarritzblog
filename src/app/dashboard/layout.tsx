@@ -1,9 +1,11 @@
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth/options"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { Package, MessageCircle, Settings, LogOut, ShieldCheck } from "lucide-react"
 import { SignOutButton } from "@/components/auth/SignOutButton"
+
+export const dynamic = "force-dynamic"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
     const session = await getServerSession(authOptions)

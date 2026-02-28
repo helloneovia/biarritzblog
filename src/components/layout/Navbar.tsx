@@ -3,7 +3,7 @@ import { Menu, UserCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CartDrawer } from "@/components/layout/CartDrawer"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth/options"
 
 export async function Navbar() {
     const session = await getServerSession(authOptions)
