@@ -8,7 +8,8 @@ import {
     MessageSquare,
     Settings,
     LogOut,
-    ArrowLeft
+    ArrowLeft,
+    ShoppingBag
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +33,7 @@ export default async function AdminLayout({
     const navItems = [
         { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard },
         { name: "Commandes", href: "/admin/orders", icon: Package },
+        { name: "Produits & Offres", href: "/admin/products", icon: ShoppingBag },
         { name: "Support", href: "/admin/support", icon: MessageSquare },
         { name: "Paramètres (CMS)", href: "/admin/settings", icon: Settings },
     ];

@@ -1,12 +1,18 @@
 import Link from "next/link"
+import { headers } from "next/headers"
+import { cookies } from "next/headers"
 import { Menu, UserCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CartDrawer } from "@/components/layout/CartDrawer"
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth/options"
 
 export async function Navbar() {
     const session = await getServerSession(authOptions)
+    const cookieStore = await cookies()
+    const locale = cookieStore.get("NEXT_LOCALE")?.value || "EN"
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
@@ -29,7 +35,12 @@ export async function Navbar() {
                         </Link>
                     </nav>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                    {/* Language Switcher */}
+                    <div className="hidden sm:block">
+                        <LanguageSwitcher currentLocale={locale} />
+                    </div>
+
                     {session ? (
                         <div className="hidden sm:flex items-center gap-4">
                             {session.user?.role === "ADMIN" && (
