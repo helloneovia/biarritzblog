@@ -13,7 +13,7 @@ interface Bundle {
     badge?: string
 }
 
-export function ProductForm({ bundles }: { bundles: Bundle[] }) {
+export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<string, string> }) {
     const [size, setSize] = useState<string>("EU 40-41")
     const [bundle, setBundle] = useState<number>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -75,7 +75,7 @@ export function ProductForm({ bundles }: { bundles: Bundle[] }) {
 
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">Select Size</h3>
+                    <h3 className="font-semibold">{t.productSelectSize || "Select Size"}</h3>
                     <span className="text-sm text-primary underline cursor-pointer">Size Guide</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
@@ -135,7 +135,7 @@ export function ProductForm({ bundles }: { bundles: Bundle[] }) {
                 {isLoading ? "Processing..." : (
                     <>
                         <ShoppingCart className="mr-2 h-5 w-5" />
-                        Add to Cart - €{activeBundle.price}
+                        {t.productAddToCart || "Add to Cart"} - €{activeBundle.price}
                     </>
                 )}
             </Button>
@@ -143,7 +143,7 @@ export function ProductForm({ bundles }: { bundles: Bundle[] }) {
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground py-4 border-y">
                 <div className="flex items-center gap-2">
                     <ShieldCheck className="h-5 w-5" />
-                    30-Day Guarantee
+                    {t.productGuarantee || "30-Day Guarantee"}
                 </div>
                 <div className="flex items-center gap-2">
                     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5l10 -10" /></svg>

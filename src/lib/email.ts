@@ -170,3 +170,60 @@ export async function sendOrderConfirmationEmail({
     console.error('Failed to send order confirmation email:', err)
   }
 }
+
+export async function sendSupportReplyEmail({
+  email,
+  name,
+  ticketSubject,
+}: {
+  email: string
+  name: string
+  ticketSubject: string
+}) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not set, skipping support reply email')
+    return
+  }
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: `Nouveau message - ${ticketSubject}`,
+      html: `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#f8fafc; margin:0; padding:0;">
+  <div style="max-width:560px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+    <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding:40px 32px; text-align:center;">
+      <h1 style="color:#fff; margin:0; font-size:28px; font-weight:800;">Biarritz Support</h1>
+      <p style="color:rgba(255,255,255,0.85); margin:8px 0 0; font-size:14px;">Mise à jour de votre demande</p>
+    </div>
+    <div style="padding:40px 32px;">
+      <h2 style="color:#1e293b; font-size:20px; margin:0 0 16px;">Bonjour ${name},</h2>
+      <p style="color:#64748b; line-height:1.7; margin:0 0 24px;">
+        Un membre de notre équipe a répondu à votre message concernant : <strong style="color:#1e293b;">${ticketSubject}</strong>.
+      </p>
+
+      <a href="https://biarritz.blog/dashboard/support" style="display:block; background:linear-gradient(135deg, #4f46e5, #7c3aed); color:#fff; text-align:center; padding:14px 24px; border-radius:10px; font-weight:700; font-size:15px; text-decoration:none;">
+        Voir la réponse et répondre →
+      </a>
+      
+      <p style="color:#94a3b8; font-size:13px; margin:24px 0 0; text-align:center;">
+        Si le bouton ne fonctionne pas, copiez ce lien : https://biarritz.blog/dashboard/support
+      </p>
+    </div>
+    <div style="background:#f8fafc; padding:24px 32px; text-align:center; border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8; font-size:12px; margin:0;">© ${new Date().getFullYear()} Biarritz · <a href="https://biarritz.blog" style="color:#6366f1;">biarritz.blog</a></p>
+    </div>
+  </div>
+</body>
+</html>`,
+    })
+    console.log(`Support reply email sent to ${email}`)
+  } catch (err) {
+    console.error('Failed to send support reply email:', err)
+  }
+}
+

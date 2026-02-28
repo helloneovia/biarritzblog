@@ -3,6 +3,8 @@ import { ProductGallery } from "@/components/product/ProductGallery"
 import { ProductForm } from "@/components/product/ProductForm"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { Faq } from "@/components/sections/Faq"
+import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
+import { cookies } from "next/headers"
 
 export const dynamic = "force-dynamic"
 
@@ -12,6 +14,11 @@ export const metadata = {
 }
 
 export default async function ProductPage() {
+    const cookieStore = await cookies()
+    const locale = (cookieStore.get("NEXT_LOCALE")?.value || "EN") as Locale
+    const config = await getSiteConfig()
+    const t = getTexts(config, locale)
+
     // Fetch real bundles from DB
     const dbBundles = await prisma.bundle.findMany({
         orderBy: { quantity: 'asc' },
@@ -44,7 +51,7 @@ export default async function ProductPage() {
 
                     {/* Right Column: Details & Form */}
                     <div>
-                        <ProductForm bundles={bundles} />
+                        <ProductForm bundles={bundles} t={t} />
                     </div>
                 </div>
             </div>

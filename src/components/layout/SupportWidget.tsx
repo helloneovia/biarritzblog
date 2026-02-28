@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-export function SupportWidget() {
+export function SupportWidget({ t }: { t: Record<string, string> }) {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -51,8 +51,8 @@ export function SupportWidget() {
                 <div className="mb-4 w-[340px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">
                     <div className="bg-[#0B1B3D] p-4 text-white flex justify-between items-center">
                         <div>
-                            <h3 className="font-bold text-lg">Contact Support</h3>
-                            <p className="text-indigo-200 text-xs mt-0.5">We typically reply in a few hours.</p>
+                            <h3 className="font-bold text-lg">{t.widgetTitle || "Contact Support"}</h3>
+                            <p className="text-indigo-200 text-xs mt-0.5">{t.contactSuccessDesc || "We typically reply in a few hours."}</p>
                         </div>
                         <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white transition-colors">
                             <X className="h-5 w-5" />
@@ -63,8 +63,8 @@ export function SupportWidget() {
                         {success ? (
                             <div className="text-center py-8">
                                 <span className="text-4xl block mb-2">✅</span>
-                                <h4 className="font-bold text-[#0B1B3D]">Message Sent!</h4>
-                                <p className="text-sm text-slate-500 mt-1">We will email you back soon.</p>
+                                <h4 className="font-bold text-[#0B1B3D]">{t.contactSuccessTitle || "Message Sent!"}</h4>
+                                <p className="text-sm text-slate-500 mt-1">{t.widgetMessage || "We will email you back soon."}</p>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,12 +86,12 @@ export function SupportWidget() {
                                     value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
                                 />
                                 <textarea
-                                    required placeholder="How can we help?"
+                                    required placeholder={t.widgetMessage || "How can we help?"}
                                     className="w-full h-24 text-sm p-3 rounded-md border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 resize-none"
                                     value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
                                 />
                                 <Button type="submit" disabled={loading} className="w-full bg-[#0B1B3D] hover:bg-indigo-900 h-10">
-                                    {loading ? "Sending..." : <><Send className="h-4 w-4 mr-2" /> Send Message</>}
+                                    {loading ? "..." : <><Send className="h-4 w-4 mr-2" /> {t.contactSend || "Send Message"}</>}
                                 </Button>
                             </form>
                         )}
@@ -103,7 +103,7 @@ export function SupportWidget() {
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 font-semibold text-sm transition-colors"
                             >
-                                <Phone className="h-4 w-4" /> Message us on WhatsApp
+                                <Phone className="h-4 w-4" /> {t.widgetWhatsapp || "Message us on WhatsApp"}
                             </a>
                         </div>
                     </div>

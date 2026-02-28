@@ -10,7 +10,7 @@ import { ShoppingCart, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
-export function CartDrawer() {
+export function CartDrawer({ t }: { t: Record<string, string> }) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     // Dummy cart state for visuals
@@ -70,7 +70,7 @@ export function CartDrawer() {
             </SheetTrigger>
             <SheetContent className="w-full sm:max-w-md flex flex-col">
                 <SheetHeader>
-                    <SheetTitle>Your Cart ({cartItems.length})</SheetTitle>
+                    <SheetTitle>{t.cartTitle || "Your Cart"} ({cartItems.length})</SheetTitle>
                 </SheetHeader>
 
                 <div className="flex-1 overflow-y-auto py-6">
@@ -105,11 +105,11 @@ export function CartDrawer() {
 
                 <div className="border-t pt-6 space-y-4">
                     <div className="flex justify-between font-medium">
-                        <span>Subtotal</span>
+                        <span>{t.cartSubtotal || "Subtotal"}</span>
                         <span>€{total.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between font-medium text-sm text-green-600">
-                        <span>Shipping</span>
+                        <span>{t.productShipping || "Shipping"}</span>
                         <span>Free</span>
                     </div>
                     <div className="flex justify-between font-bold text-lg border-t pt-2">
@@ -117,7 +117,7 @@ export function CartDrawer() {
                         <span>€{total.toFixed(2)}</span>
                     </div>
                     <Button className="w-full h-14 rounded-xl text-lg font-bold shadow-lg mt-4" onClick={handleCheckout} disabled={isLoading}>
-                        {isLoading ? "Processing..." : "Proceed to Checkout"}
+                        {isLoading ? "Processing..." : (t.cartCheckout || "Proceed to Checkout")}
                     </Button>
                 </div>
             </SheetContent>
