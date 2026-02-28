@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/sheet"
 import { ShoppingCart, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 export function CartDrawer() {
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     // Dummy cart state for visuals
     const cartItems = [
         {
@@ -22,6 +25,39 @@ export function CartDrawer() {
         }
     ]
     const total = cartItems.reduce((acc, item) => acc + item.price, 0)
+
+    const handleCheckout = async () => {
+        setIsLoading(true)
+        try {
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: cartItems.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        image: item.image,
+                        bundle: item.bundle,
+                        size: item.size,
+                        price: item.price,
+                        quantity: 1
+                    }))
+                })
+            })
+
+            const data = await response.json()
+            if (data.url) {
+                window.location.href = data.url
+            } else {
+                alert(data.error || "Checkout failed")
+            }
+        } catch (error) {
+            console.error("Checkout error:", error)
+            alert("An error occurred during checkout")
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <Sheet>
@@ -80,8 +116,8 @@ export function CartDrawer() {
                         <span>Total</span>
                         <span>€{total.toFixed(2)}</span>
                     </div>
-                    <Button className="w-full h-14 rounded-xl text-lg font-bold shadow-lg mt-4">
-                        Proceed to Checkout
+                    <Button className="w-full h-14 rounded-xl text-lg font-bold shadow-lg mt-4" onClick={handleCheckout} disabled={isLoading}>
+                        {isLoading ? "Processing..." : "Proceed to Checkout"}
                     </Button>
                 </div>
             </SheetContent>
