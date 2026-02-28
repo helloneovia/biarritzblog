@@ -14,7 +14,15 @@ interface Bundle {
     badge?: string
 }
 
-export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<string, string> }) {
+export function ProductForm({
+    bundles,
+    t,
+    dbProduct
+}: {
+    bundles: Bundle[],
+    t: Record<string, string>,
+    dbProduct?: any
+}) {
     const [size, setSize] = useState<string>("EU 40-41")
     const [bundle, setBundle] = useState<number>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -31,8 +39,8 @@ export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<strin
         // Add to cart state
         addToCart({
             productId: activeBundle.id,
-            name: "Premium Acupressure Zen Insoles",
-            image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
+            name: dbProduct?.name || "Premium Acupressure Zen Insoles",
+            image: dbProduct?.images?.[0] || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
             bundle: activeBundle.name,
             size: size,
             price: activeBundle.price,
@@ -45,7 +53,7 @@ export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<strin
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{t.heroTitle || "Step Into Serenity."}</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{dbProduct?.name || t.heroTitle || "Step Into Serenity."}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3,450 Reviews)</span>

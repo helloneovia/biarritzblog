@@ -2,35 +2,39 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
-export function ProductGallery() {
-    const images = [
-        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+export function ProductGallery({ productImages }: { productImages?: string[] | null }) {
+    // If DB is empty, provide a fallback gallery showing the Zen aesthetic.
+    const fallbackImages = [
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=2160&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?q=80&w=2160&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1620056910398-35ed5f6d7dd0?q=80&w=2160&auto=format&fit=crop"
     ]
-    const [activeImg, setActiveImg] = useState(0)
+
+    const images = (productImages && productImages.length > 0) ? productImages : fallbackImages;
+
+    const [activeIndex, setActiveIndex] = useState(0)
 
     return (
         <div className="flex flex-col gap-4">
             <div className="aspect-square bg-muted rounded-3xl overflow-hidden border">
                 <img
-                    src={images[activeImg]}
+                    src={images[activeIndex]}
                     alt="Orthopaedic Insole"
                     className="w-full h-full object-cover transition-all duration-300"
                 />
             </div>
             <div className="grid grid-cols-4 gap-4">
-                {images.map((img, idx) => (
+                {images.map((img, i) => (
                     <button
-                        key={idx}
-                        onClick={() => setActiveImg(idx)}
+                        key={i}
+                        onClick={() => setActiveIndex(i)}
                         className={cn(
-                            "aspect-square rounded-xl overflow-hidden border-2 transition-all",
-                            activeImg === idx ? "border-primary opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+                            "aspect-square rounded-xl overflow-hidden border-2 transition-all outline-none",
+                            activeIndex === i ? "border-primary shadow-md" : "border-transparent hover:border-border"
                         )}
                     >
-                        <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                        <img src={img} alt={`Thumbnail ${i}`} className="w-full h-full object-cover" />
                     </button>
                 ))}
             </div>

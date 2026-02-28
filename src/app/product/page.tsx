@@ -19,7 +19,11 @@ export default async function ProductPage() {
     const config = await getSiteConfig()
     const t = getTexts(config, locale)
 
-    // Fetch real bundles from DB
+    // Fetch the primary product and real bundles from DB
+    const dbProduct = await prisma.product.findFirst({
+        orderBy: { createdAt: 'desc' }
+    })
+
     const dbBundles = await prisma.bundle.findMany({
         orderBy: { quantity: 'asc' },
     })
@@ -46,15 +50,32 @@ export default async function ProductPage() {
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
                     {/* Left Column: Gallery */}
                     <div className="lg:sticky lg:top-24 h-fit">
-                        <ProductGallery />
+                        <ProductGallery productImages={dbProduct?.images} />
                     </div>
 
                     {/* Right Column: Details & Form */}
                     <div>
-                        <ProductForm bundles={bundles} t={t} />
+                        <ProductForm bundles={bundles} t={t} dbProduct={dbProduct} />
                     </div>
                 </div>
             </div>
+
+            {/* Lifestyle Image Grid */}
+            <section className="py-12 border-y bg-slate-50 mb-24">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop" alt="Zen Acupressure" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                        </div>
+                        <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                            <img src="https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?q=80&w=1200&auto=format&fit=crop" alt="Spa Elements" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                        </div>
+                        <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                            <img src="https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=1200&auto=format&fit=crop" alt="Natural Healing" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Social Proof & FAQ */}
             <Testimonials />
