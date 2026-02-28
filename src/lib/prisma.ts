@@ -13,7 +13,14 @@ const prismaClientSingleton = () => {
         }) as unknown as PrismaClient
     }
 
-    return new PrismaClient()
+    return new PrismaClient({
+        datasourceUrl: process.env.DATABASE_URL,
+        datasources: {
+            db: {
+                url: process.env.DATABASE_URL,
+            },
+        },
+    } as any)
 }
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
