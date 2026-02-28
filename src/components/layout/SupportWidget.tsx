@@ -49,12 +49,12 @@ export function SupportWidget({ t }: { t: Record<string, string> }) {
             {/* Popover Form */}
             {isOpen && (
                 <div className="mb-4 w-[340px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">
-                    <div className="bg-[#0B1B3D] p-4 text-white flex justify-between items-center">
+                    <div className="bg-primary p-4 text-primary-foreground flex justify-between items-center">
                         <div>
                             <h3 className="font-bold text-lg">{t.widgetTitle || "Contact Support"}</h3>
-                            <p className="text-indigo-200 text-xs mt-0.5">{t.contactSuccessDesc || "We typically reply in a few hours."}</p>
+                            <p className="text-primary-foreground/80 text-xs mt-0.5">{t.contactSuccessDesc || "We typically reply in a few hours."}</p>
                         </div>
-                        <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white transition-colors">
+                        <button onClick={() => setIsOpen(false)} className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">
                             <X className="h-5 w-5" />
                         </button>
                     </div>
@@ -63,7 +63,7 @@ export function SupportWidget({ t }: { t: Record<string, string> }) {
                         {success ? (
                             <div className="text-center py-8">
                                 <span className="text-4xl block mb-2">✅</span>
-                                <h4 className="font-bold text-[#0B1B3D]">{t.contactSuccessTitle || "Message Sent!"}</h4>
+                                <h4 className="font-bold text-primary">{t.contactSuccessTitle || "Message Sent!"}</h4>
                                 <p className="text-sm text-slate-500 mt-1">{t.widgetMessage || "We will email you back soon."}</p>
                             </div>
                         ) : (
@@ -87,10 +87,10 @@ export function SupportWidget({ t }: { t: Record<string, string> }) {
                                 />
                                 <textarea
                                     required placeholder={t.widgetMessage || "How can we help?"}
-                                    className="w-full h-24 text-sm p-3 rounded-md border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 resize-none"
+                                    className="w-full h-24 text-sm p-3 rounded-md border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                                     value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
                                 />
-                                <Button type="submit" disabled={loading} className="w-full bg-[#0B1B3D] hover:bg-indigo-900 h-10">
+                                <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-10">
                                     {loading ? "..." : <><Send className="h-4 w-4 mr-2" /> {t.contactSend || "Send Message"}</>}
                                 </Button>
                             </form>
@@ -113,7 +113,7 @@ export function SupportWidget({ t }: { t: Record<string, string> }) {
             {/* Floating Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="h-14 w-14 bg-[#0B1B3D] hover:bg-indigo-900 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="h-14 w-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 aria-label="Support"
             >
                 {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}

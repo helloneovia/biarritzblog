@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ShoppingCart, ShieldCheck } from "lucide-react"
+import { useCart } from "@/lib/store/CartContext"
 
 interface Bundle {
     id: number
@@ -21,45 +22,30 @@ export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<strin
     const sizes = ["EU 35-37", "EU 38-39", "EU 40-41", "EU 42-43", "EU 44-45", "EU 46-48"]
 
     const activeBundle = bundles.find(b => b.id === bundle) ?? bundles[0]
+    const { addToCart } = useCart()
 
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         setIsLoading(true)
-        try {
-            const response = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    items: [{
-                        id: activeBundle.id,
-                        name: "Premium Orthopaedic Insoles",
-                        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff", // Using a placeholder shoe image
-                        bundle: activeBundle.name,
-                        size: size,
-                        price: activeBundle.price,
-                        quantity: 1
-                    }]
-                })
-            })
 
-            const data = await response.json()
-            if (data.url) {
-                window.location.href = data.url
-            } else {
-                alert(data.error || "Checkout failed")
-            }
-        } catch (error) {
-            console.error("Checkout error:", error)
-            alert("An error occurred during checkout")
-        } finally {
-            setIsLoading(false)
-        }
+        // Add to cart state
+        addToCart({
+            productId: activeBundle.id,
+            name: "Premium Acupressure Zen Insoles",
+            image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
+            bundle: activeBundle.name,
+            size: size,
+            price: activeBundle.price,
+            quantity: 1
+        })
+
+        setIsLoading(false)
     }
 
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2">Premium Orthopaedic Insoles</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{t.heroTitle || "Step Into Serenity."}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3,450 Reviews)</span>
@@ -152,11 +138,11 @@ export function ProductForm({ bundles, t }: { bundles: Bundle[], t: Record<strin
             </div>
 
             <div className="text-sm prose prose-sm text-muted-foreground">
-                <p><strong>Instant Pain Relief</strong> for planar fasciitis, flat feet, and heel pain. The medical-grade EVA foam absorbs shock while the deep heel cup permanently aligns your posture.</p>
+                <p><strong>Instant Zen & Pain Relief</strong> for planar fasciitis, flat feet, and heel pain. The magnetic acupressure deeply calms the nervous system while providing targeted support.</p>
                 <ul className="mt-2 space-y-1">
                     <li>✔ Fits any shoe (sneakers, boots, dress)</li>
-                    <li>✔ Breathable, anti-odor material</li>
-                    <li>✔ Designed by expert podiatrists</li>
+                    <li>✔ Magnetic nodes for enhanced blood flow</li>
+                    <li>✔ Designed by Zen masters and podiatrists</li>
                 </ul>
             </div>
         </div>

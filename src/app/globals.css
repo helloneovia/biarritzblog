@@ -48,25 +48,32 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.98 0.01 240);
-  --foreground: oklch(0.2 0.05 250);
+  --radius: 0.75rem;
+  --background: oklch(0.99 0.005 100);
+  /* Soft warm white */
+  --foreground: oklch(0.25 0.03 160);
+  /* Deep forest green/gray text */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.05 250);
+  --card-foreground: oklch(0.25 0.03 160);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.05 250);
-  --primary: oklch(0.3 0.1 250);
-  --primary-foreground: oklch(0.98 0.01 240);
-  --secondary: oklch(0.92 0.05 240);
-  --secondary-foreground: oklch(0.3 0.1 250);
-  --muted: oklch(0.95 0.02 240);
-  --muted-foreground: oklch(0.5 0.05 250);
-  --accent: oklch(0.685 0.169 237.3);
-  --accent-foreground: oklch(0.98 0.01 240);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.03 240);
-  --input: oklch(0.9 0.03 240);
-  --ring: oklch(0.3 0.1 250);
+  --popover-foreground: oklch(0.25 0.03 160);
+  --primary: oklch(0.45 0.08 160);
+  /* Deep calming Sage/Teal */
+  --primary-foreground: oklch(0.99 0.01 160);
+  --secondary: oklch(0.94 0.03 90);
+  /* Sand / Beige */
+  --secondary-foreground: oklch(0.35 0.05 160);
+  --muted: oklch(0.96 0.01 160);
+  /* Very light sage */
+  --muted-foreground: oklch(0.55 0.04 160);
+  --accent: oklch(0.92 0.04 160);
+  /* Light teal highlight */
+  --accent-foreground: oklch(0.35 0.05 160);
+  --destructive: oklch(0.6 0.15 25);
+  /* Earthy terracotta red */
+  --border: oklch(0.92 0.02 160);
+  --input: oklch(0.92 0.02 160);
+  --ring: oklch(0.45 0.08 160);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -120,6 +127,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

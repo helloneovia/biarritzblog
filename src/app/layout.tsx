@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/Analytics";
 import { Providers } from "@/components/auth/Providers";
 import { SupportWidget } from "@/components/layout/SupportWidget";
+import { CartProvider } from "@/lib/store/CartContext";
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
 
@@ -43,12 +44,14 @@ export default async function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col antialiased selection:bg-primary selection:text-primary-foreground`}>
         <Providers>
           <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <SupportWidget t={t} />
-          <Toaster />
-          <Analytics />
+          <CartProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <SupportWidget t={t} />
+            <Toaster />
+            <Analytics />
+          </CartProvider>
         </Providers>
       </body>
     </html>

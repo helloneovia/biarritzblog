@@ -227,3 +227,61 @@ export async function sendSupportReplyEmail({
   }
 }
 
+export async function sendTicketStatusEmail(
+  userEmail: string,
+  ticketId: string,
+  newStatus: string
+) {
+  if (!process.env.RESEND_API_KEY) {
+    console.log("Mock email - Ticket Status update to", userEmail);
+    return;
+  }
+
+  const domain = process.env.NEXT_PUBLIC_APP_URL || "https://biarritz.blog";
+  const ticketUrl = `${domain}/dashboard/support`;
+  const inFrench = newStatus === "CLOSED" ? "Fermé" : newStatus === "RESOLVED" ? "Résolu" : newStatus;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: userEmail,
+      subject: `[Biarritz] Ticket #${ticketId.slice(-6).toUpperCase()} : Statut mis à jour`,
+      html: `
+        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #f8fafc; border-radius: 12px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="color: #3b6b61; font-size: 28px; margin: 0; letter-spacing: -1px;">Biarritz</h1>
+                <p style="color: #64748b; font-size: 14px; margin-top: 5px;">Mise à jour de votre demande</p>
+            </div>
+            
+            <div style="background-color: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 0;">Bonjour,</p>
+                
+                <p style="color: #475569; font-size: 16px; line-height: 1.6;">
+                    Le statut de votre demande de support <strong>#${ticketId.slice(-6).toUpperCase()}</strong> a été mis à jour par notre équipe.
+                </p>
+
+                <div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #3b6b61;">
+                    <p style="margin: 0; font-size: 15px; color: #334155;">
+                        Nouveau statut : <span style="font-weight: bold; color: #3b6b61;">${inFrench}</span>
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 35px; margin-bottom: 25px;">
+                    <a href="${ticketUrl}" style="background-color: #3b6b61; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 16px; display: inline-block;">Consulter mon ticket</a>
+                </div>
+                
+                <p style="color: #64748b; font-size: 14px; text-align: center; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    Si cette demande n'a pas été résolue à votre satisfaction, vous pouvez y répondre pour la rouvrir.
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; color: #94a3b8; font-size: 12px;">
+                <p>© ${new Date().getFullYear()} Biarritz. Tous droits réservés.</p>
+            </div>
+        </div>
+      `,
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'envoi de l'email de statut:", error);
+  }
+}

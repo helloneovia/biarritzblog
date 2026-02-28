@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth/options";
 import { prisma } from "@/lib/prisma";
+import { sendTicketStatusEmail } from "@/lib/email";
 
 export async function PATCH(
     req: Request,
@@ -26,7 +27,15 @@ export async function PATCH(
             data: {
                 status,
             },
+            include: {
+                user: true
+            }
         });
+
+        // Send an email if the status is resolved or closed
+        if ((status === "RESOLVED" || status === "CLOSED") && ticket.user?.email) {
+            sendTicketStatusEmail(ticket.user.email, ticket.id, status).catch(console.error);
+        }
 
         return NextResponse.json(ticket);
     } catch (error) {
