@@ -99,14 +99,14 @@ export function TicketsManager({ initialTickets }: { initialTickets: Ticket[] })
                         <div className="flex justify-between items-start mb-1">
                             <span className="font-medium text-sm truncate pr-2">{ticket.subject}</span>
                             <Badge variant="outline" className={`text-[10px] ${ticket.status === 'OPEN' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
-                                    ticket.status === 'RESOLVED' ? 'bg-green-100 text-green-800 border-green-200' :
-                                        'bg-gray-100 text-gray-800'
+                                ticket.status === 'RESOLVED' ? 'bg-green-100 text-green-800 border-green-200' :
+                                    'bg-gray-100 text-gray-800'
                                 }`}>
                                 {ticket.status}
                             </Badge>
                         </div>
                         <p className="text-xs text-muted-foreground truncate">
-                            {ticket.user.firstName} {ticket.user.lastName}
+                            {ticket.user.name}
                         </p>
                         <p className="text-[10px] text-gray-400 mt-2">
                             {new Date(ticket.updatedAt).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
@@ -140,7 +140,7 @@ export function TicketsManager({ initialTickets }: { initialTickets: Ticket[] })
                                 <h2 className="font-semibold text-lg">{selectedTicket.subject}</h2>
                                 <p className="text-sm text-muted-foreground flex items-center gap-1">
                                     <UserIcon className="h-3 w-3" />
-                                    {selectedTicket.user.firstName} {selectedTicket.user.lastName} ({selectedTicket.user.email})
+                                    {selectedTicket.user.name} ({selectedTicket.user.email})
                                 </p>
                             </div>
                             <div className="flex gap-2">

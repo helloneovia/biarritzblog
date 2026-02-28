@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(
     req: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const session = await getServerSession(authOptions);
@@ -29,7 +29,7 @@ export async function POST(
         // Insert message
         const message = await prisma.message.create({
             data: {
-                ticketId: params.id,
+                ticketId: (await params).id,
                 senderId: session.user.id,
                 content,
             },
@@ -37,7 +37,7 @@ export async function POST(
 
         // Make sure the ticket is marked OPEN if it was CLOSED and an admin replies
         await prisma.ticket.update({
-            where: { id: params.id },
+            where: { id: (await params).id },
             data: {
                 status: "OPEN",
                 updatedAt: new Date() // Bump the exact time of last activity
