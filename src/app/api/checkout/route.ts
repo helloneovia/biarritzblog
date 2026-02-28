@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             allow_promotion_codes: true, // Enable native Stripe promo codes
             metadata: {
                 // Will be used in webhook to create DB Order
-                items: JSON.stringify(items.map((i: any) => ({ id: i.id, size: i.size, q: i.quantity || 1 }))),
+                items: JSON.stringify(items.map((i: any) => ({ id: i.id, size: i.size, q: i.quantity || 1, p: i.price || 0 }))),
             },
         })
 
