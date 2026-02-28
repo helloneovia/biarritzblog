@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import Link from "next/link"
 import { MessageCircle, Plus, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -133,7 +134,11 @@ export function SupportPageClient({ tickets: initialTickets, userId }: { tickets
             ) : (
                 <div className="space-y-4 mt-8">
                     {tickets.map((ticket: Ticket) => (
-                        <div key={ticket.id} className="bg-card rounded-2xl border shadow-sm p-6 cursor-pointer hover:border-primary/50 transition-colors flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                        <Link
+                            key={ticket.id}
+                            href={`/dashboard/support/${ticket.id}`}
+                            className="bg-card rounded-2xl border shadow-sm p-6 hover:border-primary/60 hover:shadow-md transition-all flex flex-col sm:flex-row justify-between sm:items-center gap-4 block"
+                        >
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
                                     <h3 className="font-bold text-lg">{ticket.subject}</h3>
@@ -145,10 +150,13 @@ export function SupportPageClient({ tickets: initialTickets, userId }: { tickets
                                     Mis à jour : {new Date(ticket.updatedAt).toLocaleDateString('fr-FR')}
                                 </p>
                             </div>
-                            <div className="text-sm font-medium text-muted-foreground bg-muted px-4 py-2 rounded-lg text-center">
-                                {ticket.messages.length} message(s)
+                            <div className="flex items-center gap-3">
+                                <div className="text-sm font-medium text-muted-foreground bg-muted px-4 py-2 rounded-lg text-center">
+                                    {ticket.messages.length} message(s)
+                                </div>
+                                <span className="text-muted-foreground text-lg">→</span>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}
