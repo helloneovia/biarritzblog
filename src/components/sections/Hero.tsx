@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Star } from "lucide-react"
 
-export function Hero() {
+export function Hero({ texts = {} }: { texts?: any }) {
     return (
         <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32">
             <div className="container px-4 md:px-6 mx-auto">
@@ -10,14 +10,14 @@ export function Hero() {
                     <div className="flex flex-col justify-center space-y-8 text-center lg:text-left">
                         <div className="space-y-4">
                             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-primary bg-primary/10 mb-4 transition-colors">
-                                🎉 New 2024 Design Released
+                                {texts?.heroBadge || "🎉 New 2024 Design Released"}
                             </div>
                             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl/none">
-                                Walk Pain-Free.<br />
-                                <span className="text-primary">Every Single Step.</span>
+                                {texts?.heroTitle || "Walk Pain-Free."}<br />
+                                <span className="text-primary">{texts?.heroTitleHighlight || "Every Single Step."}</span>
                             </h1>
-                            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0">
-                                Premium orthopaedic insoles engineered to realign your posture, cushion your heels, and eliminate foot, knee, and back pain instantly.
+                            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0 whitespace-pre-wrap">
+                                {texts?.heroSubtitle || "Premium orthopaedic insoles engineered to realign your posture, cushion your heels, and eliminate foot, knee, and back pain instantly."}
                             </p>
                         </div>
 
@@ -52,10 +52,9 @@ export function Hero() {
                     <div className="relative mx-auto w-full max-w-[500px] lg:max-w-none aspect-square lg:aspect-[4/3]">
                         <div className="absolute inset-0 bg-primary/5 rounded-[3rem] -mt-4 lg:ml-8 transform rotate-3" />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
-                        {/* Main Product Image Placeholder */}
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
                             <img
-                                src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                                src={texts?.heroImage || "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
                                 alt="Premium Orthopaedic Insoles"
                                 className="object-cover w-full h-full"
                             />

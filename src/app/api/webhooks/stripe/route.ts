@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic"
 export async function POST(req: Request) {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-    if (!webhookSecret) {
+    if (!webhookSecret && process.env.NODE_ENV !== "development") {
         return NextResponse.json({ error: "Webhook secret missing" }, { status: 500 })
     }
     try {
@@ -19,7 +19,11 @@ export async function POST(req: Request) {
         let event
 
         try {
-            event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+            if (process.env.NODE_ENV === "development" && !signature) {
+                event = JSON.parse(body); // Local test bypass
+            } else {
+                event = stripe.webhooks.constructEvent(body, signature, webhookSecret!);
+            }
         } catch (err: any) {
             console.error(`Webhook signature verification failed. ${err.message}`)
             return NextResponse.json({ error: err.message }, { status: 400 })

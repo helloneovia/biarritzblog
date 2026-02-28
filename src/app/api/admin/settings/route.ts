@@ -14,7 +14,7 @@ export async function PUT(req: Request) {
             );
         }
 
-        const { currencyCode, language, contactEmail, homeTitle } = await req.json();
+        const { currencyCode, language, contactEmail, homeTitle, texts } = await req.json();
 
         const config = await prisma.siteConfig.upsert({
             where: {
@@ -25,6 +25,7 @@ export async function PUT(req: Request) {
                 language,
                 contactEmail,
                 homeTitle,
+                texts,
             },
             create: {
                 id: "global",
@@ -32,7 +33,7 @@ export async function PUT(req: Request) {
                 language,
                 contactEmail,
                 homeTitle,
-                texts: {}
+                texts: texts || {}
             }
         });
 

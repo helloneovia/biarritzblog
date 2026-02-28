@@ -1,20 +1,20 @@
 import { ShieldCheck, Activity, Footprints } from "lucide-react"
 
-export function Features() {
+export function Features({ texts = {} }: { texts?: any }) {
     const features = [
         {
-            title: "Instant Pain Relief",
-            description: "Clinically proven to reduce plantar fasciitis, heel pain, and metatarsalgia from day one.",
+            title: texts?.f1Title || "Instant Pain Relief",
+            description: texts?.f1Desc || "Clinically proven to reduce plantar fasciitis, heel pain, and metatarsalgia from day one.",
             icon: Activity,
         },
         {
-            title: "Posture Realignment",
-            description: "Corrects overpronation and flat feet, aligning your entire body from the ground up.",
+            title: texts?.f2Title || "Posture Realignment",
+            description: texts?.f2Desc || "Corrects overpronation and flat feet, aligning your entire body from the ground up.",
             icon: Footprints,
         },
         {
-            title: "All-Day Comfort",
-            description: "Medical-grade EVA foam with targeted cushioning zones for maximum shock absorption.",
+            title: texts?.f3Title || "All-Day Comfort",
+            description: texts?.f3Desc || "Medical-grade EVA foam with targeted cushioning zones for maximum shock absorption.",
             icon: ShieldCheck,
         }
     ]
@@ -24,10 +24,10 @@ export function Features() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-                        Why Choose StepPrs?
+                        {texts?.featuresTitle || "Why Choose StepPrs?"}
                     </h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                        Built with advanced podiatric technology, our insoles target the root cause of foot and back pain.
+                    <p className="text-muted-foreground max-w-2xl mx-auto text-lg whitespace-pre-wrap">
+                        {texts?.featuresSubtitle || "Built with advanced podiatric technology, our insoles target the root cause of foot and back pain."}
                     </p>
                 </div>
 
