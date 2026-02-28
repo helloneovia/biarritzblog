@@ -4,20 +4,24 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ShoppingCart, ShieldCheck } from "lucide-react"
 
-export function ProductForm() {
+interface Bundle {
+    id: number
+    name: string
+    price: number
+    original: number
+    subtitle: string
+    badge?: string
+}
+
+export function ProductForm({ bundles }: { bundles: Bundle[] }) {
     const [size, setSize] = useState<string>("EU 40-41")
-    const [bundle, setBundle] = useState<number>(2) // 1, 2, 3
+    const [bundle, setBundle] = useState<number>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const sizes = ["EU 35-37", "EU 38-39", "EU 40-41", "EU 42-43", "EU 44-45", "EU 46-48"]
 
-    const bundles = [
-        { id: 1, name: "1 Pair", price: 39, original: 59, subtitle: "Try it out" },
-        { id: 2, name: "2 Pairs", price: 59, original: 118, subtitle: "Most Popular", badge: "SAVE 50%" },
-        { id: 3, name: "3 Pairs", price: 75, original: 177, subtitle: "Best Value", badge: "SAVE 57%" }
-    ]
+    const activeBundle = bundles.find(b => b.id === bundle) ?? bundles[0]
 
-    const activeBundle = bundles.find(b => b.id === bundle)!
 
     const handleCheckout = async () => {
         setIsLoading(true)

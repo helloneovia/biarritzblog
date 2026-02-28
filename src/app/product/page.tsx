@@ -1,14 +1,38 @@
+import { prisma } from "@/lib/prisma"
 import { ProductGallery } from "@/components/product/ProductGallery"
 import { ProductForm } from "@/components/product/ProductForm"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { Faq } from "@/components/sections/Faq"
+
+export const dynamic = "force-dynamic"
 
 export const metadata = {
     title: "Premium Orthopaedic Insoles - StepPrs",
     description: "Buy the #1 rated orthopaedic insoles for pain relief.",
 }
 
-export default function ProductPage() {
+export default async function ProductPage() {
+    // Fetch real bundles from DB
+    const dbBundles = await prisma.bundle.findMany({
+        orderBy: { quantity: 'asc' },
+    })
+
+    // Convert to ProductForm format, fallback if DB is empty
+    const bundles = dbBundles.length > 0
+        ? dbBundles.map(b => ({
+            id: b.quantity,
+            name: b.name,
+            price: b.price,
+            original: b.compareAt ?? Math.round(b.price * 1.5),
+            subtitle: b.badge || '',
+            badge: b.discount > 0 ? `SAVE ${Math.round(b.discount)}%` : undefined,
+        }))
+        : [
+            { id: 1, name: "1 Pair", price: 39, original: 59, subtitle: "Try it out", badge: undefined },
+            { id: 2, name: "2 Pairs", price: 59, original: 118, subtitle: "Most Popular", badge: "SAVE 50%" },
+            { id: 3, name: "3 Pairs", price: 75, original: 177, subtitle: "Best Value", badge: "SAVE 57%" }
+        ]
+
     return (
         <main className="py-12 md:py-24">
             <div className="container mx-auto px-4 md:px-6">
@@ -20,7 +44,7 @@ export default function ProductPage() {
 
                     {/* Right Column: Details & Form */}
                     <div>
-                        <ProductForm />
+                        <ProductForm bundles={bundles} />
                     </div>
                 </div>
             </div>
@@ -28,45 +52,6 @@ export default function ProductPage() {
             {/* Social Proof & FAQ */}
             <Testimonials />
             <Faq />
-
-            {/* JSON-LD Schema.org Product */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org/",
-                        "@type": "Product",
-                        "name": "StepPrs Orthopaedic Insoles",
-                        "image": [
-                            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                        ],
-                        "description": "Premium orthopaedic insoles engineered to realign your posture, cushion your heels, and eliminate foot, knee, and back pain instantly.",
-                        "sku": "STEPPRS-001",
-                        "brand": {
-                            "@type": "Brand",
-                            "name": "StepPrs"
-                        },
-                        "offers": {
-                            "@type": "Offer",
-                            "url": "https://steppprs.com/product",
-                            "priceCurrency": "EUR",
-                            "price": "39.00",
-                            "priceValidUntil": "2025-12-31",
-                            "itemCondition": "https://schema.org/NewCondition",
-                            "availability": "https://schema.org/InStock",
-                            "seller": {
-                                "@type": "Organization",
-                                "name": "StepPrs"
-                            }
-                        },
-                        "aggregateRating": {
-                            "@type": "AggregateRating",
-                            "ratingValue": "4.9",
-                            "reviewCount": "3450"
-                        }
-                    })
-                }}
-            />
         </main>
     )
 }
