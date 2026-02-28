@@ -15,6 +15,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts     Post[]
+  orders    Order[]
+  tickets   Ticket[]
 }
 
 enum Role {
@@ -91,6 +93,12 @@ model Order {
   postalCode    String
   country       String   @default("FR")
   
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  
+  trackingNumber String?
+  trackingUrl    String?
+
   totalAmount   Float
   status        OrderStatus @default(PENDING)
   stripeSession String?     @unique
@@ -153,4 +161,39 @@ model Post {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Ticket {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  subject   String
+  status    TicketStatus @default(OPEN)
+  messages  Message[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderId  String   // User ID (Admin or Customer)
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+enum TicketStatus {
+  OPEN
+  CLOSED
+  RESOLVED
+}
+
+model SiteConfig {
+  id            String @id @default("global")
+  currencyCode  String @default("EUR")
+  language      String @default("FR")
+  contactEmail  String @default("support@biarritz.blog")
+  homeTitle     String @default("Premium Orthopaedic Insoles")
+  texts         Json?  
 }

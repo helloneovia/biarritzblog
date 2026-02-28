@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/Analytics";
+import { Providers } from "@/components/auth/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,12 +30,14 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body className={`${inter.className} min-h-screen flex flex-col antialiased selection:bg-primary selection:text-primary-foreground`}>
-        <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Toaster />
-        <Analytics />
+        <Providers>
+          <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <Toaster />
+          <Analytics />
+        </Providers>
       </body>
     </html>
   );
