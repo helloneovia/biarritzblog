@@ -22,25 +22,35 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                     <div className="flex flex-col justify-center space-y-8 text-center lg:text-left">
                         <div className="space-y-4">
                             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-primary bg-primary/10 mb-4 transition-colors">
-                                {texts?.heroBadge || "🎉 New 2024 Design Released"}
+                                {texts?.heroBadge || "🎉 Nouvelle Technologie 2024"}
                             </div>
                             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl/none">
-                                {texts?.heroTitle || "Walk Pain-Free."}<br />
-                                <span className="text-primary">{texts?.heroTitleHighlight || "Every Single Step."}</span>
+                                {texts?.heroTitle || "Marchez Sans Douleur."}<br />
+                                <span className="text-primary">{texts?.heroTitleHighlight || "Dès Aujourd'hui."}</span>
                             </h1>
                             <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0 whitespace-pre-wrap">
-                                {texts?.heroSubtitle || "Premium orthopaedic insoles engineered to realign your posture, cushion your heels, and eliminate foot, knee, and back pain instantly."}
+                                {texts?.heroSubtitle || "Semelles orthopédiques premium conçues pour réaligner votre posture, absorber les chocs et éliminer instantanément les douleurs aux pieds, aux genoux et au dos."}
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start pt-4">
-                            <Button size="lg" className="rounded-full font-semibold h-12 px-8" asChild>
+                        <div className="flex items-center gap-4 pb-2 justify-center lg:justify-start">
+                            <div className="flex flex-col">
+                                <span className="text-4xl font-black text-primary">24,99€</span>
+                                <span className="text-sm font-bold line-through text-muted-foreground decoration-red-500">49,99€</span>
+                            </div>
+                            <div className="bg-red-100 text-red-700 font-bold px-4 py-1.5 rounded-full text-sm animate-pulse">
+                                -50% AUJOURD'HUI
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-3 min-[400px]:flex-row justify-center lg:justify-start pt-2">
+                            <Button size="lg" className="rounded-full font-bold h-14 px-8 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all w-full sm:w-auto" asChild>
                                 <Link href="/product">
-                                    Shop Now <ArrowRight className="ml-2 h-4 w-4" />
+                                    Commander Maintenant <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
                             </Button>
-                            <Button size="lg" variant="outline" className="rounded-full h-12 px-8" asChild>
-                                <Link href="#how-it-works">Learn More</Link>
+                            <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg w-full sm:w-auto" asChild>
+                                <Link href="#faq">Questions ?</Link>
                             </Button>
                         </div>
 
@@ -56,7 +66,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                                 <div className="flex text-yellow-400">
                                     {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                                 </div>
-                                <span className="font-medium">Over 50,000+ happy feet</span>
+                                <span className="font-medium">Plus de 50 000+ clients satisfaits</span>
                             </div>
                         </div>
                     </div>
@@ -72,14 +82,13 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             />
                         </div>
 
-                        {/* Floating Badge */}
                         <div className="absolute -bottom-6 -left-6 bg-background rounded-2xl shadow-xl p-4 border flex items-center gap-4 animate-bounce-slow">
                             <div className="bg-green-100 text-green-700 p-2 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             </div>
                             <div>
-                                <p className="text-sm font-bold">Recommended</p>
-                                <p className="text-xs text-muted-foreground">by Podiatrists</p>
+                                <p className="text-sm font-bold">N°1 des Ventes</p>
+                                <p className="text-xs text-muted-foreground">Recommandé par les experts</p>
                             </div>
                         </div>
                     </div>

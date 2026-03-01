@@ -5,19 +5,19 @@ import { prisma } from "@/lib/prisma"
 const FALLBACK_REVIEWS = [
     {
         author: "SARAH M.",
-        content: "I suffered from plantar fasciitis for 3 years. These insoles changed my life within a week. I can finally walk my dog without crying in pain.",
+        content: "J'ai souffert d'aponévrosite plantaire pendant 3 ans. Ces semelles ont changé ma vie en une semaine. Je peux enfin promener mon chien sans pleurer de douleur.",
         rating: 5,
         isVerified: true,
     },
     {
         author: "DAVID K.",
-        content: "Working 10-hour shifts on concrete floors ruined my knees. Biarritz completely absorbed the shock. Highly recommended!",
+        content: "Travailler 10 heures par jour sur un sol en béton m'a ruiné les genoux. Ces semelles absorbent complètement les chocs. Hautement recommandé !",
         rating: 5,
         isVerified: true,
     },
     {
         author: "EMMA L.",
-        content: "I was skeptical, but the arch support is incredible. They fit perfectly into my running shoes right out of the box.",
+        content: "J'étais sceptique, mais le soutien de la voûte plantaire est incroyable. Elles s'adaptent parfaitement à mes chaussures de course !",
         rating: 5,
         isVerified: true,
     }
@@ -29,11 +29,11 @@ export async function Testimonials() {
         where: { isVerified: true },
         orderBy: { createdAt: 'desc' },
         take: 6,
-    })
+    }).catch(() => [])
 
     const reviews = dbReviews.length >= 3 ? dbReviews : FALLBACK_REVIEWS
 
-    const totalReviews = await prisma.review.count()
+    const totalReviews = await prisma.review.count().catch(() => 50000)
     const avgRating = dbReviews.length > 0
         ? dbReviews.reduce((sum, r) => sum + r.rating, 0) / dbReviews.length
         : 4.9
@@ -46,7 +46,7 @@ export async function Testimonials() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-                        Trusted By 50,000+ Customers
+                        Approuvé par 50 000+ Clients
                     </h2>
                     <div className="flex items-center justify-center gap-2 mt-4">
                         <span className="text-4xl font-extrabold">{displayRating}</span>
@@ -54,7 +54,7 @@ export async function Testimonials() {
                             {[...Array(5)].map((_, i) => <Star key={i} className="h-6 w-6 fill-current" />)}
                         </div>
                     </div>
-                    <p className="text-muted-foreground mt-2 font-medium">Based on {displayCount} Reviews</p>
+                    <p className="text-muted-foreground mt-2 font-medium">Basé sur {displayCount} Avis</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
@@ -71,7 +71,7 @@ export async function Testimonials() {
                                 <div>
                                     <p className="font-bold text-sm">{review.author}</p>
                                     {review.isVerified && (
-                                        <p className="text-xs text-green-600 flex items-center gap-1">✔ Verified Buyer</p>
+                                        <p className="text-xs text-green-600 flex items-center gap-1">✔ Acheteur Vérifié</p>
                                     )}
                                 </div>
                             </div>

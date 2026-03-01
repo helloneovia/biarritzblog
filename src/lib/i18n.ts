@@ -95,19 +95,28 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
 }
 
 export async function getSiteConfig() {
-    let config = await prisma.siteConfig.findFirst()
-    if (!config) {
-        config = await prisma.siteConfig.create({
-            data: {
-                currencyCode: "EUR",
-                language: "EN",
-                contactEmail: "support@biarritz.blog",
-                homeTitle: "Biarritz – Premium Orthopaedic Insoles",
-                texts: DEFAULTS,
-            }
-        })
+    try {
+        let config = await prisma.siteConfig.findFirst()
+        if (!config) {
+            config = await prisma.siteConfig.create({
+                data: {
+                    currencyCode: "EUR",
+                    language: "EN",
+                    contactEmail: "support@biarritz.blog",
+                    homeTitle: "Biarritz – Premium Orthopaedic Insoles",
+                    texts: DEFAULTS,
+                }
+            })
+        }
+        return config
+    } catch (error) {
+        console.error("Prisma error in getSiteConfig, returning fallback");
+        return {
+            currencyCode: "EUR",
+            language: "FR",
+            texts: DEFAULTS,
+        }
     }
-    return config
 }
 
 export function getTexts(config: { texts: any; language: string }, locale?: Locale): Record<string, string> {

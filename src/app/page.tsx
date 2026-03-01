@@ -12,13 +12,13 @@ import { Button } from "@/components/ui/button" // Re-added as it's used in CTA
 import Link from "next/link" // Re-added as it's used in CTA
 
 export default async function Home() {
-  const config = await prisma.siteConfig.findUnique({ where: { id: "global" } });
+  const config = await prisma.siteConfig.findUnique({ where: { id: "global" } }).catch(() => null);
   const texts = (config?.texts as any) || {};
 
   // Fetch primary product to dynamize the Hero image (avoiding static shoes)
   const dbProduct = await prisma.product.findFirst({
     orderBy: { createdAt: 'desc' }
-  })
+  }).catch(() => null);
 
   // Assuming 't' is meant to be 'texts' based on the original code's context
   // If 't' is meant to come from i18n, the setup for 't' would need to be added here.
@@ -38,13 +38,13 @@ export default async function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">The ancient art of healing, modernized.</h2>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">L&apos;art ancien de la guérison, modernisé.</h2>
               <p className="text-lg opacity-90 leading-relaxed">
-                Our insoles merge centuries-old magnetic acupressure theories with modern biomechanical podiatry.
-                Targeting 400+ reflexology points on your foot, they reduce inflammation safely and naturally mapping directly to your central nervous system.
+                Nos semelles fusionnent les théories séculaires d&apos;acupression magnétique avec la podiatrie biomécanique moderne.
+                Ciblant plus de 400 points de réflexologie sur votre pied, elles réduisent l&apos;inflammation de manière sûre et naturelle en agissant directement sur votre système nerveux central.
               </p>
               <ul className="space-y-3 mt-4">
-                {['Eliminates Plantar Fasciitis', 'Corrects Posture Instantly', 'Promotes deep, calm sleep'].map((benefit, i) => (
+                {['Élimine l\'aponévrosite plantaire', 'Corrige la posture instantanément', 'Favorise un sommeil profond et réparateur'].map((benefit, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-green-300" />
                     <span className="font-medium text-lg">{benefit}</span>
@@ -66,17 +66,25 @@ export default async function Home() {
       <section className="py-24 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 md:px-6 text-center space-y-8">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-5xl max-w-2xl mx-auto">
-            {texts.ctaTitle || "Ready to Take Your Life Back?"}
+            {texts.ctaTitle || "Prêt à retrouver une vie sans douleur ?"}
           </h2>
           <p className="text-primary-foreground/80 max-w-[600px] text-lg mx-auto whitespace-pre-wrap">
-            {texts.ctaSubtitle || "Join 50,000+ others who have found instant pain relief with Biarritz. Your feet will thank you."}
+            {texts.ctaSubtitle || "Rejoignez plus de 50 000 personnes qui ont trouvé un soulagement instantané avec nos semelles. Vos pieds vous remercieront."}
           </p>
-          <Button size="lg" variant="secondary" className="rounded-full font-bold h-14 px-10 text-lg shadow-2xl" asChild>
+          <div className="flex flex-col items-center gap-2 pt-4 pb-2">
+            <div className="flex items-center gap-4 bg-white/15 px-8 py-3 rounded-2xl shadow-inner border border-white/20">
+              <span className="text-3xl font-black">24,99€</span>
+              <span className="text-xl line-through opacity-70">49,99€</span>
+              <span className="text-sm font-extrabold bg-white text-primary px-3 py-1 rounded-md ml-2 uppercase tracking-wider">-50% OFF</span>
+            </div>
+            <p className="text-lg font-bold text-yellow-300 animate-pulse mt-2">🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !</p>
+          </div>
+          <Button size="lg" variant="secondary" className="rounded-full font-bold h-14 px-10 text-lg shadow-2xl hover:scale-105 transition-transform" asChild>
             <Link href="/product">
-              {texts.ctaButton || "Get Your Pair Now"} <ArrowRight className="ml-2 h-5 w-5" />
+              {texts.ctaButton || "Obtenir ma paire avec -50%"} <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <p className="text-sm opacity-80 mt-4">{texts.ctaGuarantee || "30-Day Money-Back Guarantee"}</p>
+          <p className="text-sm opacity-80 mt-4">{texts.ctaGuarantee || "Garantie Satisfait ou Remboursé de 30 Jours"}</p>
         </div>
       </section>
 

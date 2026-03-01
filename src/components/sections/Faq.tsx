@@ -8,20 +8,20 @@ import {
 export function Faq() {
     const faqs = [
         {
-            question: "Do these fit in any type of shoe?",
-            answer: "Yes! Biarritz are designed to fit effortlessly into most footwear, including sneakers, work boots, casual shoes, and even some dress shoes. If they are slightly too long, you can easily trim the front edge with scissors.",
+            question: "S'adaptent-elles à tout type de chaussures ?",
+            answer: "Oui ! Nos semelles sont conçues pour s'adapter facilement à la plupart des chaussures, y compris les baskets, les chaussures de travail et les chaussures de ville. Si elles sont légèrement trop longues, vous pouvez facilement découper le bord avant avec des ciseaux.",
         },
         {
-            question: "How long does it take to feel relief?",
-            answer: "Many of our customers report feeling immediate relief as soon as they put them on. For structural issues like plantar fasciitis, we recommend wearing them daily for at least 7-14 days to allow your foot to fully realign.",
+            question: "Combien de temps faut-il pour ressentir un soulagement ?",
+            answer: "Beaucoup de nos clients ressentent un soulagement immédiat dès qu'ils les enfilent. Pour des problèmes structurels comme l'aponévrosite plantaire, nous recommandons de les porter quotidiennement pendant au moins 7 à 14 jours pour permettre à votre pied de se réaligner complètement.",
         },
         {
-            question: "Can I wash my Biarritz insoles?",
-            answer: "Absolutely. We recommend hand-washing them with warm water and mild soap. Let them air dry completely before putting them back into your shoes. Do not machine wash or dry.",
+            question: "Puis-je laver mes semelles ?",
+            answer: "Absolument. Nous recommandons de les laver à la main avec de l'eau tiède et un savon doux. Laissez-les sécher complètement à l'air libre avant de les remettre dans vos chaussures. Ne les lavez pas et ne les séchez pas en machine.",
         },
         {
-            question: "What if they don't work for me?",
-            answer: "We offer a 30-day comfort guarantee. If you're not experiencing the pain relief you hoped for, simply return them within 30 days for a full refund—no questions asked.",
+            question: "Et si elles ne fonctionnent pas pour moi ?",
+            answer: "Nous offrons une garantie de confort de 30 jours. Si vous ne ressentez pas le soulagement espéré, retournez-les simplement dans les 30 jours pour un remboursement complet, sans poser de questions.",
         }
     ]
 
@@ -30,10 +30,10 @@ export function Faq() {
             <div className="container mx-auto px-4 md:px-6 max-w-3xl">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-                        Frequently Asked Questions
+                        Questions Fréquemment Posées
                     </h2>
                     <p className="text-muted-foreground mt-4">
-                        Everything you need to know about the product and billing.
+                        Tout ce que vous devez savoir sur le produit et la livraison.
                     </p>
                 </div>
 
