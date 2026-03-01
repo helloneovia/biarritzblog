@@ -4,6 +4,7 @@ import { headers } from "next/headers"
 import { cookies } from "next/headers"
 import { Menu, UserCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { CartDrawer } from "@/components/layout/CartDrawer"
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
@@ -69,10 +70,47 @@ export async function Navbar() {
                     <Button className="hidden md:inline-flex rounded-full" asChild>
                         <Link href="/product">{t.navShop}</Link>
                     </Button>
-                    <Button variant="ghost" size="icon" className="md:hidden">
-                        <Menu className="h-5 w-5" />
-                        <span className="sr-only">Toggle menu</span>
-                    </Button>
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className="md:hidden">
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                            <SheetHeader>
+                                <SheetTitle className="text-left">Menu</SheetTitle>
+                            </SheetHeader>
+                            <nav className="flex flex-col gap-4 mt-8">
+                                <Link href="/blog" className="text-lg font-bold text-primary">{t.navBlog}</Link>
+                                <Link href="/#benefits" className="text-lg font-medium hover:text-primary">{t.navBenefits}</Link>
+                                <Link href="/#reviews" className="text-lg font-medium hover:text-primary">{t.navReviews}</Link>
+                                <Link href="/#faq" className="text-lg font-medium hover:text-primary">{t.navFaq}</Link>
+                            </nav>
+                            <div className="flex flex-col gap-4 mt-8 border-t pt-8">
+                                <LanguageSwitcher currentLocale={locale} />
+                                {session ? (
+                                    <>
+                                        {session.user?.role === "ADMIN" && (
+                                            <Link href="/admin" className="flex items-center gap-2 text-red-600 font-bold hover:text-red-800">
+                                                <UserCircle className="h-5 w-5" />
+                                                {t.navAdmin}
+                                            </Link>
+                                        )}
+                                        <Link href="/dashboard" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80">
+                                            <UserCircle className="h-5 w-5" />
+                                            {t.navDashboard}
+                                        </Link>
+                                    </>
+                                ) : (
+                                    <Link href="/login" className="flex items-center gap-2 font-medium text-muted-foreground hover:text-primary">
+                                        <UserCircle className="h-5 w-5" />
+                                        {t.navLogin}
+                                    </Link>
+                                )}
+                            </div>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </header>

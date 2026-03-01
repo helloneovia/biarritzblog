@@ -62,15 +62,17 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{dbProduct?.name || t.heroTitle || "Marchez Sans Douleur."}</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary text-balance">{t.heroTitle || "Marchez Sans Douleur."}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3 450 Avis)</span>
                 </div>
-                <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-bold">€{activeBundle.price}</span>
-                    <span className="text-lg text-muted-foreground line-through">€{activeBundle.original}</span>
-                    <div className="flex flex-col ml-2">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+                    <div className="flex items-baseline gap-3">
+                        <span className="text-3xl font-bold">€{activeBundle.price}</span>
+                        <span className="text-lg text-muted-foreground line-through">€{activeBundle.original}</span>
+                    </div>
+                    <div className="flex flex-col sm:ml-2">
                         <span className="text-sm font-semibold text-green-600">
                             🔥 En Stock - Expédition immédiate
                         </span>
@@ -98,7 +100,7 @@ export function ProductForm({
                     <h3 className="font-semibold">{t.productSelectSize || "Sélectionnez votre taille"}</h3>
                     <span className="text-sm text-primary underline cursor-pointer">Guide des tailles</span>
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                     {sizes.map((s) => (
                         <button
                             key={s}
