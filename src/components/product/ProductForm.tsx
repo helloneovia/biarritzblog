@@ -62,7 +62,7 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary text-balance">{t.heroTitle || "Marchez Sans Douleur."}</h1>
+                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Marchez Sans Douleur."}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3 450 Avis)</span>
@@ -83,14 +83,14 @@ export function ProductForm({
                 </div>
 
                 {/* Additional Trust Signals */}
-                <div className="flex gap-4 mt-6">
-                    <div className="flex flex-col items-center bg-muted/50 p-2 rounded-lg flex-1 text-center border">
-                        <span className="text-xl">⚕️</span>
-                        <span className="text-[10px] font-bold mt-1 leading-tight">Recommandé Kiné</span>
+                <div className="flex gap-2 sm:gap-4 mt-6">
+                    <div className="flex flex-row items-center justify-center bg-muted/50 p-2 sm:p-3 rounded-xl flex-1 text-center border gap-2 shrink-0">
+                        <span className="text-lg">⚕️</span>
+                        <span className="text-[10px] sm:text-xs font-bold leading-tight">Recommandé Kiné</span>
                     </div>
-                    <div className="flex flex-col items-center bg-muted/50 p-2 rounded-lg flex-1 text-center border">
-                        <span className="text-xl">👥</span>
-                        <span className="text-[10px] font-bold mt-1 leading-tight">+10 000 Soulagés</span>
+                    <div className="flex flex-row items-center justify-center bg-muted/50 p-2 sm:p-3 rounded-xl flex-1 text-center border gap-2 shrink-0">
+                        <span className="text-lg">👥</span>
+                        <span className="text-[10px] sm:text-xs font-bold leading-tight">+10 000 Soulagés</span>
                     </div>
                 </div>
             </div>
@@ -135,16 +135,16 @@ export function ProductForm({
                             {bundle === b.id && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary" />}
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <span className="font-bold">{b.name}</span>
+                                    <span className="font-bold leading-tight">{b.name}</span>
                                     {b.badge && (
-                                        <span className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                                        <span className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
                                             {b.badge}
                                         </span>
                                     )}
                                 </div>
-                                <span className="text-sm text-muted-foreground">{b.subtitle}</span>
+                                <span className="text-xs sm:text-sm text-muted-foreground leading-tight mt-0.5 block">{b.subtitle}</span>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right pl-3 shrink-0">
                                 <div className="font-bold text-lg">€{b.price}</div>
                                 <div className="text-sm text-muted-foreground line-through">€{b.original}</div>
                             </div>
@@ -153,12 +153,18 @@ export function ProductForm({
                 </div>
             </div>
 
-            <Button size="lg" className="w-full h-14 rounded-full text-lg font-bold shadow-xl animate-pulse ring-2 ring-primary ring-offset-2 hover:scale-[1.02] transition-transform" style={{ cursor: 'pointer' }} onClick={handleCheckout} disabled={isLoading}>
+            <Button
+                size="lg"
+                className="w-full h-auto py-4 sm:h-16 sm:py-0 rounded-2xl sm:rounded-full text-base sm:text-lg font-bold shadow-xl animate-pulse ring-2 ring-primary ring-offset-2 hover:scale-[1.02] transition-transform whitespace-normal leading-tight"
+                style={{ cursor: 'pointer' }}
+                onClick={handleCheckout}
+                disabled={isLoading}
+            >
                 {isLoading ? "Traitement..." : (
-                    <>
-                        <ShoppingCart className="mr-2 h-5 w-5" />
-                        COMMANDER MAINTENANT - €{activeBundle.price}
-                    </>
+                    <div className="flex items-center justify-center gap-2">
+                        <ShoppingCart className="h-5 w-5 shrink-0" />
+                        <span>COMMANDER MAINTENANT - €{activeBundle.price}</span>
+                    </div>
                 )}
             </Button>
 
