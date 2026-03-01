@@ -40,8 +40,8 @@ export default async function RootLayout({
   const t = getTexts(config, locale)
 
   return (
-    <html lang="fr" className="scroll-smooth">
-      <body className={`${inter.className} min-h-screen flex flex-col antialiased selection:bg-primary selection:text-primary-foreground`}>
+    <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen flex flex-col antialiased selection:bg-primary selection:text-primary-foreground`} suppressHydrationWarning>
         <Providers>
           <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
           <CartProvider>

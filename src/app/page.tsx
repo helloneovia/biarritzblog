@@ -38,13 +38,16 @@ export default async function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">L&apos;art ancien de la guérison, modernisé.</h2>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{texts.scienceTitle || "L'art ancien de la guérison, modernisé."}</h2>
               <p className="text-lg opacity-90 leading-relaxed">
-                Nos semelles fusionnent les théories séculaires d&apos;acupression magnétique avec la podiatrie biomécanique moderne.
-                Ciblant plus de 400 points de réflexologie sur votre pied, elles réduisent l&apos;inflammation de manière sûre et naturelle en agissant directement sur votre système nerveux central.
+                {texts.scienceDesc || "Nos semelles fusionnent les théories séculaires d'acupression magnétique avec la podiatrie biomécanique moderne. Ciblant plus de 400 points de réflexologie sur votre pied, elles réduisent l'inflammation de manière sûre et naturelle en agissant directement sur votre système nerveux central."}
               </p>
               <ul className="space-y-3 mt-4">
-                {['Élimine l\'aponévrosite plantaire', 'Corrige la posture instantanément', 'Favorise un sommeil profond et réparateur'].map((benefit, i) => (
+                {[
+                  texts.scienceB1 || 'Élimine l\'aponévrosite plantaire',
+                  texts.scienceB2 || 'Corrige la posture instantanément',
+                  texts.scienceB3 || 'Favorise un sommeil profond et réparateur'
+                ].map((benefit, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-green-300" />
                     <span className="font-medium text-lg">{benefit}</span>

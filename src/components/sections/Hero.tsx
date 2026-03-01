@@ -66,7 +66,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                                 <div className="flex text-yellow-400">
                                     {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                                 </div>
-                                <span className="font-medium">Plus de 50 000+ clients satisfaits</span>
+                                <span className="font-medium">{texts?.customersCount || "Plus de 50 000+ clients satisfaits"}</span>
                             </div>
                         </div>
                     </div>
@@ -87,8 +87,8 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             </div>
                             <div>
-                                <p className="text-sm font-bold">N°1 des Ventes</p>
-                                <p className="text-xs text-muted-foreground">Recommandé par les experts</p>
+                                <p className="text-sm font-bold">{texts?.topSeller || "N°1 des Ventes"}</p>
+                                <p className="text-xs text-muted-foreground">{texts?.topSellerSub || "Recommandé par les experts"}</p>
                             </div>
                         </div>
                     </div>

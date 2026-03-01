@@ -28,20 +28,19 @@ export default async function ProductPage() {
         orderBy: { quantity: 'asc' },
     }).catch(() => [])
 
-    // Convert to ProductForm format, fallback if DB is empty
     const bundles = dbBundles.length > 0
         ? dbBundles.map(b => ({
             id: b.quantity,
-            name: b.name,
+            name: b.quantity === 1 ? "1 Paire" : `${b.quantity} Paires`,
             price: b.price,
             original: b.compareAt ?? Math.round(b.price * 1.5),
             subtitle: b.badge || '',
-            badge: b.discount > 0 ? `SAVE ${Math.round(b.discount)}%` : undefined,
+            badge: b.discount > 0 ? `ÉCONOMISEZ ${Math.round(b.discount)}%` : undefined,
         }))
         : [
-            { id: 1, name: "1 Pair", price: 39, original: 59, subtitle: "Try it out", badge: undefined },
-            { id: 2, name: "2 Pairs", price: 59, original: 118, subtitle: "Most Popular", badge: "SAVE 50%" },
-            { id: 3, name: "3 Pairs", price: 75, original: 177, subtitle: "Best Value", badge: "SAVE 57%" }
+            { id: 1, name: "1 Paire", price: 39, original: 59, subtitle: "Idéal pour rassurer", badge: undefined },
+            { id: 2, name: "2 Paires", price: 59, original: 118, subtitle: "Recommandé / Maison & Extérieur", badge: "ÉCONOMISEZ 50%" },
+            { id: 3, name: "3 Paires", price: 75, original: 177, subtitle: "Cure intégrale de la famille", badge: "ÉCONOMISEZ 57%" }
         ]
 
     return (

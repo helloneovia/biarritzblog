@@ -37,6 +37,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         contactTitle: "Contact Us", contactName: "Name", contactEmail: "Email", contactMessage: "Message", contactSend: "Send Message",
         contactSuccessTitle: "Message Sent!", contactSuccessDesc: "We'll get back to you as soon as possible. Usually within 24h.",
         widgetTitle: "Need help?", widgetMessage: "Leave us a message", widgetWhatsapp: "Chat on WhatsApp",
+        // Homepage additions
+        scienceTitle: "The ancient art of healing, modernized.",
+        scienceDesc: "Our insoles merge centuries-old magnetic acupressure theories with modern biomechanical podiatry. Targeting over 400 reflexology points on your foot, they reduce inflammation safely and naturally by acting directly on your central nervous system.",
+        scienceB1: "Eliminates plantar fasciitis",
+        scienceB2: "Instantly corrects posture",
+        scienceB3: "Promotes deep, restorative sleep",
+        customersCount: "Over 50,000+ happy customers",
+        topSeller: "Best Seller", topSellerSub: "Recommended by experts",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024",
@@ -64,6 +72,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         contactTitle: "Nous Contacter", contactName: "Nom", contactEmail: "Email", contactMessage: "Message", contactSend: "Envoyer le message",
         contactSuccessTitle: "Message Envoyé !", contactSuccessDesc: "Nous vous répondrons le plus rapidement possible. En général sous 24h.",
         widgetTitle: "Besoin d'aide ?", widgetMessage: "Laissez-nous un message", widgetWhatsapp: "Discuter sur WhatsApp",
+        // Homepage additions
+        scienceTitle: "L'art ancien de la guérison, modernisé.",
+        scienceDesc: "Nos semelles fusionnent les théories séculaires d'acupression magnétique avec la podiatrie biomécanique moderne. Ciblant plus de 400 points de réflexologie sur votre pied, elles réduisent l'inflammation de manière sûre et naturelle en agissant directement sur votre système nerveux central.",
+        scienceB1: "Élimine l'aponévrosite plantaire",
+        scienceB2: "Corrige la posture instantanément",
+        scienceB3: "Favorise un sommeil profond et réparateur",
+        customersCount: "Plus de 50 000+ clients satisfaits",
+        topSeller: "N°1 des Ventes", topSellerSub: "Recommandé par les experts",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024",
@@ -91,6 +107,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         contactTitle: "Contáctanos", contactName: "Nombre", contactEmail: "Correo", contactMessage: "Mensaje", contactSend: "Enviar mensaje",
         contactSuccessTitle: "¡Mensaje enviado!", contactSuccessDesc: "Te responderemos lo antes posible. Usualmente dentro de 24h.",
         widgetTitle: "¿Necesitas ayuda?", widgetMessage: "Déjanos un mensaje", widgetWhatsapp: "Chat en WhatsApp",
+        // Homepage additions
+        scienceTitle: "El antiguo arte de curar, modernizado.",
+        scienceDesc: "Nuestras plantillas fusionan teorías seculares de acupresión magnética con podología biomecánica moderna. Dirigiéndose a más de 400 puntos de reflexología en tu pie, reducen la inflamación de forma segura y natural actuando directamente sobre tu sistema nervioso central.",
+        scienceB1: "Elimina la fascitis plantar",
+        scienceB2: "Corrige la postura al instante",
+        scienceB3: "Promueve un sueño profundo y reparador",
+        customersCount: "Más de 50,000+ clientes satisfechos",
+        topSeller: "Más Vendido", topSellerSub: "Recomendado por expertos",
     },
 }
 
@@ -110,7 +134,7 @@ export async function getSiteConfig() {
         }
         return config
     } catch (error) {
-        console.error("Prisma error in getSiteConfig, returning fallback");
+        // Silently return fallback if DB is resetting or disconnected
         return {
             currencyCode: "EUR",
             language: "FR",

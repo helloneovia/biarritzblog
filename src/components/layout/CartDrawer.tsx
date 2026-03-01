@@ -53,9 +53,9 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                     )}
                 </button>
             </SheetTrigger>
-            <SheetContent className="w-full sm:max-w-md flex flex-col">
-                <SheetHeader>
-                    <SheetTitle>{t.cartTitle || "Your Cart"} ({items.reduce((acc, item) => acc + item.quantity, 0)})</SheetTitle>
+            <SheetContent side="bottom" className="w-[95vw] md:max-w-xl mx-auto mb-6 sm:mb-12 h-auto max-h-[85vh] flex flex-col rounded-[2.5rem] p-6 sm:p-8 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-2 border-primary/10">
+                <SheetHeader className="pb-4">
+                    <SheetTitle className="text-2xl">{t.cartTitle || "Votre Panier"} ({items.reduce((acc, item) => acc + item.quantity, 0)})</SheetTitle>
                 </SheetHeader>
 
                 <div className="flex-1 overflow-y-auto py-6">
@@ -76,7 +76,7 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                                             <h3 className="line-clamp-1">{item.name}</h3>
                                             <span>€{(item.price * item.quantity).toFixed(2)}</span>
                                         </div>
-                                        <p className="text-sm text-muted-foreground">{item.bundle}</p>
+                                        <p className="text-sm text-muted-foreground">{item.bundle?.replace("Pairs", "Paires").replace("1 Pair", "1 Paire")}</p>
                                         <p className="text-sm text-muted-foreground text-xs">{item.size}</p>
                                     </div>
                                     <div className="flex justify-between items-center mt-2">
@@ -102,14 +102,14 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                             <span>€{totalAmount.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between font-medium text-sm text-green-600">
-                            <span>{t.productShipping || "Shipping"}</span>
-                            <span>Free</span>
+                            <span>{t.productShipping || "Livraison"}</span>
+                            <span>{t.productShippingFree || "Gratuit"}</span>
                         </div>
-                        <div className="flex justify-between font-bold text-lg border-t pt-2">
+                        <div className="flex justify-between font-bold text-xl border-t pt-4">
                             <span>Total</span>
                             <span>€{totalAmount.toFixed(2)}</span>
                         </div>
-                        <Button className="w-full h-14 rounded-xl text-lg font-bold shadow-lg mt-4" onClick={handleCheckout} disabled={isLoading}>
+                        <Button className="w-full h-16 rounded-[1.5rem] text-xl font-bold shadow-xl mt-6 hover:scale-[1.02] transition-transform" style={{ cursor: 'pointer' }} onClick={handleCheckout} disabled={isLoading}>
                             {isLoading ? "Processing..." : (t.cartCheckout || "Proceed to Checkout")}
                         </Button>
                     </div>

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ShoppingCart, ShieldCheck } from "lucide-react"
@@ -26,6 +26,15 @@ export function ProductForm({
     const [size, setSize] = useState<string>("EU 40-41")
     const [bundle, setBundle] = useState<number>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [timeLeft, setTimeLeft] = useState(14 * 60 + 32); // 14 mins 32 seconds
+
+    useEffect(() => {
+        const timer = setInterval(() => setTimeLeft(prev => prev > 0 ? prev - 1 : 0), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
 
     const sizes = ["EU 35-37", "EU 38-39", "EU 40-41", "EU 42-43", "EU 44-45", "EU 46-48"]
 
@@ -53,24 +62,41 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{dbProduct?.name || t.heroTitle || "Step Into Serenity."}</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-primary">{dbProduct?.name || t.heroTitle || "Marchez Sans Douleur."}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
-                    <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3,450 Reviews)</span>
+                    <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3 450 Avis)</span>
                 </div>
                 <div className="flex items-baseline gap-3">
                     <span className="text-3xl font-bold">€{activeBundle.price}</span>
                     <span className="text-lg text-muted-foreground line-through">€{activeBundle.original}</span>
-                    <span className="text-sm font-semibold text-green-600 ml-2">
-                        In Stock - Ready to Ship
-                    </span>
+                    <div className="flex flex-col ml-2">
+                        <span className="text-sm font-semibold text-green-600">
+                            🔥 En Stock - Expédition immédiate
+                        </span>
+                        <span className="text-sm font-bold text-red-600 mt-1">
+                            ⏱️ OFFRE SPÉCIALE: Expire dans <span className="font-mono bg-red-100 px-1 rounded">{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</span>
+                        </span>
+                    </div>
+                </div>
+
+                {/* Additional Trust Signals */}
+                <div className="flex gap-4 mt-6">
+                    <div className="flex flex-col items-center bg-muted/50 p-2 rounded-lg flex-1 text-center border">
+                        <span className="text-xl">⚕️</span>
+                        <span className="text-[10px] font-bold mt-1 leading-tight">Recommandé Kiné</span>
+                    </div>
+                    <div className="flex flex-col items-center bg-muted/50 p-2 rounded-lg flex-1 text-center border">
+                        <span className="text-xl">👥</span>
+                        <span className="text-[10px] font-bold mt-1 leading-tight">+10 000 Soulagés</span>
+                    </div>
                 </div>
             </div>
 
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">{t.productSelectSize || "Select Size"}</h3>
-                    <span className="text-sm text-primary underline cursor-pointer">Size Guide</span>
+                    <h3 className="font-semibold">{t.productSelectSize || "Sélectionnez votre taille"}</h3>
+                    <span className="text-sm text-primary underline cursor-pointer">Guide des tailles</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                     {sizes.map((s) => (
@@ -91,7 +117,7 @@ export function ProductForm({
             </div>
 
             <div className="space-y-4">
-                <h3 className="font-semibold">Choose Your Bundle</h3>
+                <h3 className="font-semibold">Choisissez votre Pack</h3>
                 <div className="flex flex-col gap-3">
                     {bundles.map((b) => (
                         <button
@@ -125,11 +151,11 @@ export function ProductForm({
                 </div>
             </div>
 
-            <Button size="lg" className="w-full h-14 rounded-full text-lg font-bold shadow-xl" onClick={handleCheckout} disabled={isLoading}>
-                {isLoading ? "Processing..." : (
+            <Button size="lg" className="w-full h-14 rounded-full text-lg font-bold shadow-xl animate-pulse ring-2 ring-primary ring-offset-2 hover:scale-[1.02] transition-transform" style={{ cursor: 'pointer' }} onClick={handleCheckout} disabled={isLoading}>
+                {isLoading ? "Traitement..." : (
                     <>
                         <ShoppingCart className="mr-2 h-5 w-5" />
-                        {t.productAddToCart || "Add to Cart"} - €{activeBundle.price}
+                        COMMANDER MAINTENANT - €{activeBundle.price}
                     </>
                 )}
             </Button>
@@ -137,20 +163,20 @@ export function ProductForm({
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground py-4 border-y">
                 <div className="flex items-center gap-2">
                     <ShieldCheck className="h-5 w-5" />
-                    {t.productGuarantee || "30-Day Guarantee"}
+                    {t.productGuarantee || "Garantie 30 Jours"}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-green-700 font-medium">
                     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5l10 -10" /></svg>
-                    Secure Checkout
+                    Paiement 100% Sécurisé
                 </div>
             </div>
 
             <div className="text-sm prose prose-sm text-muted-foreground">
-                <p><strong>Instant Zen & Pain Relief</strong> for planar fasciitis, flat feet, and heel pain. The magnetic acupressure deeply calms the nervous system while providing targeted support.</p>
+                <p><strong>Soulagement Immédiat</strong> pour l'aponévrosite plantaire, les pieds plats et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en offrant un soutien ciblé.</p>
                 <ul className="mt-2 space-y-1">
-                    <li>✔ Fits any shoe (sneakers, boots, dress)</li>
-                    <li>✔ Magnetic nodes for enhanced blood flow</li>
-                    <li>✔ Designed by Zen masters and podiatrists</li>
+                    <li>✔ S'adapte à toutes vos chaussures (baskets, bottes, ville)</li>
+                    <li>✔ Nœuds magnétiques pour une circulation sanguine optimale</li>
+                    <li>✔ Conçu par des podologues certifiés</li>
                 </ul>
             </div>
         </div>
