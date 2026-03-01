@@ -49,7 +49,7 @@ export function ProductForm({
         addToCart({
             productId: activeBundle.id,
             name: dbProduct?.name || "Semelles Magnétiques d'Acupression",
-            image: dbProduct?.images?.[0] || "https://img.kwcdn.com/product/fancy/836fdfd6-1245-4b68-a2d7-eee56aac0861.jpg",
+            image: dbProduct?.images?.[0] || "/temu-product.jpg",
             bundle: activeBundle.name,
             size: size,
             price: activeBundle.price,

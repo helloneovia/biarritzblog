@@ -40,7 +40,7 @@ export default async function ProductPage() {
         ]
 
     const productImages = dbProduct?.images?.length ? dbProduct.images : [
-        "https://img.kwcdn.com/product/fancy/836fdfd6-1245-4b68-a2d7-eee56aac0861.jpg",
+        "/temu-product.jpg",
         "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=1200&auto=format&fit=crop"
     ]
