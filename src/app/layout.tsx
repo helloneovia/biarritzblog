@@ -35,7 +35,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies()
-  const locale = (cookieStore.get("NEXT_LOCALE")?.value || "EN") as Locale
+  const locale = (cookieStore.get("NEXT_LOCALE")?.value || "FR") as Locale
   const config = await getSiteConfig()
   const t = getTexts(config, locale)
 
@@ -49,7 +49,7 @@ export default async function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
             <SupportWidget t={t} />
-            <Toaster />
+            <Toaster position="top-center" />
             <Analytics />
           </CartProvider>
         </Providers>

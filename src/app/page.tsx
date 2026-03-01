@@ -53,7 +53,7 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              <img src="https://images.unsplash.com/photo-1620056910398-35ed5f6d7dd0?q=80&w=1200&auto=format&fit=crop" alt="Acupressure visual" className="w-full h-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop" alt="Acupressure visual" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

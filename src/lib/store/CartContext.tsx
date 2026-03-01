@@ -69,7 +69,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             return [...currentItems, { ...newItem, id }];
         });
 
-        toast.success("Added to cart", {
+        toast.success("Ajouté au panier", {
             description: `${newItem.name} (${newItem.size})`,
         });
 

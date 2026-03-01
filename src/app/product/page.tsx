@@ -22,11 +22,11 @@ export default async function ProductPage() {
     // Fetch the primary product and real bundles from DB
     const dbProduct = await prisma.product.findFirst({
         orderBy: { createdAt: 'desc' }
-    })
+    }).catch(() => null)
 
     const dbBundles = await prisma.bundle.findMany({
         orderBy: { quantity: 'asc' },
-    })
+    }).catch(() => [])
 
     // Convert to ProductForm format, fallback if DB is empty
     const bundles = dbBundles.length > 0

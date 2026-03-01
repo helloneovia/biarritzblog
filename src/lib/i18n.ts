@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma"
 
 export type Locale = "EN" | "FR" | "ES"
 export const SUPPORTED_LOCALES: Locale[] = ["EN", "FR", "ES"]
-export const DEFAULT_LOCALE: Locale = "EN"
+export const DEFAULT_LOCALE: Locale = "FR"
 
 // Currency symbols
 export const CURRENCY_SYMBOLS: Record<string, string> = {
@@ -101,7 +101,7 @@ export async function getSiteConfig() {
             config = await prisma.siteConfig.create({
                 data: {
                     currencyCode: "EUR",
-                    language: "EN",
+                    language: "FR",
                     contactEmail: "support@biarritz.blog",
                     homeTitle: "Biarritz – Premium Orthopaedic Insoles",
                     texts: DEFAULTS,

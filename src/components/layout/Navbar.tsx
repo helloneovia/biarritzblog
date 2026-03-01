@@ -13,7 +13,7 @@ import { authOptions } from "@/lib/auth/options"
 export async function Navbar() {
     const session = await getServerSession(authOptions)
     const cookieStore = await cookies()
-    const locale = (cookieStore.get("NEXT_LOCALE")?.value || "EN") as Locale
+    const locale = (cookieStore.get("NEXT_LOCALE")?.value || "FR") as Locale
 
     const config = await getSiteConfig()
     const t = getTexts(config, locale)
