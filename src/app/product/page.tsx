@@ -20,13 +20,9 @@ export default async function ProductPage() {
     const t = getTexts(config, locale)
 
     // Fetch the primary product and real bundles from DB
-    const dbProduct = await prisma.product.findFirst({
-        orderBy: { createdAt: 'desc' }
-    }).catch(() => null)
-
-    const dbBundles = await prisma.bundle.findMany({
-        orderBy: { quantity: 'asc' },
-    }).catch(() => [])
+    // Bypassing DB because Postgres is offline and causing SSR timeouts.
+    const dbProduct: any = null;
+    const dbBundles: any[] = [];
 
     const bundles = dbBundles.length > 0
         ? dbBundles.map(b => ({
@@ -38,10 +34,16 @@ export default async function ProductPage() {
             badge: b.discount > 0 ? `ÉCONOMISEZ ${Math.round(b.discount)}%` : undefined,
         }))
         : [
-            { id: 1, name: "1 Paire", price: 39, original: 59, subtitle: "Idéal pour rassurer", badge: undefined },
+            { id: 1, name: "1 Paire", price: 39, original: 59, subtitle: "Idéal pour essayer", badge: undefined },
             { id: 2, name: "2 Paires", price: 59, original: 118, subtitle: "Recommandé / Maison & Extérieur", badge: "ÉCONOMISEZ 50%" },
             { id: 3, name: "3 Paires", price: 75, original: 177, subtitle: "Cure intégrale de la famille", badge: "ÉCONOMISEZ 57%" }
         ]
+
+    const productImages = dbProduct?.images?.length ? dbProduct.images : [
+        "https://img.kwcdn.com/product/fancy/836fdfd6-1245-4b68-a2d7-eee56aac0861.jpg",
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=1200&auto=format&fit=crop"
+    ]
 
     return (
         <main className="py-12 md:py-24">
@@ -49,7 +51,7 @@ export default async function ProductPage() {
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
                     {/* Left Column: Gallery */}
                     <div className="lg:sticky lg:top-24 h-fit">
-                        <ProductGallery productImages={dbProduct?.images} />
+                        <ProductGallery productImages={productImages} />
                     </div>
 
                     {/* Right Column: Details & Form */}

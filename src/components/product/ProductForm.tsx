@@ -48,8 +48,8 @@ export function ProductForm({
         // Add to cart state
         addToCart({
             productId: activeBundle.id,
-            name: dbProduct?.name || "Premium Acupressure Zen Insoles",
-            image: dbProduct?.images?.[0] || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
+            name: dbProduct?.name || "Semelles Magnétiques d'Acupression",
+            image: dbProduct?.images?.[0] || "https://img.kwcdn.com/product/fancy/836fdfd6-1245-4b68-a2d7-eee56aac0861.jpg",
             bundle: activeBundle.name,
             size: size,
             price: activeBundle.price,
@@ -62,7 +62,7 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Marchez Sans Douleur."}</h1>
+                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Acupression Magnétique Premium"}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-yellow-500 text-sm">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3 450 Avis)</span>
@@ -180,11 +180,11 @@ export function ProductForm({
             </div>
 
             <div className="text-sm prose prose-sm text-muted-foreground">
-                <p><strong>Soulagement Immédiat</strong> pour l'aponévrosite plantaire, les pieds plats et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en offrant un soutien ciblé.</p>
+                <p><strong>Soulagement Immédiat</strong> pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds.</p>
                 <ul className="mt-2 space-y-1">
-                    <li>✔ S'adapte à toutes vos chaussures (baskets, bottes, ville)</li>
-                    <li>✔ Nœuds magnétiques pour une circulation sanguine optimale</li>
-                    <li>✔ Conçu par des podologues certifiés</li>
+                    <li>✔ Design ergonomique en matériau EVA extra-doux et respirant</li>
+                    <li>✔ Nœuds magnétiques stratégiques pour une voûte soutenue</li>
+                    <li>✔ Découpe DIY universelle : s'adapte à 100% de vos chaussures</li>
                 </ul>
             </div>
         </div>

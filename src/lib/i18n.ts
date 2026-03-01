@@ -119,27 +119,11 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
 }
 
 export async function getSiteConfig() {
-    try {
-        let config = await prisma.siteConfig.findFirst()
-        if (!config) {
-            config = await prisma.siteConfig.create({
-                data: {
-                    currencyCode: "EUR",
-                    language: "FR",
-                    contactEmail: "support@biarritz.blog",
-                    homeTitle: "Biarritz – Premium Orthopaedic Insoles",
-                    texts: DEFAULTS,
-                }
-            })
-        }
-        return config
-    } catch (error) {
-        // Silently return fallback if DB is resetting or disconnected
-        return {
-            currencyCode: "EUR",
-            language: "FR",
-            texts: DEFAULTS,
-        }
+    // Bypassing DB because Postgres is offline and causing SSR timeouts.
+    return {
+        currencyCode: "EUR",
+        language: "FR",
+        texts: DEFAULTS,
     }
 }
 
