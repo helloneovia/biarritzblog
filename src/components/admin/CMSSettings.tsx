@@ -31,6 +31,9 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         f3Title: "All-Day Comfort", f3Desc: "Medical-grade EVA foam with targeted cushioning zones.",
         ctaTitle: "Ready to Take Your Life Back?", ctaSubtitle: "Join 50,000+ others who found instant relief.",
         ctaButton: "Get Your Pair Now", ctaGuarantee: "30-Day Money-Back Guarantee",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024", heroTitle: "Marchez sans douleur.", heroTitleHighlight: "Chaque pas compte.",
@@ -42,6 +45,9 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         f3Title: "Confort toute la journée", f3Desc: "Mousse EVA médicale avec zones de coussin ciblées.",
         ctaTitle: "Reprenez votre vie en main !", ctaSubtitle: "Rejoignez 50 000+ personnes soulagées.",
         ctaButton: "Obtenir ma paire", ctaGuarantee: "Garantie 30 jours Satisfait ou Remboursé",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024", heroTitle: "Camina sin dolor.", heroTitleHighlight: "Cada paso importa.",
@@ -53,6 +59,9 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         f3Title: "Comodidad todo el día", f3Desc: "Espuma EVA médica con zonas de amortiguación.",
         ctaTitle: "¡Recupera tu vida!", ctaSubtitle: "Únete a 50,000+ personas aliviadas.",
         ctaButton: "Obtener mi par", ctaGuarantee: "Garantía de devolución de 30 días",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
 };
 
@@ -205,6 +214,16 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre CTA</label><input className={inputClass} value={texts.ctaSubtitle} onChange={e => updateText("ctaSubtitle", e.target.value)} /></div>
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Bouton</label><input className={inputClass} value={texts.ctaButton} onChange={e => updateText("ctaButton", e.target.value)} /></div>
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Garantie</label><input className={inputClass} value={texts.ctaGuarantee} onChange={e => updateText("ctaGuarantee", e.target.value)} /></div>
+                        </div>
+                    </div>
+
+                    {/* Lifestyle Images */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Images Lifestyle (Page Produit)</h4>
+                        <div className="grid grid-cols-1 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 1 (Sport) URL</label><input className={inputClass} value={texts.lifestyle1 || ""} onChange={e => updateText("lifestyle1", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 2 (Quotidien) URL</label><input className={inputClass} value={texts.lifestyle2 || ""} onChange={e => updateText("lifestyle2", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 3 (Travail) URL</label><input className={inputClass} value={texts.lifestyle3 || ""} onChange={e => updateText("lifestyle3", e.target.value)} /></div>
                         </div>
                     </div>
                 </CardContent>

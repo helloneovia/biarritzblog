@@ -14,21 +14,26 @@ import { cookies } from "next/headers"
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Biarritz | Premium Orthopaedic Insoles",
-  description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles. Designed for posture correction, foot support, and all-day comfort. Shop now!",
-  icons: {
-    icon: "/favicon.svg",
-  },
-  openGraph: {
-    title: "Biarritz | Premium Orthopaedic Insoles",
-    description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles.",
-    url: "https://steppprs.com",
-    siteName: "Biarritz",
-    locale: "fr_FR",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getSiteConfig() as any
+  const siteTitle = config.homeTitle || "Biarritz | Premium Orthopaedic Insoles"
+
+  return {
+    title: siteTitle,
+    description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles. Designed for posture correction, foot support, and all-day comfort. Shop now!",
+    icons: {
+      icon: "/favicon.svg",
+    },
+    openGraph: {
+      title: siteTitle,
+      description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles.",
+      url: "https://biarritz.blog",
+      siteName: "Biarritz",
+      locale: "fr_FR",
+      type: "website",
+    },
+  }
+}
 
 export default async function RootLayout({
   children,

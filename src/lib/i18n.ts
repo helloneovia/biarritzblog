@@ -119,7 +119,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
 }
 
 export async function getSiteConfig() {
-    // Bypassing DB because Postgres is offline and causing SSR timeouts.
+    try {
+        const config = await prisma.siteConfig.findFirst()
+        if (config) return config
+    } catch (e) {
+        console.error("Database connection failed or config missing, using defaults.", e)
+    }
+
+    // Safe fallback if DB is offline
     return {
         currencyCode: "EUR",
         language: "FR",

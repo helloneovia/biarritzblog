@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { ZoomIn, X } from "lucide-react"
 
 export function ProductGallery({ productImages }: { productImages?: string[] | null }) {
     const fallbackImages = [
@@ -14,16 +15,26 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
     const images = (productImages && productImages.length > 0) ? productImages : fallbackImages;
 
     const [activeIndex, setActiveIndex] = useState(0)
+    const [isZoomed, setIsZoomed] = useState(false)
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="aspect-square bg-muted rounded-3xl overflow-hidden border">
+            {/* Main Image */}
+            <div
+                className="aspect-square bg-muted rounded-3xl overflow-hidden border relative group cursor-zoom-in"
+                onClick={() => setIsZoomed(true)}
+            >
                 <img
                     src={images[activeIndex]}
                     alt="Orthopaedic Insole"
-                    className="w-full h-full object-cover transition-all duration-300"
+                    className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
                 />
+                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ZoomIn className="w-5 h-5" />
+                </div>
             </div>
+
+            {/* Thumbnails */}
             <div className="grid grid-cols-4 gap-4">
                 {images.map((img, i) => (
                     <button
@@ -38,6 +49,27 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
                     </button>
                 ))}
             </div>
+
+            {/* Zoom Modal */}
+            {isZoomed && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-zoom-out"
+                    onClick={() => setIsZoomed(false)}
+                >
+                    <button
+                        onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+                        className="absolute top-4 right-4 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
+                    >
+                        <X className="w-8 h-8" />
+                    </button>
+                    <img
+                        src={images[activeIndex]}
+                        alt="Zoomed Product"
+                        className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
+                        onClick={(e) => e.stopPropagation()} // Prevent click from closing if clicking on image itself
+                    />
+                </div>
+            )}
         </div>
     )
 }
