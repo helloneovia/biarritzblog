@@ -77,11 +77,15 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                         <div className="absolute inset-0 bg-primary/5 rounded-[3rem] -mt-4 lg:ml-8 transform rotate-3" />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
-                            <img
-                                src={heroSrc}
-                                alt="Premium Orthopaedic Insoles"
-                                className="object-cover w-full h-full"
-                            />
+                            {heroSrc.match(/\.(mp4|webm)$/i) ? (
+                                <video src={heroSrc} className="object-cover w-full h-full" autoPlay loop muted playsInline />
+                            ) : (
+                                <img
+                                    src={heroSrc}
+                                    alt="Premium Orthopaedic Insoles"
+                                    className="object-cover w-full h-full"
+                                />
+                            )}
                         </div>
 
                         <div className="absolute -bottom-6 -left-6 bg-background rounded-2xl shadow-xl p-4 border flex items-center gap-4 animate-bounce-slow">

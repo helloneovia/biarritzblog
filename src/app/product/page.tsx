@@ -79,19 +79,39 @@ export default async function ProductPage() {
             {/* Lifestyle Image Grid - Insole themed */}
             <section className="py-12 border-y bg-muted/20 mb-24">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">Tous les jours. Toutes les Chaussures.</h2>
+                    <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">
+                        {t.lifestyleTitle || "Tous les jours. Toutes les Chaussures."}
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src={lsImg1} alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Sport &amp; Running</div>
+                            {lsImg1.match(/\.(mp4|webm)$/i) ? (
+                                <video src={lsImg1} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
+                            ) : (
+                                <img src={lsImg1} alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            )}
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
+                                {t.lifestyle1Label || "Sport & Running"}
+                            </div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src={lsImg2} alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Marche Quotidienne</div>
+                            {lsImg2.match(/\.(mp4|webm)$/i) ? (
+                                <video src={lsImg2} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
+                            ) : (
+                                <img src={lsImg2} alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            )}
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
+                                {t.lifestyle2Label || "Marche Quotidienne"}
+                            </div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src={lsImg3} alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail &amp; Bureau</div>
+                            {lsImg3.match(/\.(mp4|webm)$/i) ? (
+                                <video src={lsImg3} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
+                            ) : (
+                                <img src={lsImg3} alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            )}
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
+                                {t.lifestyle3Label || "Travail & Bureau"}
+                            </div>
                         </div>
                     </div>
                 </div>

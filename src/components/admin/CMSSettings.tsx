@@ -300,21 +300,44 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Bouton</label><input className={inputClass} value={texts.ctaButton} onChange={e => updateText("ctaButton", e.target.value)} /></div>
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Garantie</label><input className={inputClass} value={texts.ctaGuarantee} onChange={e => updateText("ctaGuarantee", e.target.value)} /></div>
                         </div>
+                        <div className="mt-3">
+                            <label className="text-xs font-medium text-muted-foreground mb-1 block">Offre Animation (ex: Achetez 2, 1 Gratuit)</label>
+                            <input className={inputClass} value={texts.ctaOffer} onChange={e => updateText("ctaOffer", e.target.value)} />
+                        </div>
                     </div>
 
                     {/* Science Image */}
                     <div className="space-y-3 pt-4 border-t">
-                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Image de L&apos;art Ancien (Page d&apos;accueil)</h4>
-                        <ImageUploadField label="Image Science" value={texts.scienceImage || ""} onChange={url => updateText("scienceImage", url)} />
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Section Science (Page d&apos;accueil)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <ImageUploadField label="Image de contenu (Science)" value={texts.scienceImage || ""} onChange={url => updateText("scienceImage", url)} />
+                            <ImageUploadField label="Image de fond (Texture)" value={texts.scienceBgImage || ""} onChange={url => updateText("scienceBgImage", url)} />
+                        </div>
                     </div>
 
                     {/* Lifestyle Images */}
                     <div className="space-y-3 pt-4 border-t">
-                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Images Lifestyle (Page d&apos;accueil & Produit)</h4>
-                        <div className="grid grid-cols-1 gap-6">
-                            <ImageUploadField label="Image 1 (Sport)" value={texts.lifestyle1 || ""} onChange={url => updateText("lifestyle1", url)} />
-                            <ImageUploadField label="Image 2 (Quotidien)" value={texts.lifestyle2 || ""} onChange={url => updateText("lifestyle2", url)} />
-                            <ImageUploadField label="Image 3 (Travail)" value={texts.lifestyle3 || ""} onChange={url => updateText("lifestyle3", url)} />
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Grille Lifestyle (Page d&apos;accueil & Produit)</h4>
+                        <div>
+                            <label className="text-xs font-medium text-muted-foreground mb-1 block">Titre de la section</label>
+                            <input className={inputClass} value={texts.lifestyleTitle} onChange={e => updateText("lifestyleTitle", e.target.value)} />
+                        </div>
+                        <div className="grid grid-cols-1 gap-8 mt-4 border-l-2 border-indigo-50 pl-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-gray-700">Lifestyle 1 (Sport)</label>
+                                <input className={inputClass} placeholder="Libellé (ex: Sport & Running)" value={texts.lifestyle1Label} onChange={e => updateText("lifestyle1Label", e.target.value)} />
+                                <ImageUploadField label="Média 1" value={texts.lifestyle1 || ""} onChange={url => updateText("lifestyle1", url)} />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-gray-700">Lifestyle 2 (Quotidien)</label>
+                                <input className={inputClass} placeholder="Libellé (ex: Marche Quotidienne)" value={texts.lifestyle2Label} onChange={e => updateText("lifestyle2Label", e.target.value)} />
+                                <ImageUploadField label="Média 2" value={texts.lifestyle2 || ""} onChange={url => updateText("lifestyle2", url)} />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-gray-700">Lifestyle 3 (Travail)</label>
+                                <input className={inputClass} placeholder="Libellé (ex: Travail & Bureau)" value={texts.lifestyle3Label} onChange={e => updateText("lifestyle3Label", e.target.value)} />
+                                <ImageUploadField label="Média 3" value={texts.lifestyle3 || ""} onChange={url => updateText("lifestyle3", url)} />
+                            </div>
                         </div>
                     </div>
                 </CardContent>

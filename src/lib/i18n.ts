@@ -46,6 +46,12 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         customersCount: "Over 50,000+ happy customers",
         topSeller: "Best Seller", topSellerSub: "Recommended by experts",
         scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
+        scienceBgImage: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop",
+        lifestyleTitle: "Every Day. Every Shoe.",
+        lifestyle1Label: "Sport & Running",
+        lifestyle2Label: "Daily Walking",
+        lifestyle3Label: "Work & Office",
+        ctaOffer: "🔥 Special Offer: Buy 2, Get 1 FREE!",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024",
@@ -82,6 +88,12 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         customersCount: "Plus de 50 000+ clients satisfaits",
         topSeller: "N°1 des Ventes", topSellerSub: "Recommandé par les experts",
         scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
+        scienceBgImage: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop",
+        lifestyleTitle: "Tous les jours. Toutes les Chaussures.",
+        lifestyle1Label: "Sport & Running",
+        lifestyle2Label: "Marche Quotidienne",
+        lifestyle3Label: "Travail & Bureau",
+        ctaOffer: "🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024",
@@ -118,6 +130,12 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         customersCount: "Más de 50,000+ clientes satisfechos",
         topSeller: "Más Vendido", topSellerSub: "Recomendado por expertos",
         scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
+        scienceBgImage: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop",
+        lifestyleTitle: "Todos los días. Todos los zapatos.",
+        lifestyle1Label: "Deporte y Running",
+        lifestyle2Label: "Caminata Diaria",
+        lifestyle3Label: "Trabajo y Oficina",
+        ctaOffer: "🔥 Oferta Especial: ¡Compra 2, llévate 1 GRATIS!",
     },
 }
 

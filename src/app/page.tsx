@@ -33,7 +33,11 @@ export default async function Home() {
       {/* Visual Break - Science section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
-          <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop" alt="Background Texture" className="w-full h-full object-cover" />
+          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+            <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
+          ) : (
+            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
+          )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -56,14 +60,42 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              <img src={texts.scienceImage || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop"} alt="Acupressure visual" className="w-full h-full object-cover" />
+              {(texts.scienceImage || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+                <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
+              ) : (
+                <img src={texts.scienceImage || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop"} alt="Acupressure visual" className="w-full h-full object-cover" />
+              )}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Lifestyle Grid Section (Added to Homepage) */}
+      <section className="py-12 border-y bg-muted/20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">
+            {texts.lifestyleTitle || "Tous les jours. Toutes les Chaussures."}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { img: texts.lifestyle1 || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle1Label || "Sport & Running" },
+              { img: texts.lifestyle2 || "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: texts.lifestyle3 || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle3Label || "Travail & Bureau" }
+            ].map((item, i) => (
+              <div key={i} className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                {item.img.match(/\.(mp4|webm)$/i) ? (
+                  <video src={item.img} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
+                ) : (
+                  <img src={item.img} alt={item.label} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                )}
+                <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">{item.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Testimonials />
-      {/* The provided Code Edit had <Testimonials /> duplicated, keeping only one as per original structure */}
 
       {/* CTA Section */}
       <section className="py-24 bg-primary text-primary-foreground">
@@ -80,7 +112,7 @@ export default async function Home() {
               <span className="text-xl line-through opacity-70">49,99€</span>
               <span className="text-sm font-extrabold bg-white text-primary px-3 py-1 rounded-md ml-2 uppercase tracking-wider">-50% OFF</span>
             </div>
-            <p className="text-lg font-bold text-yellow-300 animate-pulse mt-2">🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !</p>
+            <p className="text-lg font-bold text-yellow-300 animate-pulse mt-2">{texts.ctaOffer || "🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !"}</p>
           </div>
           <Button size="lg" variant="secondary" className="rounded-full font-bold h-14 px-10 text-lg shadow-2xl hover:scale-105 transition-transform" asChild>
             <Link href="/product">
