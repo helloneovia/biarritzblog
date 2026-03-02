@@ -12,8 +12,10 @@ import { Button } from "@/components/ui/button" // Re-added as it's used in CTA
 import Link from "next/link" // Re-added as it's used in CTA
 
 export default async function Home() {
-  const config = await prisma.siteConfig.findUnique({ where: { id: "global" } }).catch(() => null);
-  const texts = (config?.texts as any) || {};
+  const cookieStore = await cookies()
+  const locale = (cookieStore.get("NEXT_LOCALE")?.value || "EN") as Locale
+  const config = await getSiteConfig()
+  const texts = getTexts(config, locale)
 
   // Fetch primary product to dynamize the Hero image (avoiding static shoes)
   const dbProduct = await prisma.product.findFirst({
