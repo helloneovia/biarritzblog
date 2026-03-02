@@ -14,31 +14,38 @@ export async function POST(req: Request) {
         }
 
         if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === "dummy_key_for_build") {
-            return NextResponse.json({ error: "Checkout offline: Missing STRIPE_SECRET_KEY in production" }, { status: 500 })
+            console.error("CHECKOUT_ERROR: STRIPE_SECRET_KEY is not configured in .env")
+            return NextResponse.json({ error: "Le paiement n'est pas encore configuré. Veuillez contacter le support." }, { status: 500 })
         }
 
         const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://biarritz.blog"
 
         // Typical Stripe Checkout Flow
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card", "paypal", "klarna"], // klarna/afterpay depending on region
+            payment_method_types: ["card"],
             billing_address_collection: "required",
             shipping_address_collection: {
                 allowed_countries: ["FR", "BE", "CH", "US", "GB", "DE", "IT", "ES"],
             },
             customer_email: email,
-            line_items: items.map((item: any) => ({
-                price_data: {
-                    currency: "eur",
-                    product_data: {
-                        name: item.name,
-                        images: [item.image],
-                        description: `${item.bundle} | Size: ${item.size}`,
+            line_items: items.map((item: any) => {
+                // Stripe only accepts HTTPS public URLs for images
+                const isValidImage = item.image &&
+                    typeof item.image === 'string' &&
+                    item.image.startsWith('https://');
+                return {
+                    price_data: {
+                        currency: "eur",
+                        product_data: {
+                            name: item.name,
+                            ...(isValidImage ? { images: [item.image] } : {}),
+                            description: `${item.bundle} | Taille: ${item.size}`,
+                        },
+                        unit_amount: Math.round(item.price * 100),
                     },
-                    unit_amount: Math.round(item.price * 100), // Stripe expects cents
-                },
-                quantity: item.quantity || 1,
-            })),
+                    quantity: item.quantity || 1,
+                };
+            }),
             mode: "payment",
             success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${appUrl}/cart?canceled=1`,
@@ -52,7 +59,10 @@ export async function POST(req: Request) {
         return NextResponse.json({ url: session.url })
 
     } catch (error: any) {
-        console.error("STRIPE_CHECKOUT_ERROR", error)
-        return NextResponse.json({ error: "An error occurred during checkout" }, { status: 500 })
+        console.error("STRIPE_CHECKOUT_ERROR:", error?.message || error)
+        const message = error?.message?.includes("No such api_key")
+            ? "Clé Stripe invalide. Vérifiez votre configuration."
+            : "Une erreur est survenue lors du paiement. Réessayez."
+        return NextResponse.json({ error: message }, { status: 500 })
     }
 }

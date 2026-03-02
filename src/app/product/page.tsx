@@ -41,8 +41,8 @@ export default async function ProductPage() {
 
     const productImages = dbProduct?.images?.length ? dbProduct.images : [
         "/temu-product.jpg",
-        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=1200&auto=format&fit=crop"
+        "https://images.unsplash.com/photo-1610961071248-8d34c7ae68d0?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop"
     ]
 
     return (
@@ -61,18 +61,22 @@ export default async function ProductPage() {
                 </div>
             </div>
 
-            {/* Lifestyle Image Grid */}
-            <section className="py-12 border-y bg-slate-50 mb-24">
+            {/* Lifestyle Image Grid - Insole themed */}
+            <section className="py-12 border-y bg-muted/20 mb-24">
                 <div className="container mx-auto px-4">
+                    <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">Tous les jours. Toutes les Chaussures.</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop" alt="Zen Acupressure" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop" alt="Insole running shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Running</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?q=80&w=1200&auto=format&fit=crop" alt="Spa Elements" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <img src="https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?q=80&w=1200&auto=format&fit=crop" alt="Insole everyday shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Quotidien</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1545648583-b26a5c102c91?q=80&w=1200&auto=format&fit=crop" alt="Natural Healing" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <img src="https://images.unsplash.com/photo-1610961071248-8d34c7ae68d0?q=80&w=1200&auto=format&fit=crop" alt="Insole work shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail</div>
                         </div>
                     </div>
                 </div>

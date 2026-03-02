@@ -6,10 +6,11 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { ShoppingBag, X, Plus, Minus, Truck, ShieldCheck, Users } from "lucide-react"
+import { ShoppingBag, X, Plus, Minus, Truck, ShieldCheck, Users, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/store/CartContext";
 import { useState, useEffect } from "react"
+import { toast } from "sonner"
 
 export function CartDrawer({ t }: { t: Record<string, string> }) {
     const { items, removeFromCart, updateQuantity, isCartOpen, setCartOpen, totalAmount } = useCart();
@@ -42,11 +43,11 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
             if (data.url) {
                 window.location.href = data.url;
             } else {
-                alert(data.error || "Checkout failed");
+                toast.error(data.error || "Erreur lors du paiement")
             }
         } catch (error) {
             console.error(error);
-            alert("Error trying to checkout");
+            toast.error("Impossible de contacter le serveur. Vérifiez votre connexion.")
         } finally {
             setIsLoading(false);
         }

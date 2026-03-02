@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils"
 
 export function ProductGallery({ productImages }: { productImages?: string[] | null }) {
     const fallbackImages = [
-        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=2160&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?q=80&w=2160&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1577212017184-80cc1b953d60?q=80&w=2160&auto=format&fit=crop"
+        "/temu-product.jpg",
+        "https://images.unsplash.com/photo-1610961071248-8d34c7ae68d0?q=80&w=2160&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2160&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?q=80&w=2160&auto=format&fit=crop"
     ]
 
-    // Force the premium fallback images for the aesthetic, ignoring broken DB links
-    const images = fallbackImages;
+    // Use DB images if available, else fall back to insole-specific images
+    const images = (productImages && productImages.length > 0) ? productImages : fallbackImages;
 
     const [activeIndex, setActiveIndex] = useState(0)
 
