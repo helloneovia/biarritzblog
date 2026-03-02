@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { ShoppingCart, ShieldCheck } from "lucide-react"
+import { ShoppingCart, ShieldCheck, Truck, RotateCcw } from "lucide-react"
 import { useCart } from "@/lib/store/CartContext"
 
 interface Bundle {
@@ -62,10 +62,10 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Acupression Magnétique Premium"}</h1>
+                <h1 className="text-3xl sm:text-4xl font-black tracking-tighter mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Acupression Magnétique Premium"}</h1>
                 <div className="flex items-center gap-4 mb-4">
-                    <div className="flex text-yellow-500 text-sm">★★★★★</div>
-                    <span className="text-sm text-muted-foreground underline cursor-pointer">4.9 (3 450 Avis)</span>
+                    <div className="flex text-primary text-base gap-0.5">★★★★★</div>
+                    <span className="text-sm text-muted-foreground underline cursor-pointer font-semibold">4.9 (3 450 Avis)</span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
                     <div className="flex items-baseline gap-3">
@@ -118,44 +118,60 @@ export function ProductForm({
                 </div>
             </div>
 
-            <div className="space-y-4">
-                <h3 className="font-semibold">Choisissez votre Pack</h3>
+            <div className="space-y-3">
+                <h3 className="font-black text-base uppercase tracking-wide">Choisissez votre Pack</h3>
                 <div className="flex flex-col gap-3">
-                    {bundles.map((b) => (
-                        <button
-                            key={b.id}
-                            onClick={() => setBundle(b.id)}
-                            className={cn(
-                                "relative flex justify-between items-center p-4 rounded-2xl border-2 text-left transition-all overflow-hidden",
-                                bundle === b.id
-                                    ? "border-primary bg-primary/5"
-                                    : "border-border hover:border-foreground/30"
-                            )}
-                        >
-                            {bundle === b.id && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary" />}
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold leading-tight">{b.name}</span>
-                                    {b.badge && (
-                                        <span className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
-                                            {b.badge}
-                                        </span>
-                                    )}
+                    {bundles.map((b, i) => {
+                        const isSelected = bundle === b.id;
+                        const isMostPopular = i === 1; // Default 2nd bundle = Most Popular
+                        return (
+                            <button
+                                key={b.id}
+                                onClick={() => setBundle(b.id)}
+                                className={cn(
+                                    "relative flex justify-between items-center p-4 rounded-xl border-2 text-left transition-all overflow-hidden",
+                                    isSelected
+                                        ? "border-primary bg-primary/5 shadow-md"
+                                        : "border-border hover:border-primary/50 hover:bg-muted/50"
+                                )}
+                            >
+                                {/* Most Popular badge */}
+                                {isMostPopular && (
+                                    <div className="absolute top-0 right-0 bg-black text-white text-[10px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">
+                                        🔥 Le Plus Populaire
+                                    </div>
+                                )}
+                                {/* Radio indicator */}
+                                <div className={cn(
+                                    "absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 flex items-center justify-center",
+                                    isSelected ? "border-primary" : "border-muted-foreground/40"
+                                )}>
+                                    {isSelected && <div className="w-2 h-2 rounded-full bg-primary" />}
                                 </div>
-                                <span className="text-xs sm:text-sm text-muted-foreground leading-tight mt-0.5 block">{b.subtitle}</span>
-                            </div>
-                            <div className="text-right pl-3 shrink-0">
-                                <div className="font-bold text-lg">€{b.price}</div>
-                                <div className="text-sm text-muted-foreground line-through">€{b.original}</div>
-                            </div>
-                        </button>
-                    ))}
+                                <div className="pl-8">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="font-black leading-tight">{b.name}</span>
+                                        {b.badge && (
+                                            <span className="bg-black text-white text-[10px] font-black px-2 py-0.5 rounded uppercase whitespace-nowrap">
+                                                {b.badge}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <span className="text-xs text-muted-foreground leading-tight mt-0.5 block">{b.subtitle}</span>
+                                </div>
+                                <div className="text-right pl-3 shrink-0">
+                                    <div className="font-black text-xl text-primary">€{b.price}</div>
+                                    <div className="text-sm text-muted-foreground line-through">€{b.original}</div>
+                                </div>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
             <Button
                 size="lg"
-                className="w-full h-auto py-4 sm:h-16 sm:py-0 rounded-2xl sm:rounded-full text-base sm:text-lg font-bold shadow-xl animate-pulse ring-2 ring-primary ring-offset-2 hover:scale-[1.02] transition-transform whitespace-normal leading-tight"
+                className="w-full h-16 rounded-xl text-lg font-black uppercase tracking-widest shadow-[0_8px_30px_rgba(255,102,0,0.45)] hover:shadow-[0_12px_40px_rgba(255,102,0,0.65)] hover:-translate-y-0.5 transition-all"
                 style={{ cursor: 'pointer' }}
                 onClick={handleCheckout}
                 disabled={isLoading}
@@ -163,19 +179,24 @@ export function ProductForm({
                 {isLoading ? "Traitement..." : (
                     <div className="flex items-center justify-center gap-2">
                         <ShoppingCart className="h-5 w-5 shrink-0" />
-                        <span>COMMANDER MAINTENANT - €{activeBundle.price}</span>
+                        <span>🔒 Commander – €{activeBundle.price}</span>
                     </div>
                 )}
             </Button>
 
-            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground py-4 border-y">
-                <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-5 w-5" />
-                    {t.productGuarantee || "Garantie 30 Jours"}
+            {/* 3-cell trust grid */}
+            <div className="grid grid-cols-3 gap-2 py-2 border-y">
+                <div className="flex flex-col items-center gap-1 text-center">
+                    <RotateCcw className="h-5 w-5 text-primary" />
+                    <span className="text-[10px] font-black uppercase leading-tight">Essai<br />90 Jours</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-700 font-medium">
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5l10 -10" /></svg>
-                    Paiement 100% Sécurisé
+                <div className="flex flex-col items-center gap-1 text-center">
+                    <Truck className="h-5 w-5 text-primary" />
+                    <span className="text-[10px] font-black uppercase leading-tight">Livraison<br />Assurée</span>
+                </div>
+                <div className="flex flex-col items-center gap-1 text-center">
+                    <ShieldCheck className="h-5 w-5 text-primary" />
+                    <span className="text-[10px] font-black uppercase leading-tight">Paiement<br />Sécurisé</span>
                 </div>
             </div>
 
