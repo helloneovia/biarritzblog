@@ -51,6 +51,9 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         lifestyle1Label: "Sport & Running",
         lifestyle2Label: "Daily Walking",
         lifestyle3Label: "Work & Office",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Special Offer: Buy 2, Get 1 FREE!",
     },
     FR: {
@@ -93,6 +96,9 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         lifestyle1Label: "Sport & Running",
         lifestyle2Label: "Marche Quotidienne",
         lifestyle3Label: "Travail & Bureau",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !",
     },
     ES: {
@@ -135,6 +141,9 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         lifestyle1Label: "Deporte y Running",
         lifestyle2Label: "Caminata Diaria",
         lifestyle3Label: "Trabajo y Oficina",
+        lifestyle1: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
+        lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Oferta Especial: ¡Compra 2, llévate 1 GRATIS!",
     },
 }

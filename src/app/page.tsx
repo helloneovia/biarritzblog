@@ -11,6 +11,8 @@ import Image from "next/image" // Added as per instruction
 import { Button } from "@/components/ui/button" // Re-added as it's used in CTA
 import Link from "next/link" // Re-added as it's used in CTA
 
+export const dynamic = "force-dynamic"
+
 export default async function Home() {
   const cookieStore = await cookies()
   const locale = (cookieStore.get("NEXT_LOCALE")?.value || "EN") as Locale
