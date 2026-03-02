@@ -24,19 +24,22 @@ export async function Navbar() {
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
                 <div className="flex items-center gap-6">
                     <Link href="/" className="flex items-center space-x-2">
-                        <Image src="/logo.svg" alt="Biarritz Logo" width={120} height={30} className="h-8 w-auto object-contain" priority />
+                        {/* Stepprs inspired logo style */}
+                        <div className="bg-primary text-white font-black text-2xl tracking-tighter px-3 py-1 rounded-sm flex items-center justify-center transform hover:scale-105 transition-transform">
+                            biarritz.
+                        </div>
                     </Link>
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-                        <Link href="/blog" className="transition-colors hover:text-foreground/80 font-bold text-primary">
+                    <nav className="hidden md:flex items-center gap-6 text-sm font-bold uppercase tracking-wider">
+                        <Link href="/blog" className="transition-colors hover:text-primary text-foreground/80">
                             {t.navBlog}
                         </Link>
-                        <Link href="/#benefits" className="transition-colors hover:text-foreground/80 text-foreground/60">
+                        <Link href="/#benefits" className="transition-colors hover:text-primary text-foreground/80">
                             {t.navBenefits}
                         </Link>
-                        <Link href="/#reviews" className="transition-colors hover:text-foreground/80 text-foreground/60">
+                        <Link href="/#reviews" className="transition-colors hover:text-primary text-foreground/80">
                             {t.navReviews}
                         </Link>
-                        <Link href="/#faq" className="transition-colors hover:text-foreground/80 text-foreground/60">
+                        <Link href="/#faq" className="transition-colors hover:text-primary text-foreground/80">
                             {t.navFaq}
                         </Link>
                     </nav>
@@ -67,7 +70,7 @@ export async function Navbar() {
                         </Link>
                     )}
                     <CartDrawer t={t} />
-                    <Button className="hidden md:inline-flex rounded-full" asChild>
+                    <Button className="hidden md:inline-flex rounded-xl font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all" asChild>
                         <Link href="/product">{t.navShop}</Link>
                     </Button>
                     <Sheet>

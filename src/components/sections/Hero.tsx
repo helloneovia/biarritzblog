@@ -21,10 +21,10 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
                     <div className="flex flex-col justify-center space-y-8 text-center lg:text-left">
                         <div className="space-y-4">
-                            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-primary bg-primary/10 mb-4 transition-colors">
+                            <div className="inline-flex items-center rounded-sm border px-3 py-1 text-xs font-black uppercase text-primary bg-primary/10 mb-4 transition-colors">
                                 {texts?.heroBadge || "🎉 Nouvelle Technologie 2024"}
                             </div>
-                            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl/none">
+                            <h1 className="text-5xl font-black tracking-tighter sm:text-6xl xl:text-7xl">
                                 {texts?.heroTitle || "Marchez Sans Douleur."}<br />
                                 <span className="text-primary">{texts?.heroTitleHighlight || "Dès Aujourd'hui."}</span>
                             </h1>
@@ -35,38 +35,40 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
 
                         <div className="flex items-center gap-4 pb-2 justify-center lg:justify-start">
                             <div className="flex flex-col">
-                                <span className="text-4xl font-black text-primary">24,99€</span>
-                                <span className="text-sm font-bold line-through text-muted-foreground decoration-red-500">49,99€</span>
+                                <span className="text-5xl font-black text-primary">24,99€</span>
+                                <span className="text-lg font-black line-through text-muted-foreground decoration-foreground/40">49,99€</span>
                             </div>
-                            <div className="bg-red-100 text-red-700 font-bold px-4 py-1.5 rounded-full text-sm animate-pulse">
-                                -50% AUJOURD'HUI
+                            <div className="bg-black text-white font-black px-4 py-2 rounded-sm text-sm uppercase tracking-wider animate-pulse flex flex-col items-center">
+                                <span>-50% DE RÉDUCTION</span>
+                                <span className="text-primary text-xs">OFFRE LIMITÉE</span>
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-3 min-[400px]:flex-row justify-center lg:justify-start pt-2">
-                            <Button size="lg" className="rounded-full font-bold h-14 px-8 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all w-full sm:w-auto" asChild>
+                            <Button size="lg" className="rounded-xl font-black uppercase tracking-wider h-16 px-10 text-xl shadow-[0_8px_30px_rgb(255,102,0,0.4)] hover:shadow-[0_8px_30px_rgb(255,102,0,0.6)] hover:-translate-y-1 transition-all w-full sm:w-auto" asChild>
                                 <Link href="/product">
-                                    Commander Maintenant <ArrowRight className="ml-2 h-5 w-5" />
+                                    Commander Maintenant <ArrowRight className="ml-2 h-6 w-6" />
                                 </Link>
                             </Button>
-                            <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg w-full sm:w-auto" asChild>
+                            <Button size="lg" variant="outline" className="rounded-xl font-black uppercase h-16 px-8 text-lg w-full sm:w-auto border-2 hover:bg-muted" asChild>
                                 <Link href="#faq">Questions ?</Link>
                             </Button>
                         </div>
 
-                        <div className="flex items-center justify-center lg:justify-start pt-4">
-                            <div className="flex -space-x-2 mr-4">
-                                {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden">
-                                        <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt={`Customer ${i}`} />
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start pt-6 mb-4 gap-4">
+                            <div className="flex -space-x-3">
+                                {[1, 2, 3, 4, 5].map((i) => (
+                                    <div key={i} className="w-12 h-12 rounded-full border-4 border-background bg-muted flex items-center justify-center overflow-hidden z-20" style={{ zIndex: 10 - i }}>
+                                        <img src={`https://i.pravatar.cc/100?img=${i + 15}`} alt={`Customer ${i}`} />
                                     </div>
                                 ))}
                             </div>
-                            <div className="flex flex-col text-sm text-left">
-                                <div className="flex text-yellow-400">
-                                    {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                            <div className="flex flex-col text-sm text-center sm:text-left">
+                                <div className="flex text-primary mb-1 justify-center sm:justify-start gap-1">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}
                                 </div>
-                                <span className="font-medium">{texts?.customersCount || "Plus de 50 000+ clients satisfaits"}</span>
+                                <div className="font-black text-base">{texts?.customersCount || "800,000+ Clients Satisfaits"}</div>
+                                <div className="text-muted-foreground text-xs font-bold uppercase tracking-wider">Note de 4.9/5 sur Trustpilot</div>
                             </div>
                         </div>
                     </div>

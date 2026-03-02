@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/Analytics";
@@ -45,6 +46,7 @@ export default async function RootLayout({
         <Providers>
           <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
           <CartProvider>
+            <AnnouncementBar />
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
