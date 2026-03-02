@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { useCart } from "@/lib/store/CartContext"
@@ -7,13 +7,22 @@ import { CheckoutForm } from "./CheckoutForm"
 import { ShieldCheck, Truck, RotateCcw, Lock } from "lucide-react"
 import Link from "next/link"
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+// Don't load Stripe at module level — it throws if key is missing/invalid
 
 export default function CheckoutPage() {
     const { items, totalAmount } = useCart()
     const [clientSecret, setClientSecret] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
+
+    // Guard: only load Stripe if we have a real key (pk_test_ or pk_live_)
+    const stripePromise = useMemo(() => {
+        const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
+        if (key.startsWith("pk_test_") || key.startsWith("pk_live_")) {
+            return loadStripe(key)
+        }
+        return null
+    }, [])
 
     const totalOriginal = items.reduce((acc, item) => acc + item.price * item.quantity * 2, 0)
     const savings = totalOriginal - totalAmount
@@ -84,10 +93,10 @@ export default function CheckoutPage() {
                         <Link href="/product" className="text-primary underline font-semibold">Voir les produits →</Link>
                     </div>
                 ) : (
-                    <div className="grid lg:grid-cols-[1fr_420px] gap-10 items-start">
+                    <div className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-10 items-start">
 
                         {/* LEFT: Payment form */}
-                        <div className="space-y-6">
+                        <div className="space-y-4 lg:space-y-6 order-2 lg:order-1">
                             {/* Express checkout */}
                             <div className="bg-white rounded-2xl border p-6 shadow-sm">
                                 <p className="text-sm font-bold text-center text-muted-foreground mb-4 uppercase tracking-wider">Paiement Express</p>
@@ -121,9 +130,13 @@ export default function CheckoutPage() {
 
                                 {loading ? (
                                     <div className="space-y-4 animate-pulse">
-                                        {[120, 200, 160, 200].map((w, i) => (
-                                            <div key={i} className="h-12 bg-gray-100 rounded-lg" style={{ width: w + "px" >= "100%" ? "100%" : "100%" }} />
+                                        {[1, 2, 3, 4].map((i) => (
+                                            <div key={i} className="h-12 bg-gray-100 rounded-lg w-full" />
                                         ))}
+                                    </div>
+                                ) : !stripePromise ? (
+                                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-amber-800 text-sm font-semibold">
+                                        ⚙️ Paiement non configuré — Ajoutez votre clé Stripe dans <code>.env</code>
                                     </div>
                                 ) : error ? (
                                     <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm font-semibold">
@@ -138,7 +151,7 @@ export default function CheckoutPage() {
                         </div>
 
                         {/* RIGHT: Order summary */}
-                        <div className="space-y-4">
+                        <div className="space-y-4 order-1 lg:order-2">
                             <div className="bg-white rounded-2xl border p-6 shadow-sm space-y-4">
                                 <h2 className="font-black text-base uppercase tracking-wide">Résumé de la commande</h2>
 

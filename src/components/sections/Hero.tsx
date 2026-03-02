@@ -16,10 +16,10 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     }
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32">
-            <div className="container px-4 md:px-6 mx-auto overflow-x-hidden">
+        <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32 w-full">
+            <div className="w-full max-w-7xl px-4 md:px-6 mx-auto">
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-                    <div className="flex flex-col justify-center space-y-8 text-center lg:text-left">
+                    <div className="flex flex-col justify-center space-y-8 text-center lg:text-left w-full min-w-0">
                         <div className="space-y-4">
                             <div className="inline-flex items-center rounded-sm border px-3 py-1 text-xs font-black uppercase text-primary bg-primary/10 mb-4 transition-colors">
                                 {texts?.heroBadge || "🎉 Nouvelle Technologie 2024"}
@@ -28,7 +28,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                                 {texts?.heroTitle || "Marchez Sans Douleur."}<br />
                                 <span className="text-primary">{texts?.heroTitleHighlight || "Dès Aujourd'hui."}</span>
                             </h1>
-                            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0 whitespace-pre-wrap">
+                            <p className="w-full text-muted-foreground text-sm md:text-base xl:text-xl/relaxed mx-auto lg:mx-0">
                                 {texts?.heroSubtitle || "Semelles orthopédiques premium conçues pour réaligner votre posture, absorber les chocs et éliminer instantanément les douleurs aux pieds, aux genoux et au dos."}
                             </p>
                         </div>
