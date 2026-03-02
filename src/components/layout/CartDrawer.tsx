@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/store/CartContext";
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export function CartDrawer({ t }: { t: Record<string, string> }) {
     const { items, removeFromCart, updateQuantity, isCartOpen, setCartOpen, totalAmount } = useCart();
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const [countdown, setCountdown] = useState(4 * 60 + 48); // 4 min 48 sec
 
     useEffect(() => {
@@ -31,26 +33,9 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
     }, 0);
     const savings = totalOriginal - totalAmount;
 
-    const handleCheckout = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items })
-            });
-            const data = await response.json();
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                toast.error(data.error || "Erreur lors du paiement")
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("Impossible de contacter le serveur. Vérifiez votre connexion.")
-        } finally {
-            setIsLoading(false);
-        }
+    const handleCheckout = () => {
+        setCartOpen(false);
+        router.push("/checkout");
     };
 
     return (
