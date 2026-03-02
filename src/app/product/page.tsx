@@ -41,8 +41,9 @@ export default async function ProductPage() {
 
     const productImages = dbProduct?.images?.length ? dbProduct.images : [
         "/temu-product.jpg",
-        "https://images.unsplash.com/photo-1610961071248-8d34c7ae68d0?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop"
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop"
     ]
 
     return (
@@ -67,16 +68,16 @@ export default async function ProductPage() {
                     <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">Tous les jours. Toutes les Chaussures.</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop" alt="Insole running shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Running</div>
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop" alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Sport &amp; Running</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?q=80&w=1200&auto=format&fit=crop" alt="Insole everyday shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Quotidien</div>
+                            <img src="https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop" alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Marche Quotidienne</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="https://images.unsplash.com/photo-1610961071248-8d34c7ae68d0?q=80&w=1200&auto=format&fit=crop" alt="Insole work shoes" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail</div>
+                            <img src="https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop" alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail &amp; Bureau</div>
                         </div>
                     </div>
                 </div>

@@ -17,14 +17,14 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
 
     return (
         <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32">
-            <div className="container px-4 md:px-6 mx-auto">
+            <div className="container px-4 md:px-6 mx-auto overflow-x-hidden">
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
                     <div className="flex flex-col justify-center space-y-8 text-center lg:text-left">
                         <div className="space-y-4">
                             <div className="inline-flex items-center rounded-sm border px-3 py-1 text-xs font-black uppercase text-primary bg-primary/10 mb-4 transition-colors">
                                 {texts?.heroBadge || "🎉 Nouvelle Technologie 2024"}
                             </div>
-                            <h1 className="text-5xl font-black tracking-tighter sm:text-6xl xl:text-7xl">
+                            <h1 className="text-4xl font-black tracking-tighter sm:text-5xl xl:text-7xl break-words">
                                 {texts?.heroTitle || "Marchez Sans Douleur."}<br />
                                 <span className="text-primary">{texts?.heroTitleHighlight || "Dès Aujourd'hui."}</span>
                             </h1>
@@ -33,24 +33,24 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-4 pb-2 justify-center lg:justify-start">
+                        <div className="flex items-center gap-3 pb-2 justify-center lg:justify-start flex-wrap">
                             <div className="flex flex-col">
-                                <span className="text-5xl font-black text-primary">24,99€</span>
-                                <span className="text-lg font-black line-through text-muted-foreground decoration-foreground/40">49,99€</span>
+                                <span className="text-4xl sm:text-5xl font-black text-primary">24,99€</span>
+                                <span className="text-base sm:text-lg font-black line-through text-muted-foreground decoration-foreground/40">49,99€</span>
                             </div>
-                            <div className="bg-black text-white font-black px-4 py-2 rounded-sm text-sm uppercase tracking-wider animate-pulse flex flex-col items-center">
+                            <div className="bg-black text-white font-black px-3 py-2 rounded-sm text-xs sm:text-sm uppercase tracking-wider animate-pulse flex flex-col items-center shrink-0">
                                 <span>-50% DE RÉDUCTION</span>
                                 <span className="text-primary text-xs">OFFRE LIMITÉE</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-3 min-[400px]:flex-row justify-center lg:justify-start pt-2">
-                            <Button size="lg" className="rounded-xl font-black uppercase tracking-wider h-16 px-10 text-xl shadow-[0_8px_30px_rgb(255,102,0,0.4)] hover:shadow-[0_8px_30px_rgb(255,102,0,0.6)] hover:-translate-y-1 transition-all w-full sm:w-auto" asChild>
+                        <div className="flex flex-col gap-3 sm:flex-row justify-center lg:justify-start pt-2">
+                            <Button size="lg" className="rounded-xl font-black uppercase tracking-wider h-14 sm:h-16 px-6 sm:px-10 text-lg sm:text-xl shadow-[0_8px_30px_rgb(255,102,0,0.4)] hover:shadow-[0_8px_30px_rgb(255,102,0,0.6)] hover:-translate-y-1 transition-all w-full sm:w-auto" asChild>
                                 <Link href="/product">
-                                    Commander Maintenant <ArrowRight className="ml-2 h-6 w-6" />
+                                    Commander Maintenant <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
                             </Button>
-                            <Button size="lg" variant="outline" className="rounded-xl font-black uppercase h-16 px-8 text-lg w-full sm:w-auto border-2 hover:bg-muted" asChild>
+                            <Button size="lg" variant="outline" className="rounded-xl font-black uppercase h-12 sm:h-16 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto border-2 hover:bg-muted" asChild>
                                 <Link href="#faq">Questions ?</Link>
                             </Button>
                         </div>
