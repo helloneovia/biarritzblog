@@ -11,7 +11,8 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Save, Globe } from "lucide-react";
+import { Save, Globe, UploadCloud, X, Video, Image as ImageIcon } from "lucide-react";
+import { useRef } from "react";
 
 type Locale = "EN" | "FR" | "ES";
 const LOCALES: { code: Locale; label: string; flag: string }[] = [
@@ -66,6 +67,90 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
 };
 
 type SiteConfig = { id: string; currencyCode: string; language: string; contactEmail: string; homeTitle: string; texts: any; };
+
+function ImageUploadField({ label, value, onChange }: { label: string; value: string; onChange: (url: string) => void }) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+            if (!res.ok) throw new Error("Upload failed");
+            const data = await res.json();
+            onChange(data.url);
+        } catch {
+            alert("Erreur lors de l'upload.");
+        } finally {
+            setUploading(false);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+        }
+    };
+
+    return (
+        <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground block">{label}</label>
+            <div className="flex items-start gap-4">
+                {value ? (
+                    <div className="relative aspect-video w-40 rounded-xl overflow-hidden border border-gray-200 group bg-gray-50 flex-shrink-0">
+                        {value.match(/\.(mp4|webm)$/i) ? (
+                            <div className="relative w-full h-full">
+                                <video src={value} className="w-full h-full object-cover" muted />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Video className="text-white h-6 w-6" /></div>
+                            </div>
+                        ) : (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={value} alt="media" className="w-full h-full object-cover" />
+                        )}
+                        <button
+                            onClick={() => onChange("")}
+                            className="absolute top-1 right-1 bg-white/90 text-red-600 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50"
+                        >
+                            <X className="h-3 w-3" />
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="aspect-video w-40 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 hover:border-indigo-500 hover:bg-indigo-50 transition-colors text-gray-500 hover:text-indigo-600 flex-shrink-0"
+                    >
+                        {uploading ? (
+                            <div className="h-5 w-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                            <>
+                                <UploadCloud className="h-6 w-6" />
+                                <span className="text-[10px] font-bold uppercase tracking-wider">Upload</span>
+                            </>
+                        )}
+                    </button>
+                )}
+                <div className="flex-1 space-y-2">
+                    <input
+                        type="text"
+                        value={value}
+                        onChange={e => onChange(e.target.value)}
+                        placeholder="...ou collez une URL cible"
+                        className="w-full px-3 py-2 rounded-lg border text-xs focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none"
+                    />
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        accept="image/*,video/mp4,video/webm"
+                        onChange={handleFileUpload}
+                    />
+                    <p className="text-[10px] text-gray-500 leading-tight">Glissez-déposez, cliquez pour uploader, ou collez une URL. Formats : JPG, PNG, WEBP, MP4.</p>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
     const [currencyCode, setCurrencyCode] = useState(initialConfig.currencyCode);
@@ -179,13 +264,13 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                     {/* Hero */}
                     <div className="space-y-3">
                         <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Section Hero</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.heroBadge} onChange={e => updateText("heroBadge", e.target.value)} /></div>
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre Surligné</label><input className={inputClass} value={texts.heroTitleHighlight} onChange={e => updateText("heroTitleHighlight", e.target.value)} /></div>
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre Principal</label><input className={inputClass} value={texts.heroTitle} onChange={e => updateText("heroTitle", e.target.value)} /></div>
-                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image Hero (URL)</label><input className={inputClass} value={texts.heroImage} onChange={e => updateText("heroImage", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.heroSubtitle} onChange={e => updateText("heroSubtitle", e.target.value)} /></div>
                         </div>
-                        <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.heroSubtitle} onChange={e => updateText("heroSubtitle", e.target.value)} /></div>
+                        <ImageUploadField label="Image Hero" value={texts.heroImage || ""} onChange={url => updateText("heroImage", url)} />
                     </div>
 
                     {/* Features */}
@@ -217,13 +302,19 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                         </div>
                     </div>
 
+                    {/* Science Image */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Image de L&apos;art Ancien (Page d&apos;accueil)</h4>
+                        <ImageUploadField label="Image Science" value={texts.scienceImage || ""} onChange={url => updateText("scienceImage", url)} />
+                    </div>
+
                     {/* Lifestyle Images */}
                     <div className="space-y-3 pt-4 border-t">
-                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Images Lifestyle (Page Produit)</h4>
-                        <div className="grid grid-cols-1 gap-3">
-                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 1 (Sport) URL</label><input className={inputClass} value={texts.lifestyle1 || ""} onChange={e => updateText("lifestyle1", e.target.value)} /></div>
-                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 2 (Quotidien) URL</label><input className={inputClass} value={texts.lifestyle2 || ""} onChange={e => updateText("lifestyle2", e.target.value)} /></div>
-                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Image 3 (Travail) URL</label><input className={inputClass} value={texts.lifestyle3 || ""} onChange={e => updateText("lifestyle3", e.target.value)} /></div>
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Images Lifestyle (Page d&apos;accueil & Produit)</h4>
+                        <div className="grid grid-cols-1 gap-6">
+                            <ImageUploadField label="Image 1 (Sport)" value={texts.lifestyle1 || ""} onChange={url => updateText("lifestyle1", url)} />
+                            <ImageUploadField label="Image 2 (Quotidien)" value={texts.lifestyle2 || ""} onChange={url => updateText("lifestyle2", url)} />
+                            <ImageUploadField label="Image 3 (Travail)" value={texts.lifestyle3 || ""} onChange={url => updateText("lifestyle3", url)} />
                         </div>
                     </div>
                 </CardContent>

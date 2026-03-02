@@ -45,6 +45,7 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         scienceB3: "Promotes deep, restorative sleep",
         customersCount: "Over 50,000+ happy customers",
         topSeller: "Best Seller", topSellerSub: "Recommended by experts",
+        scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024",
@@ -80,6 +81,7 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         scienceB3: "Favorise un sommeil profond et réparateur",
         customersCount: "Plus de 50 000+ clients satisfaits",
         topSeller: "N°1 des Ventes", topSellerSub: "Recommandé par les experts",
+        scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024",
@@ -115,6 +117,7 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         scienceB3: "Promueve un sueño profundo y reparador",
         customersCount: "Más de 50,000+ clientes satisfechos",
         topSeller: "Más Vendido", topSellerSub: "Recomendado por expertos",
+        scienceImage: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
     },
 }
 
