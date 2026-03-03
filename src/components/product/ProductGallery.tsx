@@ -6,9 +6,7 @@ import { ZoomIn, X, Video } from "lucide-react"
 export function ProductGallery({ productImages }: { productImages?: string[] | null }) {
     const fallbackImages = [
         "/temu-product.jpg",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop"
+        "/insole-angle.png",
     ]
 
     // Use DB images if available, else fall back to insole-specific images

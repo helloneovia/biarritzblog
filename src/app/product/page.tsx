@@ -51,14 +51,9 @@ export default async function ProductPage() {
 
     const productImages = dbProduct?.images?.length ? dbProduct.images : [
         "/temu-product.jpg",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop"
+        "/insole-angle.png",
     ]
 
-    const lsImg1 = t.lifestyle1 || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop";
-    const lsImg2 = t.lifestyle2 || "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop";
-    const lsImg3 = t.lifestyle3 || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop";
 
     return (
         <main className="py-12 md:py-24">
@@ -84,34 +79,16 @@ export default async function ProductPage() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            {lsImg1.match(/\.(mp4|webm)$/i) ? (
-                                <video src={lsImg1} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
-                            ) : (
-                                <img src={lsImg1} alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            )}
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
-                                {t.lifestyle1Label || "Sport & Running"}
-                            </div>
+                            <img src="/insole-running.png" alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Sport &amp; Running</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            {lsImg2.match(/\.(mp4|webm)$/i) ? (
-                                <video src={lsImg2} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
-                            ) : (
-                                <img src={lsImg2} alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            )}
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
-                                {t.lifestyle2Label || "Marche Quotidienne"}
-                            </div>
+                            <img src="/insole-daily.png" alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Marche Quotidienne</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            {lsImg3.match(/\.(mp4|webm)$/i) ? (
-                                <video src={lsImg3} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
-                            ) : (
-                                <img src={lsImg3} alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
-                            )}
-                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">
-                                {t.lifestyle3Label || "Travail & Bureau"}
-                            </div>
+                            <img src="/insole-work.png" alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail &amp; Bureau</div>
                         </div>
                     </div>
                 </div>
