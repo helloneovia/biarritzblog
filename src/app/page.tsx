@@ -29,6 +29,12 @@ export default async function Home() {
   // For now, I'll use 'texts' where 't' was indicated in the provided snippet,
   // and keep the original 'texts' variable for the CTA section.
 
+  // Helper: only use CMS value if it's a local path or video (not a broken Unsplash URL)
+  const localOrFallback = (cmsVal: string | undefined, fallback: string) =>
+    cmsVal && (cmsVal.startsWith('/') || cmsVal.startsWith('http://') || cmsVal.match(/\.(mp4|webm)$/i))
+      ? cmsVal
+      : fallback
+
   return (
     <main>
       <Hero texts={texts} dbProduct={dbProduct} />
@@ -64,10 +70,10 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              {(texts.scienceImage || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+              {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <img src={texts.scienceImage || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop"} alt="Acupressure visual" className="w-full h-full object-cover" />
+                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover" />
               )}
             </div>
           </div>
@@ -82,9 +88,9 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { img: texts.lifestyle1 || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle1Label || "Sport & Running" },
-              { img: texts.lifestyle2 || "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle2Label || "Marche Quotidienne" },
-              { img: texts.lifestyle3 || "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop", label: texts.lifestyle3Label || "Travail & Bureau" }
+              { img: localOrFallback(texts.lifestyle1, "/insole-running.png"), label: texts.lifestyle1Label || "Sport & Running" },
+              { img: localOrFallback(texts.lifestyle2, "/insole-daily.png"), label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: localOrFallback(texts.lifestyle3, "/insole-work.png"), label: texts.lifestyle3Label || "Travail & Bureau" }
             ].map((item, i) => (
               <div key={i} className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 {item.img.match(/\.(mp4|webm)$/i) ? (
