@@ -3,16 +3,15 @@ import Link from "next/link"
 import { ArrowRight, Star } from "lucide-react"
 
 export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }) {
-    const defaultWhiteShoeId = "1608231387042-66d1773070a5";
-    const hasCustomHeroImage = texts?.heroImage && !texts.heroImage.includes(defaultWhiteShoeId);
+    // Priority: 1) CMS heroImage (set by admin), 2) DB product image, 3) generic fallback
+    let heroSrc: string;
 
-    // Prioritize the actual product image over the generic white shoe placeholder
-    let heroSrc = "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2620&auto=format&fit=crop"; // Zen generic
-
-    if (hasCustomHeroImage) {
+    if (texts?.heroImage && texts.heroImage.trim() !== "") {
         heroSrc = texts.heroImage;
     } else if (dbProduct?.images?.[0] && dbProduct.images[0].trim() !== "") {
         heroSrc = dbProduct.images[0];
+    } else {
+        heroSrc = "/temu-product.jpg";
     }
 
     return (

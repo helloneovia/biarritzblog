@@ -29,9 +29,9 @@ export default async function Home() {
   // For now, I'll use 'texts' where 't' was indicated in the provided snippet,
   // and keep the original 'texts' variable for the CTA section.
 
-  // Helper: only use CMS value if it's a local path or video (not a broken Unsplash URL)
+  // Helper: use CMS value if it's any valid URL or local path, not an empty string
   const localOrFallback = (cmsVal: string | undefined, fallback: string) =>
-    cmsVal && (cmsVal.startsWith('/') || cmsVal.startsWith('http://') || cmsVal.match(/\.(mp4|webm)$/i))
+    cmsVal && cmsVal.trim() !== ''
       ? cmsVal
       : fallback
 
