@@ -11,7 +11,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     } else if (dbProduct?.images?.[0] && dbProduct.images[0].trim() !== "") {
         heroSrc = dbProduct.images[0];
     } else {
-        heroSrc = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop";
+        heroSrc = "/temu-product.jpg";
     }
 
     return (

@@ -44,10 +44,10 @@ export default async function Home() {
       {/* Visual Break - Science section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
-          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+          {(texts.scienceBgImage || "/insole-science.png").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
+            <img src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" className="w-full h-full object-cover" />
           )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -71,10 +71,10 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              {(localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800&auto=format&fit=crop")).match(/\.(mp4|webm)$/i) ? (
+              {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <img src={localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800&auto=format&fit=crop")} alt="Acupressure visual" className="w-full h-full object-cover" />
+                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover" />
               )}
             </div>
           </div>
@@ -89,9 +89,9 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { img: localOrFallback(texts.lifestyle1, "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle1Label || "Sport & Running" },
-              { img: localOrFallback(texts.lifestyle2, "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle2Label || "Marche Quotidienne" },
-              { img: localOrFallback(texts.lifestyle3, "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle3Label || "Travail & Bureau" }
+              { img: localOrFallback(texts.lifestyle1, "/insole-running.png"), label: texts.lifestyle1Label || "Sport & Running" },
+              { img: localOrFallback(texts.lifestyle2, "/insole-daily.png"), label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: localOrFallback(texts.lifestyle3, "/insole-work.png"), label: texts.lifestyle3Label || "Travail & Bureau" }
             ].map((item, i) => (
               <div key={i} className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 {item.img.match(/\.(mp4|webm)$/i) ? (
