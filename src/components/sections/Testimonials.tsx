@@ -8,36 +8,42 @@ const FALLBACK_REVIEWS = [
         content: "J'ai souffert d'aponévrosite plantaire pendant 3 ans. Ces semelles ont changé ma vie en une semaine. Je peux enfin promener mon chien sans pleurer de douleur.",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=47",
     },
     {
         author: "DAVID K.",
         content: "Travailler 10 heures par jour sur un sol en béton m'a ruiné les genoux. Ces semelles absorbent complètement les chocs. Hautement recommandé !",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=12",
     },
     {
         author: "EMMA L.",
         content: "J'étais sceptique, mais le soutien de la voûte plantaire est incroyable. Elles s'adaptent parfaitement à mes chaussures de course !",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=25",
     },
     {
         author: "THOMAS B.",
         content: "Le soulagement a été quasi instantané. Finit les douleurs intenses le matin au réveil. Je le conseille à tous mes collègues.",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=56",
     },
     {
         author: "JULIE R.",
         content: "Après avoir dépensé des fortunes chez le podologue, ces semelles sont une véritable révélation. Très confortables et de bonne qualité.",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=38",
     },
     {
         author: "MARC P.",
         content: "Elles se glissent facilement dans mes chaussures de sécurité. Depuis, je n'ai plus mal au dos en fin de journée. Un grand merci !",
         rating: 5,
         isVerified: true,
+        avatar: "https://i.pravatar.cc/80?img=68",
     }
 ]
 
@@ -83,8 +89,12 @@ export async function Testimonials() {
                             </div>
                             <p className="italic text-muted-foreground mb-6 min-h-[80px]">&quot;{review.content}&quot;</p>
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                                    {review.author.charAt(0)}
+                                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20 bg-muted shrink-0">
+                                    <img
+                                        src={(review as any).avatar || `https://i.pravatar.cc/80?img=${idx + 10}`}
+                                        alt={review.author}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
                                 <div>
                                     <p className="font-bold text-sm">{review.author}</p>

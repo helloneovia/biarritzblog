@@ -44,10 +44,10 @@ export default async function Home() {
       {/* Visual Break - Science section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
-          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
+            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
           )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -71,10 +71,10 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              {(localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop")).match(/\.(mp4|webm)$/i) ? (
+              {(localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800&auto=format&fit=crop")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <img src={localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop")} alt="Acupressure visual" className="w-full h-full object-cover" />
+                <img src={localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800&auto=format&fit=crop")} alt="Acupressure visual" className="w-full h-full object-cover" />
               )}
             </div>
           </div>
@@ -90,8 +90,8 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { img: localOrFallback(texts.lifestyle1, "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle1Label || "Sport & Running" },
-              { img: localOrFallback(texts.lifestyle2, "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle2Label || "Marche Quotidienne" },
-              { img: localOrFallback(texts.lifestyle3, "https://images.unsplash.com/photo-15076ec630441-2c1ed1efae3f?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle3Label || "Travail & Bureau" }
+              { img: localOrFallback(texts.lifestyle2, "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: localOrFallback(texts.lifestyle3, "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle3Label || "Travail & Bureau" }
             ].map((item, i) => (
               <div key={i} className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 {item.img.match(/\.(mp4|webm)$/i) ? (
@@ -108,6 +108,38 @@ export default async function Home() {
 
       <ReasonsToBuy texts={texts} />
       <Testimonials />
+
+      {/* 30-Day Money-Back Guarantee Section */}
+      <section className="py-16 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border-y border-green-200 dark:border-green-800">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+            <div className="flex-shrink-0 flex items-center justify-center w-36 h-36 rounded-full bg-white dark:bg-green-900/50 border-4 border-green-400 shadow-lg shadow-green-200/50 dark:shadow-green-900">
+              <div className="text-center">
+                <p className="text-4xl font-black text-green-600">30</p>
+                <p className="text-xs font-bold text-green-700 uppercase tracking-widest">Jours</p>
+              </div>
+            </div>
+            <div className="text-center md:text-left max-w-xl">
+              <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full mb-3">
+                <CheckCircle2 className="w-4 h-4" /> Garantie Sans Risque
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3">
+                {texts?.guaranteeTitle || "Satisfait ou Remboursé — 30 Jours"}
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                {texts?.guaranteeDesc || "Nous sommes tellement convaincus de l'efficacité de nos semelles que nous vous offrons 30 jours pour les essayer sans aucun risque. Si vous n'êtes pas soulagé, nous vous remboursons intégralement — aucune question posée, retour simple et gratuit."}
+              </p>
+              <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
+                {["Retour 100% Gratuit", "Remboursement Rapide", "Aucune Question Posée"].map((item, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 dark:text-green-400">
+                    <CheckCircle2 className="w-4 h-4" /> {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-primary text-primary-foreground">
