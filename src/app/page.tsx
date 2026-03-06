@@ -3,6 +3,7 @@ import { Features } from "@/components/sections/Features"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { Faq } from "@/components/sections/Faq"
 import { ReasonsToBuy } from "@/components/sections/ReasonsToBuy"
+import { InsoleGallery } from "@/components/sections/InsoleGallery"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
 import { CheckCircle2 } from "lucide-react"
@@ -107,33 +108,52 @@ export default async function Home() {
       </section>
 
       <ReasonsToBuy texts={texts} />
+      <InsoleGallery texts={texts} />
       <Testimonials />
 
-      {/* 30-Day Money-Back Guarantee Section */}
-      <section className="py-16 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border-y border-green-200 dark:border-green-800">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            <div className="flex-shrink-0 flex items-center justify-center w-36 h-36 rounded-full bg-white dark:bg-green-900/50 border-4 border-green-400 shadow-lg shadow-green-200/50 dark:shadow-green-900">
-              <div className="text-center">
-                <p className="text-4xl font-black text-green-600">30</p>
-                <p className="text-xs font-bold text-green-700 uppercase tracking-widest">Jours</p>
+      {/* 30-Day Money-Back Guarantee Section (ACCENTUATED) */}
+      <section className="py-24 bg-[#0a2e1f] text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-green-500/30" />
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-500 rounded-full blur-[120px]" />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 lg:gap-24">
+            <div className="flex-shrink-0 relative">
+              <div className="absolute inset-0 bg-green-500/20 rounded-full blur-2xl animate-pulse" />
+              <div className="relative flex items-center justify-center w-48 h-48 rounded-full bg-[#11402c] border-[6px] border-[#1b5e3a] shadow-2xl">
+                <div className="text-center">
+                  <p className="text-6xl font-black text-green-400">30</p>
+                  <p className="text-sm font-black text-green-200 uppercase tracking-widest -mt-1">JOURS</p>
+                  <p className="text-[10px] font-bold text-green-500 uppercase tracking-tight mt-1">Garantie</p>
+                </div>
               </div>
             </div>
-            <div className="text-center md:text-left max-w-xl">
-              <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full mb-3">
-                <CheckCircle2 className="w-4 h-4" /> Garantie Sans Risque
+
+            <div className="text-center md:text-left max-w-2xl">
+              <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full mb-6 border border-green-500/30">
+                <CheckCircle2 className="w-5 h-5" /> 100% Sans Risque
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3">
-                {texts?.guaranteeTitle || "Satisfait ou Remboursé — 30 Jours"}
+              <h2 className="text-3xl sm:text-5xl font-black text-white mb-6 leading-tight">
+                {texts?.guaranteeTitle || "Satisfait ou Intégralement Remboursé"}
               </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {texts?.guaranteeDesc || "Nous sommes tellement convaincus de l'efficacité de nos semelles que nous vous offrons 30 jours pour les essayer sans aucun risque. Si vous n'êtes pas soulagé, nous vous remboursons intégralement — aucune question posée, retour simple et gratuit."}
+              <p className="text-green-50/70 text-lg leading-relaxed mb-8">
+                {texts?.guaranteeDesc || "Nous ne prenons pas votre confiance à la légère. Utilisez nos semelles pendant un mois complet. Si vous n'êtes pas absolument stupéfait par la réduction de vos douleurs, renvoyez-les. Nous vous remboursons chaque centime, sans poser une seule question."}
               </p>
-              <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
-                {["Retour 100% Gratuit", "Remboursement Rapide", "Aucune Question Posée"].map((item, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 dark:text-green-400">
-                    <CheckCircle2 className="w-4 h-4" /> {item}
-                  </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-green-500/20">
+                {[
+                  { label: "Remboursement Cash", sub: "Sous 48h ouvrées" },
+                  { label: "Aucun Justificatif", sub: "Liberté totale" },
+                  { label: "Retour Facile", sub: "Étiquette prépayée" }
+                ].map((item, i) => (
+                  <div key={i} className="space-y-1">
+                    <p className="font-black text-green-400 flex items-center gap-2 justify-center md:justify-start uppercase text-xs tracking-wider">
+                      <CheckCircle2 className="w-4 h-4" /> {item.label}
+                    </p>
+                    <p className="text-[10px] text-green-100/50 font-bold uppercase tracking-widest">{item.sub}</p>
+                  </div>
                 ))}
               </div>
             </div>

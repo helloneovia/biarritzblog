@@ -54,11 +54,28 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             </Button>
                         </div>
 
-                        <div className="flex justify-center lg:justify-start pt-1">
-                            <p className="text-sm font-semibold flex items-center gap-2 text-green-600 bg-green-500/10 px-3 py-1.5 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
-                                {texts?.heroGuarantee || "Garantie 30 Jours Satisfait ou Remboursé"}
-                            </p>
+                        <div className="flex justify-center lg:justify-start pt-2">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center gap-3 bg-green-500/10 border-2 border-green-500/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl shadow-sm">
+                                    <div className="bg-green-500 text-white rounded-full p-1.5 shrink-0 shadow-lg shadow-green-200/50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                                    </div>
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-sm font-black uppercase tracking-tight">{texts?.heroGuarantee || "Garantie 30 Jours"}</span>
+                                        <span className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Satisfait ou Remboursé</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 text-muted-foreground opacity-60 grayscale hover:grayscale-0 transition-all cursor-default overflow-hidden px-1">
+                                    <div className="flex items-center gap-1.5 border-r pr-4 border-muted-foreground/20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>
+                                        <span className="text-[10px] font-bold uppercase tracking-widest leading-none">Paiement Sécurisé</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 18l-3-3 3-3" /><path d="M2 15h20l-3 3 3-3" /><path d="M19 12l3 3-3 3" /></svg>
+                                        <span className="text-[10px] font-bold uppercase tracking-widest leading-none">Livraison Suivie</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start pt-6 mb-4 gap-4">
