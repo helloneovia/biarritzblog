@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/Hero"
 import { Features } from "@/components/sections/Features"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { Faq } from "@/components/sections/Faq"
+import { ReasonsToBuy } from "@/components/sections/ReasonsToBuy"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
 import { CheckCircle2 } from "lucide-react"
@@ -43,10 +44,10 @@ export default async function Home() {
       {/* Visual Break - Science section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
-          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
+          {(texts.scienceBgImage || "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2400&auto=format&fit=crop").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
+            <img src={texts.scienceBgImage || "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2400&auto=format&fit=crop"} alt="Background Texture" className="w-full h-full object-cover" />
           )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -70,10 +71,10 @@ export default async function Home() {
               </ul>
             </div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/3]">
-              {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
+              {(localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover" />
+                <img src={localOrFallback(texts.scienceImage, "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop")} alt="Acupressure visual" className="w-full h-full object-cover" />
               )}
             </div>
           </div>
@@ -88,9 +89,9 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { img: localOrFallback(texts.lifestyle1, "/insole-running.png"), label: texts.lifestyle1Label || "Sport & Running" },
-              { img: localOrFallback(texts.lifestyle2, "/insole-daily.png"), label: texts.lifestyle2Label || "Marche Quotidienne" },
-              { img: localOrFallback(texts.lifestyle3, "/insole-work.png"), label: texts.lifestyle3Label || "Travail & Bureau" }
+              { img: localOrFallback(texts.lifestyle1, "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle1Label || "Sport & Running" },
+              { img: localOrFallback(texts.lifestyle2, "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: localOrFallback(texts.lifestyle3, "https://images.unsplash.com/photo-15076ec630441-2c1ed1efae3f?q=80&w=800&auto=format&fit=crop"), label: texts.lifestyle3Label || "Travail & Bureau" }
             ].map((item, i) => (
               <div key={i} className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 {item.img.match(/\.(mp4|webm)$/i) ? (
@@ -105,6 +106,7 @@ export default async function Home() {
         </div>
       </section>
 
+      <ReasonsToBuy texts={texts} />
       <Testimonials />
 
       {/* CTA Section */}
@@ -129,7 +131,13 @@ export default async function Home() {
               {texts.ctaButton || "Obtenir ma paire avec -50%"} <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <p className="text-sm opacity-80 mt-4">{texts.ctaGuarantee || "Garantie Satisfait ou Remboursé de 30 Jours"}</p>
+          <div className="flex flex-col items-center gap-2 mt-4">
+            <p className="text-sm font-bold bg-green-500/20 text-green-300 px-4 py-1.5 rounded-full inline-flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" />
+              {texts.ctaGuarantee || "Garantie Satisfait ou Remboursé de 30 Jours"}
+            </p>
+            <p className="text-xs opacity-70">Sans risque, retour facile et gratuit.</p>
+          </div>
         </div>
       </section>
 

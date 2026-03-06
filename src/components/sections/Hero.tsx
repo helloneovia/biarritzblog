@@ -11,7 +11,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     } else if (dbProduct?.images?.[0] && dbProduct.images[0].trim() !== "") {
         heroSrc = dbProduct.images[0];
     } else {
-        heroSrc = "/temu-product.jpg";
+        heroSrc = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop";
     }
 
     return (
@@ -52,6 +52,13 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             <Button size="lg" variant="outline" className="rounded-xl font-black uppercase h-12 sm:h-16 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto border-2 hover:bg-muted" asChild>
                                 <Link href="#faq">Questions ?</Link>
                             </Button>
+                        </div>
+
+                        <div className="flex justify-center lg:justify-start pt-1">
+                            <p className="text-sm font-semibold flex items-center gap-2 text-green-600 bg-green-500/10 px-3 py-1.5 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                                {texts?.heroGuarantee || "Garantie 30 Jours Satisfait ou Remboursé"}
+                            </p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start pt-6 mb-4 gap-4">

@@ -20,6 +20,24 @@ const FALLBACK_REVIEWS = [
         content: "J'étais sceptique, mais le soutien de la voûte plantaire est incroyable. Elles s'adaptent parfaitement à mes chaussures de course !",
         rating: 5,
         isVerified: true,
+    },
+    {
+        author: "THOMAS B.",
+        content: "Le soulagement a été quasi instantané. Finit les douleurs intenses le matin au réveil. Je le conseille à tous mes collègues.",
+        rating: 5,
+        isVerified: true,
+    },
+    {
+        author: "JULIE R.",
+        content: "Après avoir dépensé des fortunes chez le podologue, ces semelles sont une véritable révélation. Très confortables et de bonne qualité.",
+        rating: 5,
+        isVerified: true,
+    },
+    {
+        author: "MARC P.",
+        content: "Elles se glissent facilement dans mes chaussures de sécurité. Depuis, je n'ai plus mal au dos en fin de journée. Un grand merci !",
+        rating: 5,
+        isVerified: true,
     }
 ]
 
@@ -57,8 +75,8 @@ export async function Testimonials() {
                     <p className="text-muted-foreground mt-2 font-medium">Basé sur {displayCount} Avis</p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {reviews.slice(0, 3).map((review, idx) => (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {reviews.slice(0, 6).map((review, idx) => (
                         <div key={idx} className="bg-muted/40 p-8 rounded-3xl border">
                             <div className="flex text-yellow-500 mb-4">
                                 {[...Array(review.rating)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
