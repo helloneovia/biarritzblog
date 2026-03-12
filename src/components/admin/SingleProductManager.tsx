@@ -19,8 +19,8 @@ type Bundle = {
     discount: number; badge: string | null;
 };
 
-export function SingleProductManager({ initialProduct, initialBundle }: {
-    initialProduct: Product | null; initialBundle: Bundle | null;
+export function SingleProductManager({ initialProduct, initialBundles, initialStripeUpsell }: {
+    initialProduct: Product | null; initialBundles: Bundle[]; initialStripeUpsell: string;
 }) {
     // Product state
     const [productId, setProductId] = useState(initialProduct?.id || null);
@@ -31,13 +31,22 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
     const [pImages, setPImages] = useState<string[]>(initialProduct?.images || []);
     const [pFeatures, setPFeatures] = useState(initialProduct?.features?.join("\n") || "");
 
-    // Bundle state (Upsell)
-    const [bundleId, setBundleId] = useState(initialBundle?.id || null);
-    const [bName, setBName] = useState(initialBundle?.name || "");
-    const [bPrice, setBPrice] = useState(initialBundle?.price ? String(initialBundle.price) : "");
-    const [bCompare, setBCompare] = useState(initialBundle?.compareAt ? String(initialBundle.compareAt) : "");
-    const [bBadge, setBBadge] = useState(initialBundle?.badge || "");
-    const [bDiscount, setBDiscount] = useState(initialBundle?.discount ? String(initialBundle.discount) : "");
+    // Bundles state (Quantity Packs)
+    const [packs, setPacks] = useState([1, 2, 3].map(q => {
+        const b = initialBundles?.find(x => x.quantity === q);
+        return {
+            quantity: q, 
+            id: b?.id || "", 
+            name: b?.name || `${q} Paire${q>1?'s':''}`,
+            price: b?.price ? String(b.price) : "",
+            compareAt: b?.compareAt ? String(b.compareAt) : "",
+            discount: b?.discount ? String(b.discount) : "",
+            badge: b?.badge || ""
+        };
+    }));
+
+    // Stripe Upsell state
+    const [stripeUpsell, setStripeUpsell] = useState(initialStripeUpsell || "");
 
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -85,19 +94,30 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
             const pData = await pRes.json();
             if (!productId) setProductId(pData.id);
 
-            // 2. Save Bundle
-            if (bName && bPrice) {
-                const bundleBody = {
-                    name: bName, price: parseFloat(bPrice), quantity: initialBundle?.quantity || 2,
-                    compareAt: bCompare ? parseFloat(bCompare) : null, discount: bDiscount ? parseFloat(bDiscount) : 0, badge: bBadge || null,
-                };
-                const bUrl = bundleId ? `/api/admin/bundles/${bundleId}` : "/api/admin/bundles";
-                const bMethod = bundleId ? "PATCH" : "POST";
-                const bRes = await fetch(bUrl, { method: bMethod, headers: { "Content-Type": "application/json" }, body: JSON.stringify(bundleBody) });
-                if (!bRes.ok) throw new Error("Erreur offre");
-                const bData = await bRes.json();
-                if (!bundleId) setBundleId(bData.id);
+            // 2. Save Bundles
+            const newPacks = [...packs];
+            for (let i = 0; i < newPacks.length; i++) {
+                const pack = newPacks[i];
+                if (pack.price) {
+                    const bundleBody = {
+                        name: pack.name, price: parseFloat(pack.price), quantity: pack.quantity,
+                        compareAt: pack.compareAt ? parseFloat(pack.compareAt) : null, discount: pack.discount ? parseFloat(pack.discount) : 0, badge: pack.badge || null,
+                    };
+                    const bUrl = pack.id ? `/api/admin/bundles/${pack.id}` : "/api/admin/bundles";
+                    const bMethod = pack.id ? "PATCH" : "POST";
+                    const bRes = await fetch(bUrl, { method: bMethod, headers: { "Content-Type": "application/json" }, body: JSON.stringify(bundleBody) });
+                    if (!bRes.ok) throw new Error(`Erreur offre ${pack.quantity}`);
+                    const bData = await bRes.json();
+                    if (!pack.id) {
+                        newPacks[i].id = bData.id;
+                    }
+                }
             }
+            setPacks(newPacks);
+
+            // 3. Save Stripe Upsell
+            const sRes = await fetch("/api/admin/stripe-upsell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ stripeUpsellPriceId: stripeUpsell }) });
+            if (!sRes.ok) throw new Error("Erreur enregistrement de l'Upsell Stripe");
 
             alert("Modifications sauvegardées avec succès !");
         } catch (e: any) { 
@@ -222,46 +242,81 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
                     </div>
                 </div>
 
-                {/* --- UPSELL SECTION --- */}
+                {/* --- PACKS & UPSELL SECTION --- */}
                 <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-gradient-to-b from-indigo-50/50 to-white rounded-3xl border border-indigo-100 shadow-sm overflow-hidden sticky top-28">
+                    {/* Tarifs Dégressifs */}
+                    <div className="bg-gradient-to-b from-indigo-50/50 to-white rounded-3xl border border-indigo-100 shadow-sm overflow-hidden">
                         <div className="bg-indigo-50/80 px-6 py-4 flex items-center gap-3 border-b border-indigo-100">
-                            <div className="bg-white p-2 rounded-xl shadow-sm"><Tag className="h-5 w-5 text-indigo-600" /></div>
+                            <div className="bg-white p-2 rounded-xl shadow-sm"><Package className="h-5 w-5 text-indigo-600" /></div>
                             <div>
-                                <h3 className="font-bold text-lg text-indigo-900">Offre Upsell</h3>
-                                <p className="text-xs text-indigo-600/70">Apparaitra en 2ème option</p>
+                                <h3 className="font-bold text-lg text-indigo-900">Tarifs Dégressifs</h3>
+                                <p className="text-xs text-indigo-600/70">Packs de 1, 2 et 3 paires</p>
+                            </div>
+                        </div>
+                        
+                        <div className="p-6 space-y-4">
+                            {packs.map((pack, index) => (
+                                <div key={pack.quantity} className="p-4 rounded-xl border border-gray-200 bg-gray-50/50 shadow-sm space-y-3">
+                                    <h4 className="font-black text-sm text-gray-900 flex justify-between items-center">
+                                        Pack {pack.quantity} {pack.quantity > 1 ? "Paires" : "Paire"}
+                                    </h4>
+                                    
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Nom affiché</label>
+                                            <Input className="h-8 text-xs bg-white text-gray-900" placeholder="Ex: 2 Paires" value={pack.name} onChange={e => {
+                                                const newPacks = [...packs]; newPacks[index].name = e.target.value; setPacks(newPacks);
+                                            }} />
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Badge</label>
+                                            <Input className="h-8 text-xs bg-white text-gray-900" placeholder="Ex: ÉCONOMISEZ 50%" value={pack.badge} onChange={e => {
+                                                const newPacks = [...packs]; newPacks[index].badge = e.target.value; setPacks(newPacks);
+                                            }} />
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Prix (€)</label>
+                                            <Input className="h-8 text-xs bg-white font-bold text-gray-900" type="number" step="0.01" value={pack.price} onChange={e => {
+                                                const newPacks = [...packs]; newPacks[index].price = e.target.value; setPacks(newPacks);
+                                            }} />
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">Prix barré</label>
+                                            <Input className="h-8 text-xs bg-white text-gray-500" type="number" step="0.01" value={pack.compareAt} onChange={e => {
+                                                const newPacks = [...packs]; newPacks[index].compareAt = e.target.value; setPacks(newPacks);
+                                            }} />
+                                        </div>
+                                    </div>
+                                    {pack.quantity > 1 && (
+                                        <div>
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">% Remise</label>
+                                            <Input className="h-8 text-xs bg-white" type="number" placeholder="Ex: 50" value={pack.discount} onChange={e => {
+                                                const newPacks = [...packs]; newPacks[index].discount = e.target.value; setPacks(newPacks);
+                                            }} />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Stripe Upsell */}
+                    <div className="bg-gradient-to-b from-orange-50/50 to-white rounded-3xl border border-orange-100 shadow-sm overflow-hidden sticky top-28">
+                        <div className="bg-orange-50/80 px-6 py-4 flex items-center gap-3 border-b border-orange-100">
+                            <div className="bg-white p-2 rounded-xl shadow-sm"><Tag className="h-5 w-5 text-orange-600" /></div>
+                            <div>
+                                <h3 className="font-bold text-lg text-orange-900">Upsell Stripe</h3>
+                                <p className="text-xs text-orange-600/70">Sur la page de paiement</p>
                             </div>
                         </div>
                         
                         <div className="p-6 space-y-4">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom de l&apos;offre (HTML supporté)</label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" placeholder="Ex: 2 Paires" value={bName} onChange={e => setBName(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
-                                    <span>Badge Accrocheur (HTML supporté)</span>
-                                    <span className="text-gray-400 font-normal text-xs">Optionnel</span>
-                                </label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" placeholder="Ex: ÉCONOMISEZ 50%" value={bBadge} onChange={e => setBBadge(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
-                                    <span>Prix Total (€)</span>
-                                </label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" step="0.01" value={bPrice} onChange={e => setBPrice(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
-                                    <span>Prix Barré (€)</span>
-                                </label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" step="0.01" value={bCompare} onChange={e => setBCompare(e.target.value)} />
-                            </div>
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
-                                    <span>% Remise affichée</span>
-                                </label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" placeholder="Ex: 50" value={bDiscount} onChange={e => setBDiscount(e.target.value)} />
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">ID du Prix Stripe (price_...)</label>
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 font-mono text-sm shadow-sm" placeholder="Ex: price_1PXXX..." value={stripeUpsell} onChange={e => setStripeUpsell(e.target.value)} />
+                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                                    Copiez cet identifiant depuis votre tableau de bord Stripe pour proposer ce produit additionnel juste avant le paiement (Cross-Sell).
+                                </p>
                             </div>
                         </div>
                     </div>
