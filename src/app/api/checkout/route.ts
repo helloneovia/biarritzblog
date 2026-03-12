@@ -38,7 +38,7 @@ export async function POST(req: Request) {
             shipping_address_collection: {
                 allowed_countries: ["FR", "BE", "CH", "US", "GB", "DE", "IT", "ES"],
             },
-            customer_email: email,
+            ...(email && email !== "guest@example.com" ? { customer_email: email } : {}),
             line_items: items.map((item: any) => {
                 const isValidImage = item.image && typeof item.image === 'string' && item.image.startsWith('https://');
                 return {

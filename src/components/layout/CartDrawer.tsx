@@ -33,9 +33,25 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
     }, 0);
     const savings = totalOriginal - totalAmount;
 
-    const handleCheckout = () => {
-        setCartOpen(false);
-        router.push("/checkout");
+    const handleCheckout = async () => {
+        setIsLoading(true);
+        try {
+            const res = await fetch("/api/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items, email: "guest@example.com" })
+            });
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                toast.error(data.error || "Erreur de paiement checkout");
+                setIsLoading(false);
+            }
+        } catch (e) {
+            toast.error("Erreur de connexion");
+            setIsLoading(false);
+        }
     };
 
     return (

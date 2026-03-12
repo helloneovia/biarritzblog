@@ -17,7 +17,8 @@ export default function CheckoutPage() {
 
     // Guard: only load Stripe if we have a real key (pk_test_ or pk_live_)
     const stripePromise = useMemo(() => {
-        const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
+        let key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
+        key = key.replace(/^=+/, "").trim() // Automatically strip accidental equals signs (e.g. KEY==pk_...)
         if (key.startsWith("pk_test_") || key.startsWith("pk_live_")) {
             return loadStripe(key)
         }
