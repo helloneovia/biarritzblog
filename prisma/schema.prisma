@@ -27,8 +27,14 @@ enum Role {
   AFFILIATE
 }
 
+enum ProductType {
+  MAIN
+  UPSELL
+}
+
 model Product {
   id          String   @id @default(cuid())
+  type        ProductType @default(MAIN)
   name        String
   description String
   price       Float

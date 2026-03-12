@@ -23,11 +23,20 @@ export async function GET() {
 export async function POST(req: Request) {
     if (!await requireAdmin()) return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
     try {
-        const { name, description, price, compareAt, images, features, isPopular } = await req.json()
-        if (!name || !price) return NextResponse.json({ error: "Nom et prix requis" }, { status: 400 })
+        const { name, description, price, compareAt, images, features, isPopular, type } = await req.json()
+        if (!name || price === undefined) return NextResponse.json({ error: "Nom et prix requis" }, { status: 400 })
 
         const product = await prisma.product.create({
-            data: { name, description: description || "", price, compareAt: compareAt ?? null, images: images || [], features: features || [], isPopular: isPopular ?? false },
+            data: { 
+                name, 
+                description: description || "", 
+                price, 
+                compareAt: compareAt ?? null, 
+                images: images || [], 
+                features: features || [], 
+                isPopular: isPopular ?? false,
+                type: type || "MAIN"
+            },
             include: { variants: true }
         })
         return NextResponse.json(product)

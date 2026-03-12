@@ -19,10 +19,10 @@ type Bundle = {
     discount: number; badge: string | null;
 };
 
-export function SingleProductManager({ initialProduct, initialBundles, initialUpsell }: {
-    initialProduct: Product | null; 
-    initialBundles: Bundle[]; 
-    initialUpsell: { active: boolean, title: string, price: number };
+export function SingleProductManager({ initialProduct, initialBundles, initialUpsellProducts }: {
+    initialProduct: any; 
+    initialBundles: any[]; 
+    initialUpsellProducts: any[];
 }) {
     // Product state
     const [productId, setProductId] = useState(initialProduct?.id || null);
@@ -47,10 +47,15 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
         };
     }));
 
-    // Local Upsell state
-    const [upsellActive, setUpsellActive] = useState(initialUpsell?.active ?? false);
-    const [upsellTitle, setUpsellTitle] = useState(initialUpsell?.title || "Livraison Express");
-    const [upsellPrice, setUpsellPrice] = useState(String(initialUpsell?.price || 9.99));
+    // Upsell Products state
+    const [upsells, setUpsells] = useState(initialUpsellProducts?.map(u => ({
+        id: u.id,
+        name: u.name || "",
+        price: u.price ? String(u.price) : "",
+        compareAt: u.compareAt ? String(u.compareAt) : "",
+        image: u.images?.[0] || "",
+        _clientKey: Math.random().toString(36)
+    })) || []);
 
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -77,6 +82,38 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
         }
     };
 
+    const handleUpsellImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+        try {
+            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+            if (!res.ok) throw new Error("Upload failed");
+            const data = await res.json();
+            const newUpsells = [...upsells];
+            newUpsells[index].image = data.url;
+            setUpsells(newUpsells);
+        } catch {
+            alert("Erreur lors de l'upload.");
+        } finally {
+            setUploading(false);
+            e.target.value = "";
+        }
+    };
+
+    const addUpsell = () => setUpsells(prev => [...prev, { id: "", name: "", price: "", compareAt: "", image: "", _clientKey: Math.random().toString() }]);
+    
+    const removeUpsell = async (index: number) => {
+        const u = upsells[index];
+        if (u.id) {
+            if (!confirm("Supprimer cet upsell ?")) return;
+            await fetch(`/api/admin/products/${u.id}`, { method: "DELETE" });
+        }
+        setUpsells(prev => prev.filter((_, i) => i !== index));
+    };
+
     const removeImage = (index: number) => {
         setPImages(prev => prev.filter((_, i) => i !== index));
     };
@@ -88,7 +125,7 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
             const productBody = {
                 name: pName, description: pDesc,
                 price: parseFloat(pPrice), compareAt: pCompare ? parseFloat(pCompare) : null,
-                images: pImages, features: pFeatures.split("\n").map(s => s.trim()).filter(Boolean),
+                images: pImages, features: pFeatures.split("\n").map((s: string) => s.trim()).filter(Boolean),
             };
             
             const pUrl = productId ? `/api/admin/products/${productId}` : "/api/admin/products";
@@ -119,17 +156,27 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
             }
             setPacks(newPacks);
 
-            // 3. Save Custom Upsell Config
-            const sRes = await fetch("/api/admin/stripe-upsell", { 
-                method: "POST", 
-                headers: { "Content-Type": "application/json" }, 
-                body: JSON.stringify({ 
-                    upsellActive, 
-                    upsellTitle, 
-                    upsellPrice: parseFloat(upsellPrice) 
-                }) 
-            });
-            if (!sRes.ok) throw new Error("Erreur enregistrement de l'Upsell");
+            // 3. Save Upsells
+            const newUpsells = [...upsells];
+            for (let i = 0; i < newUpsells.length; i++) {
+                const u = newUpsells[i];
+                if (u.name && u.price) {
+                    const uBody = {
+                        name: u.name,
+                        price: parseFloat(u.price),
+                        compareAt: u.compareAt ? parseFloat(u.compareAt) : null,
+                        images: u.image ? [u.image] : [],
+                        type: "UPSELL"
+                    };
+                    const uUrl = u.id ? `/api/admin/products/${u.id}` : "/api/admin/products";
+                    const uMethod = u.id ? "PATCH" : "POST";
+                    const uRes = await fetch(uUrl, { method: uMethod, headers: { "Content-Type": "application/json" }, body: JSON.stringify(uBody) });
+                    if (!uRes.ok) throw new Error(`Erreur upsell ${u.name}`);
+                    const uData = await uRes.json();
+                    if (!u.id) newUpsells[i].id = uData.id;
+                }
+            }
+            setUpsells(newUpsells);
 
             alert("Modifications sauvegardées avec succès !");
         } catch (e: any) { 
@@ -312,32 +359,62 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
                         </div>
                     </div>
 
-                    {/* Local Upsell / Order Bump */}
+                    {/* Local Upsells */}
                     <div className="bg-gradient-to-b from-orange-50/50 to-white rounded-3xl border border-orange-100 shadow-sm overflow-hidden sticky top-28">
                         <div className="bg-orange-50/80 px-6 py-4 flex items-center justify-between border-b border-orange-100">
                             <div className="flex items-center gap-3">
                                 <div className="bg-white p-2 rounded-xl shadow-sm"><Tag className="h-5 w-5 text-orange-600" /></div>
                                 <div>
-                                    <h3 className="font-bold text-lg text-orange-900">Vente additionnelle</h3>
-                                    <p className="text-xs text-orange-600/70">Avant le paiement (Order Bump)</p>
+                                    <h3 className="font-bold text-lg text-orange-900">Produits Upsells</h3>
+                                    <p className="text-xs text-orange-600/70">Proposés avant le paiement</p>
                                 </div>
                             </div>
-                            <label className="flex items-center cursor-pointer">
-                                <span className="mr-2 text-xs font-bold text-orange-900">Activer</span>
-                                <input type="checkbox" className="sr-only peer" checked={upsellActive} onChange={e => setUpsellActive(e.target.checked)} />
-                                <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500 relative"></div>
-                            </label>
+                            <Button size="sm" onClick={addUpsell} className="bg-orange-600 hover:bg-orange-700 text-white font-bold h-8 text-xs">
+                                + Ajouter
+                            </Button>
                         </div>
                         
                         <div className="p-6 space-y-4">
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Que proposez-vous ? (Titre)</label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 text-sm shadow-sm" placeholder="Ex: Livraison Express & Assurée" value={upsellTitle} onChange={e => setUpsellTitle(e.target.value)} disabled={!upsellActive} />
-                            </div>
-                            <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix supplémentaire (€)</label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 text-sm shadow-sm" type="number" step="0.01" placeholder="Ex: 9.99" value={upsellPrice} onChange={e => setUpsellPrice(e.target.value)} disabled={!upsellActive} />
-                            </div>
+                            {upsells.length === 0 && <p className="text-sm text-gray-500 text-center italic">Aucun upsell configuré. Ajoutez-en un pour la modale Pre-Checkout.</p>}
+                            {upsells.map((upsell, index) => (
+                                <div key={upsell._clientKey} className="p-4 rounded-xl border border-orange-200 bg-white shadow-sm space-y-3 relative">
+                                    <button onClick={() => removeUpsell(index)} className="absolute top-2 right-2 text-gray-400 hover:text-red-600"><X className="h-4 w-4" /></button>
+                                    <div className="flex gap-4">
+                                        <div className="w-20 h-20 shrink-0 border rounded-xl overflow-hidden bg-gray-50 relative group">
+                                            {upsell.image ? (
+                                                <img src={upsell.image} className="w-full h-full object-cover" alt="upsell" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-gray-400"><Tag className="h-6 w-6" /></div>
+                                            )}
+                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <label className="cursor-pointer bg-white text-xs font-bold px-2 py-1 rounded">
+                                                    Img
+                                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleUpsellImageUpload(e, index)} />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 space-y-2">
+                                            <div>
+                                                <Input className="h-8 text-sm font-bold bg-white text-gray-900" placeholder="Nom (ex: Toe Spacers)" value={upsell.name} onChange={e => {
+                                                    const newU = [...upsells]; newU[index].name = e.target.value; setUpsells(newU);
+                                                }} />
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <div className="flex-1">
+                                                    <Input className="h-8 text-xs bg-white text-gray-900" type="number" step="0.01" placeholder="Prix final (€)" value={upsell.price} onChange={e => {
+                                                        const newU = [...upsells]; newU[index].price = e.target.value; setUpsells(newU);
+                                                    }} />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <Input className="h-8 text-xs bg-white text-gray-500" type="number" step="0.01" placeholder="Prix barré (€)" value={upsell.compareAt} onChange={e => {
+                                                        const newU = [...upsells]; newU[index].compareAt = e.target.value; setUpsells(newU);
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

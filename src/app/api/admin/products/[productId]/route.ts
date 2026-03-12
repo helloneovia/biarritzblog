@@ -27,6 +27,7 @@ export async function PATCH(
                 ...(body.images !== undefined && { images: body.images }),
                 ...(body.features !== undefined && { features: body.features }),
                 ...(body.isPopular !== undefined && { isPopular: body.isPopular }),
+                ...(body.type !== undefined && { type: body.type }),
             },
             include: { variants: true }
         })

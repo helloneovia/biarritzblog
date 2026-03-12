@@ -8,8 +8,15 @@ export const metadata = { title: "Produit - Admin Biarritz" }
 export default async function AdminProductsPage() {
     // Fetch the primary product
     const product = await prisma.product.findFirst({
+        where: { type: "MAIN" },
         orderBy: { createdAt: 'desc' },
         include: { variants: true },
+    })
+    
+    // Fetch Upsell products
+    const upsells = await prisma.product.findMany({
+        where: { type: "UPSELL" },
+        orderBy: { createdAt: 'asc' },
     })
     
     // Fetch all bundles (e.g. quantities 1, 2, 3)
@@ -34,20 +41,22 @@ export default async function AdminProductsPage() {
         }))
     } : null
 
+    const serializedUpsells = upsells.map(u => ({
+        ...u,
+        createdAt: u.createdAt.toISOString(),
+        updatedAt: u.updatedAt.toISOString(),
+    }))
+
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight">Paramètres du Produit</h1>
-                <p className="text-muted-foreground mt-1">Gérez les informations de votre produit unique, les prix dégressifs et l'upsell Stripe.</p>
+                <h1 className="text-3xl font-bold tracking-tight">Paramètres du Produit & Upsells</h1>
+                <p className="text-muted-foreground mt-1">Gérez le produit principal, les prix dégressifs et les multiples offres complémentaires.</p>
             </div>
             <SingleProductManager 
                 initialProduct={serializedProduct} 
                 initialBundles={bundles} 
-                initialUpsell={{
-                    active: texts?.upsellActive ?? false,
-                    title: texts?.upsellTitle || "Livraison Express",
-                    price: texts?.upsellPrice || 9.99
-                }}
+                initialUpsellProducts={serializedUpsells}
             />
         </div>
     )
