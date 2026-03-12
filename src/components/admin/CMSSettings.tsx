@@ -93,25 +93,32 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState(false);
 
-    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Convert image to base64 Data URL client-side — no server upload needed.
+    // This works on Vercel and any serverless environment since the data is stored in the DB.
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        setUploading(true);
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-            if (!res.ok) throw new Error("Upload failed");
-            const data = await res.json();
-            onChange(data.url);
-        } catch {
-            alert("Erreur lors de l'upload.");
-        } finally {
-            setUploading(false);
+        // Limit to 2MB to keep DB size sane
+        if (file.size > 2 * 1024 * 1024) {
+            alert("Image trop lourde (max 2 Mo). Réduisez-la ou utilisez une URL externe.");
             if (fileInputRef.current) fileInputRef.current.value = "";
+            return;
         }
+
+        setUploading(true);
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const dataUrl = ev.target?.result as string;
+            onChange(dataUrl);
+            setUploading(false);
+        };
+        reader.onerror = () => {
+            alert("Erreur lors de la lecture du fichier.");
+            setUploading(false);
+        };
+        reader.readAsDataURL(file);
+        if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     return (
