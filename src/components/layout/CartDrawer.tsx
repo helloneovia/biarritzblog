@@ -12,18 +12,28 @@ import { useCart } from "@/lib/store/CartContext";
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 
 export function CartDrawer({ t }: { t: Record<string, string> }) {
     const { items, removeFromCart, updateQuantity, isCartOpen, setCartOpen, totalAmount } = useCart();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const [countdown, setCountdown] = useState(4 * 60 + 48); // 4 min 48 sec
-    const [step, setStep] = useState<"cart" | "upsell">("cart");
-    const [upsell, setUpsell] = useState<{ active: boolean, title: string, price: number } | null>(null);
+    const [upsells, setUpsells] = useState<any[]>([]);
+    const [isUpsellModalOpen, setIsUpsellModalOpen] = useState(false);
+    const [upsellQtys, setUpsellQtys] = useState<Record<string, number>>({});
+    const [upsellsAdded, setUpsellsAdded] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
         const timer = setInterval(() => setCountdown(prev => prev > 0 ? prev - 1 : 0), 1000);
-        fetch("/api/config/upsell").then(r => r.json()).then(data => setUpsell(data)).catch(() => {});
+        fetch("/api/config/upsell").then(r => r.json()).then(data => {
+            if (Array.isArray(data)) {
+                setUpsells(data);
+                const initQtys: Record<string, number> = {};
+                data.forEach(u => initQtys[u.id] = 1);
+                setUpsellQtys(initQtys);
+            }
+        }).catch(() => {});
         return () => clearInterval(timer);
     }, []);
 
@@ -36,25 +46,29 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
     }, 0);
     const savings = totalOriginal - totalAmount;
 
-    const proceedToStripe = async (withUpsell: boolean) => {
+    const proceedToStripe = async (withUpsells: boolean) => {
         setIsLoading(true);
         try {
             const finalItems = [...items]
-            if (withUpsell && upsell) {
-                finalItems.push({
-                    id: "upsell-bump",
-                    name: upsell.title,
-                    price: upsell.price,
-                    quantity: 1,
-                    image: "https://images.unsplash.com/photo-1580828369019-2228f4fff605?w=500&q=80",
-                    bundle: "Vente Additionnelle",
-                    size: "Unique"
-                } as any)
+            if (withUpsells) {
+                upsells.forEach(u => {
+                    if (upsellsAdded[u.id]) {
+                        finalItems.push({
+                            id: `upsell-${u.id}`,
+                            name: u.name,
+                            price: u.price,
+                            quantity: upsellQtys[u.id] || 1,
+                            image: u.image || "https://images.unsplash.com/photo-1580828369019-2228f4fff605?w=500&q=80",
+                            bundle: "Vente Additionnelle",
+                            size: "Unique"
+                        } as any)
+                    }
+                })
             }
             const res = await fetch("/api/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items: finalItems, email: "guest@example.com" })
+                body: JSON.stringify({ items: finalItems })
             });
             const data = await res.json();
             if (data.url) window.location.href = data.url;
@@ -63,15 +77,22 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
     };
 
     const handleCheckoutClick = () => {
-        if (upsell?.active && !items.find(i => i.id === "upsell-bump")) setStep("upsell");
-        else proceedToStripe(false);
+        if (upsells.length > 0) {
+            setCartOpen(false);
+            setIsUpsellModalOpen(true);
+        } else {
+            proceedToStripe(false);
+        }
+    };
+
+    const handleAddUpsell = (id: string) => {
+        setUpsellsAdded(prev => ({ ...prev, [id]: true }));
+        toast.success("Article ajouté à votre commande !");
     };
 
     return (
-        <Sheet open={isCartOpen} onOpenChange={(open) => {
-            if (!open) setTimeout(() => setStep("cart"), 300);
-            setCartOpen(open);
-        }}>
+        <>
+        <Sheet open={isCartOpen} onOpenChange={setCartOpen}>
             <SheetTrigger asChild>
                 <button
                     className="relative p-2 text-foreground/80 hover:text-foreground transition-colors"
@@ -86,40 +107,6 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                 </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full max-w-md flex flex-col p-0 gap-0">
-                {step === "upsell" ? (
-                    <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col justify-center bg-gray-50 relative h-full">
-                        <button onClick={() => setStep("cart")} className="absolute top-4 left-4 p-2 text-gray-400 hover:text-gray-800">
-                            <span className="text-xs font-bold font-mono">← RETOUR</span>
-                        </button>
-                        <div className="text-center space-y-3 mt-4">
-                            <h2 className="text-2xl font-black text-orange-600 uppercase tracking-tight">ATTENDEZ ! OFFRE EXCLUSIVE 🎁</h2>
-                            <p className="font-medium text-gray-700 leading-snug">Ajoutez <span className="font-black">"{upsell?.title}"</span> à votre commande avant de valider.</p>
-                        </div>
-                        <div className="bg-white p-5 rounded-2xl border-2 border-orange-500 shadow-[0_0_20px_rgba(255,102,0,0.1)] relative mt-8">
-                             <div className="absolute -top-3 right-4 bg-orange-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full">+ {upsell?.price}€ seulement</div>
-                             <div className="flex gap-4 items-center">
-                                 <div className="w-16 h-16 bg-orange-50 rounded-xl flex items-center justify-center border border-orange-200 shrink-0">
-                                     <Truck className="h-8 w-8 text-orange-500" />
-                                 </div>
-                                 <p className="text-xs text-gray-600 font-medium leading-relaxed">Bénéficiez d'une livraison prioritaire et assurée pour recevoir votre commande plus rapidement et en toute sécurité.</p>
-                             </div>
-                        </div>
-                        <div className="space-y-4 pt-10 mt-auto mb-8">
-                            <Button 
-                                className="w-full h-16 rounded-xl text-lg font-black uppercase tracking-widest shadow-[0_8px_30px_rgba(255,102,0,0.4)] hover:shadow-[0_12px_40px_rgba(255,102,0,0.6)]" 
-                                onClick={() => proceedToStripe(true)} disabled={isLoading} style={{ cursor: 'pointer' }}>
-                                {isLoading ? "Redirection..." : `OUI, J'AJOUTE POUR ${upsell?.price}€`}
-                            </Button>
-                            <button
-                                className="w-full py-2 text-xs font-bold text-gray-400 underline hover:text-gray-700 text-center"
-                                onClick={() => proceedToStripe(false)} disabled={isLoading} style={{ cursor: 'pointer' }}
-                            >
-                                Non merci, je finalise ma commande sans cette offre
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <>
                         {/* Countdown Reservation Banner */}
                         {items.length > 0 && (
                     <div className="bg-black text-white text-sm font-black text-center py-2.5 px-4 flex items-center justify-center gap-2 shrink-0">
@@ -236,9 +223,73 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                         </div>
                     </div>
                 )}
-                </>
-                )}
             </SheetContent>
         </Sheet>
+
+        {/* Upsell Dialog Modal */}
+        <Dialog open={isUpsellModalOpen} onOpenChange={setIsUpsellModalOpen}>
+            <DialogContent className="max-w-2xl p-0 overflow-hidden border-orange-200" showCloseButton={false}>
+                <DialogTitle className="sr-only">Upsell Offers</DialogTitle>
+                <DialogDescription className="sr-only">Special offers before checkout</DialogDescription>
+                <div className="flex justify-between items-center p-4 border-b">
+                    <h2 className="text-xl font-black uppercase tracking-tight text-center flex-1">COMPLETE YOUR RELIEF KIT</h2>
+                    <button onClick={() => proceedToStripe(false)} className="p-2 shrink-0 hover:bg-muted rounded-full transition-colors">
+                        <X className="h-5 w-5 text-gray-500" />
+                    </button>
+                </div>
+                
+                <div className="max-h-[60vh] overflow-y-auto p-6 space-y-6">
+                    {upsells.map((u) => {
+                        const savings = u.compareAt ? u.compareAt - u.price : 0;
+                        return (
+                            <div key={u.id} className="flex gap-4 md:gap-6 items-center">
+                                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 border bg-muted">
+                                    <img src={u.image} alt={u.name} className="w-full h-full object-cover" />
+                                </div>
+                                <div className="flex-1 space-y-2">
+                                    <h3 className="font-bold text-base sm:text-lg leading-tight">{u.name}</h3>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        {u.compareAt && <span className="text-sm text-gray-400 line-through">€{u.compareAt.toFixed(2)}</span>}
+                                        <span className="font-black text-lg">€{u.price.toFixed(2)}</span>
+                                        {savings > 0 && <span className="text-xs font-bold text-orange-600">€{savings.toFixed(2)} Savings</span>}
+                                    </div>
+                                    <p className="text-xs text-gray-500 line-clamp-2">Parfait pour compléter votre commande et accroître votre confort quotidien.</p>
+                                </div>
+                                <div className="flex flex-col gap-2 shrink-0 items-end">
+                                    <div className="flex items-center border rounded-lg overflow-hidden shrink-0 w-[100px]">
+                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: Math.max(1, p[u.id] - 1)}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Minus className="h-3 w-3" /></button>
+                                        <span className="text-sm font-bold px-3 border-x">{upsellQtys[u.id] || 1}</span>
+                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: (p[u.id] || 1) + 1}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Plus className="h-3 w-3" /></button>
+                                    </div>
+                                    {upsellsAdded[u.id] ? (
+                                        <Button disabled className="w-[100px] h-9 text-xs font-bold bg-green-600 text-white rounded-lg">Ajouté ✓</Button>
+                                    ) : (
+                                        <Button onClick={() => handleAddUpsell(u.id)} className="w-[100px] h-9 text-xs font-black bg-[#FF6600] hover:bg-[#e65c00] text-white rounded-lg uppercase tracking-wider">Add to order</Button>
+                                    )}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+
+                <div className="p-4 sm:p-6 bg-gray-50 border-t flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <button 
+                        onClick={() => proceedToStripe(false)}
+                        className="text-sm font-medium text-gray-500 hover:text-gray-800 underline order-2 sm:order-1"
+                        disabled={isLoading}
+                    >
+                        Decline this offer
+                    </button>
+                    <Button 
+                        onClick={() => proceedToStripe(true)}
+                        className="w-full sm:w-auto px-12 h-12 rounded-xl text-base font-black bg-[#FF6600] hover:bg-[#e65c00] text-white uppercase tracking-widest shadow-lg shadow-orange-500/30 order-1 sm:order-2"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? "PROCESING..." : "CONTINUE"}
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+        </>
     )
 }

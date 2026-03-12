@@ -5,14 +5,18 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        const config = await prisma.siteConfig.findUnique({ where: { id: "global" } });
-        const texts: any = config?.texts || {};
-        return NextResponse.json({
-            active: !!texts.upsellActive,
-            title: texts.upsellTitle || "Livraison Express & Assurée",
-            price: parseFloat(texts.upsellPrice) || 9.99
+        const upsells = await prisma.product.findMany({
+            where: { type: "UPSELL" },
+            orderBy: { createdAt: "asc" }
         });
+        return NextResponse.json(upsells.map(u => ({
+            id: u.id,
+            name: u.name,
+            price: u.price,
+            compareAt: u.compareAt,
+            image: u.images?.[0] || ""
+        })));
     } catch {
-        return NextResponse.json({ active: false, title: "", price: 0 });
+        return NextResponse.json([]);
     }
 }
