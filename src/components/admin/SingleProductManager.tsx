@@ -1,9 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Package, Tag, UploadCloud, Video, X } from "lucide-react";
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css'; // Use react-quill-new to avoid old deps problems, wait actually let's try standard react-quill if it installed correctly
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
 
 type Product = {
     id: string; name: string; description: string; price: number; compareAt: number | null;
@@ -102,15 +107,15 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 max-w-5xl">
+        <div className="space-y-8 animate-in fade-in duration-500 max-w-5xl mx-auto">
             
             {/* Header Actions */}
-            <div className="flex justify-between items-center bg-white p-4 rounded-2xl border shadow-sm sticky top-4 z-10">
+            <div className="flex justify-between items-center bg-white/80 backdrop-blur-md p-5 rounded-3xl border shadow-sm sticky top-4 z-50">
                 <div>
-                    <h2 className="text-xl font-bold tracking-tight text-gray-900">Édition du Catalogue</h2>
-                    <p className="text-muted-foreground text-sm">Modifiez les informations qui apparaitront sur votre boutique.</p>
+                    <h2 className="text-2xl font-black tracking-tight text-gray-900">Édition du Catalogue</h2>
+                    <p className="text-muted-foreground text-sm font-medium mt-1">Modifiez les informations qui apparaitront sur votre boutique.</p>
                 </div>
-                <Button className="rounded-xl shadow-md font-bold bg-indigo-600 hover:bg-indigo-700 px-6" onClick={saveAll} disabled={saving || !pName || !pPrice}>
+                <Button className="rounded-2xl shadow-lg shadow-indigo-200 font-bold bg-indigo-600 hover:bg-indigo-700 px-8 py-6 text-base transition-all hover:-translate-y-0.5" onClick={saveAll} disabled={saving || !pName || !pPrice}>
                     {saving ? "Sauvegarde en cours..." : "Enregistrer les modifications"}
                 </Button>
             </div>
@@ -124,39 +129,44 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
                             <h3 className="font-bold text-lg text-gray-900">Produit Principal</h3>
                         </div>
                         
-                        <div className="p-6 space-y-5">
+                        <div className="p-6 space-y-6">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom du produit (HTML supporté)</label>
-                                <Input className="rounded-xl border-gray-300 h-11 text-gray-900 bg-white" value={pName} onChange={e => setPName(e.target.value)} placeholder="Ex: <span style='color:red'>Semelles</span> Biarritz Premium" />
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom du produit</label>
+                                <Input className="rounded-xl border-gray-300 h-12 text-gray-900 bg-white font-medium shadow-sm" value={pName} onChange={e => setPName(e.target.value)} placeholder="Ex: Semelles Biarritz Premium" />
                             </div>
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Description complète (HTML supporté)</label>
-                                <textarea
-                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[120px] text-gray-900 bg-white"
-                                    value={pDesc} onChange={e => setPDesc(e.target.value)} placeholder={`<b>Description complète</b> et détaillée...<br><br><span style="color: blue;">Essayez-les.</span>`}
-                                />
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Description complète</label>
+                                <div className="bg-white rounded-xl border border-gray-300 overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-shadow">
+                                    <ReactQuill 
+                                        theme="snow" 
+                                        value={pDesc} 
+                                        onChange={setPDesc} 
+                                        className="text-gray-900 min-h-[150px] [&_.ql-editor]:min-h-[150px] [&_.ql-toolbar]:bg-gray-50/80 [&_.ql-toolbar]:border-none [&_.ql-toolbar]:border-b [&_.ql-toolbar]:border-gray-200 [&_.ql-container]:border-none [&_.ql-container]:bg-white"
+                                        placeholder="Description complète et détaillée du produit..."
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5">Points de vente / Avantages (1 par ligne, HTML supporté)</label>
                                 <textarea
-                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[100px] text-gray-900 bg-white"
+                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-4 font-medium text-sm outline-none resize-none min-h-[120px] text-gray-900 bg-white shadow-sm"
                                     value={pFeatures} onChange={e => setPFeatures(e.target.value)} placeholder={`✔ <strong>Design ergonomique</strong>...\n✔ <span style="color: green">Soulage les douleurs</span>...`}
                                 />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-6 pt-2">
                                 <div>
                                     <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix de vente (€)</label>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-3 text-gray-500 font-medium">€</span>
-                                        <Input className="pl-8 rounded-xl border-gray-300 h-11 text-gray-900 bg-white" type="number" step="0.01" value={pPrice} onChange={e => setPPrice(e.target.value)} placeholder="0.00" />
+                                        <span className="absolute left-4 top-3.5 text-gray-500 font-bold">€</span>
+                                        <Input className="pl-9 rounded-xl border-gray-300 h-12 text-gray-900 bg-white font-bold text-lg shadow-sm" type="number" step="0.01" value={pPrice} onChange={e => setPPrice(e.target.value)} placeholder="0.00" />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix barré originel (€)</label>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-3 text-gray-400 font-medium">€</span>
-                                        <Input className="pl-8 rounded-xl border-gray-300 h-11 text-gray-500 bg-white" type="number" step="0.01" value={pCompare} onChange={e => setPCompare(e.target.value)} placeholder="0.00" />
+                                        <span className="absolute left-4 top-3.5 text-gray-400 font-bold">€</span>
+                                        <Input className="pl-9 rounded-xl border-gray-300 h-12 text-gray-500 bg-white font-medium shadow-sm" type="number" step="0.01" value={pCompare} onChange={e => setPCompare(e.target.value)} placeholder="0.00" />
                                     </div>
                                 </div>
                             </div>
