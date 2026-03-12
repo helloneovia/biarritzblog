@@ -37,13 +37,13 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
             </div>
 
             {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-wrap gap-4">
                 {images.map((img, i) => (
                     <button
                         key={i}
                         onClick={() => setActiveIndex(i)}
                         className={cn(
-                            "aspect-square rounded-xl overflow-hidden border-2 transition-all outline-none",
+                            "w-20 h-20 rounded-xl overflow-hidden border-2 transition-all outline-none shrink-0",
                             activeIndex === i ? "border-primary shadow-md" : "border-transparent hover:border-border"
                         )}
                     >

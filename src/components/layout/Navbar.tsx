@@ -29,7 +29,7 @@ export async function Navbar() {
                             biarritz.
                         </div>
                     </Link>
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-bold uppercase tracking-wider">
+                    <nav className="hidden lg:flex items-center gap-6 text-sm font-bold uppercase tracking-wider">
                         <Link href="/blog" className="transition-colors hover:text-primary text-foreground/80">
                             {t.navBlog}
                         </Link>
@@ -76,12 +76,12 @@ export async function Navbar() {
                         </Link>
                     )}
                     <CartDrawer t={t} />
-                    <Button className="hidden md:inline-flex rounded-xl font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all" asChild>
+                    <Button className="hidden lg:inline-flex rounded-xl font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all" asChild>
                         <Link href="/product">{t.navShop}</Link>
                     </Button>
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className="md:hidden">
+                            <Button variant="ghost" size="icon" className="lg:hidden ml-1">
                                 <Menu className="h-5 w-5" />
                                 <span className="sr-only">Toggle menu</span>
                             </Button>

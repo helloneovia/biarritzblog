@@ -30,7 +30,7 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: string }) {
                     key={l.code}
                     onClick={() => switchLocale(l.code)}
                     disabled={isPending}
-                    className={`px-3 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition-all ${active === l.code
+                    className={`px-2 py-1 rounded-md text-[10px] sm:text-xs md:text-sm font-bold transition-all ${active === l.code
                             ? "bg-white shadow text-foreground"
                             : "text-muted-foreground hover:text-foreground"
                         }`}

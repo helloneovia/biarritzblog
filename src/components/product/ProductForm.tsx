@@ -171,14 +171,14 @@ export function ProductForm({
 
             <Button
                 size="lg"
-                className="w-full h-16 rounded-xl text-lg font-black uppercase tracking-widest shadow-[0_8px_30px_rgba(255,102,0,0.45)] hover:shadow-[0_12px_40px_rgba(255,102,0,0.65)] hover:-translate-y-0.5 transition-all"
+                className="w-full h-14 sm:h-16 rounded-xl text-base sm:text-lg font-black uppercase tracking-widest shadow-[0_8px_30px_rgba(255,102,0,0.45)] hover:shadow-[0_12px_40px_rgba(255,102,0,0.65)] hover:-translate-y-0.5 transition-all"
                 style={{ cursor: 'pointer' }}
                 onClick={handleCheckout}
                 disabled={isLoading}
             >
                 {isLoading ? "Traitement..." : (
                     <div className="flex items-center justify-center gap-2">
-                        <ShoppingCart className="h-5 w-5 shrink-0" />
+                        <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
                         <span>🔒 Commander – €{activeBundle.price}</span>
                     </div>
                 )}
