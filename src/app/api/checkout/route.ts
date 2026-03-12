@@ -78,7 +78,20 @@ export async function POST(req: Request) {
             ];
         }
 
-        const session = await stripe.checkout.sessions.create(sessionPayload);
+        let session;
+        try {
+            session = await stripe.checkout.sessions.create(sessionPayload);
+        } catch (initialError: any) {
+            console.error("STRIPE_CHECKOUT_UPSELL_ERROR:", initialError?.message || initialError);
+            // If the error seems related to optional_items or price configuration, fallback to standard checkout
+            if (stripeUpsellPriceId && sessionPayload.optional_items) {
+                console.warn("Retrying Stripe Checkout without the optional upsell item...");
+                delete sessionPayload.optional_items;
+                session = await stripe.checkout.sessions.create(sessionPayload);
+            } else {
+                throw initialError;
+            }
+        }
 
         return NextResponse.json({ url: session.url })
 
