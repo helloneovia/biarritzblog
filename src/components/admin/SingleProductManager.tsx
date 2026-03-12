@@ -121,26 +121,26 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
                     <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
                         <div className="bg-gray-50/80 px-6 py-4 border-b flex items-center gap-3">
                             <div className="bg-white p-2 rounded-xl shadow-sm"><Package className="h-5 w-5 text-indigo-600" /></div>
-                            <h3 className="font-bold text-lg">Produit Principal</h3>
+                            <h3 className="font-bold text-lg text-gray-900">Produit Principal</h3>
                         </div>
                         
                         <div className="p-6 space-y-5">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom du produit</label>
-                                <Input className="rounded-xl border-gray-300 h-11" value={pName} onChange={e => setPName(e.target.value)} placeholder="Ex: Semelles Biarritz Premium" />
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom du produit (HTML supporté)</label>
+                                <Input className="rounded-xl border-gray-300 h-11 text-gray-900 bg-white" value={pName} onChange={e => setPName(e.target.value)} placeholder="Ex: <span style='color:red'>Semelles</span> Biarritz Premium" />
                             </div>
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Description complète</label>
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Description complète (HTML supporté)</label>
                                 <textarea
-                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[120px]"
-                                    value={pDesc} onChange={e => setPDesc(e.target.value)} placeholder="Description complète et détaillée du produit..."
+                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[120px] text-gray-900 bg-white"
+                                    value={pDesc} onChange={e => setPDesc(e.target.value)} placeholder={`<b>Description complète</b> et détaillée...<br><br><span style="color: blue;">Essayez-les.</span>`}
                                 />
                             </div>
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Points de vente / Avantages (1 par ligne)</label>
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Points de vente / Avantages (1 par ligne, HTML supporté)</label>
                                 <textarea
-                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[100px]"
-                                    value={pFeatures} onChange={e => setPFeatures(e.target.value)} placeholder="✔ Design ergonomique...&#10;✔ Soulage les douleurs..."
+                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[100px] text-gray-900 bg-white"
+                                    value={pFeatures} onChange={e => setPFeatures(e.target.value)} placeholder={`✔ <strong>Design ergonomique</strong>...\n✔ <span style="color: green">Soulage les douleurs</span>...`}
                                 />
                             </div>
 
@@ -149,14 +149,14 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
                                     <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix de vente (€)</label>
                                     <div className="relative">
                                         <span className="absolute left-3 top-3 text-gray-500 font-medium">€</span>
-                                        <Input className="pl-8 rounded-xl border-gray-300 h-11" type="number" step="0.01" value={pPrice} onChange={e => setPPrice(e.target.value)} placeholder="0.00" />
+                                        <Input className="pl-8 rounded-xl border-gray-300 h-11 text-gray-900 bg-white" type="number" step="0.01" value={pPrice} onChange={e => setPPrice(e.target.value)} placeholder="0.00" />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix barré originel (€)</label>
                                     <div className="relative">
                                         <span className="absolute left-3 top-3 text-gray-400 font-medium">€</span>
-                                        <Input className="pl-8 rounded-xl border-gray-300 h-11 text-gray-500" type="number" step="0.01" value={pCompare} onChange={e => setPCompare(e.target.value)} placeholder="0.00" />
+                                        <Input className="pl-8 rounded-xl border-gray-300 h-11 text-gray-500 bg-white" type="number" step="0.01" value={pCompare} onChange={e => setPCompare(e.target.value)} placeholder="0.00" />
                                     </div>
                                 </div>
                             </div>
@@ -225,33 +225,33 @@ export function SingleProductManager({ initialProduct, initialBundle }: {
                         
                         <div className="p-6 space-y-4">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom de l&apos;offre</label>
-                                <Input className="rounded-xl border-gray-300 bg-white" placeholder="Ex: 2 Paires" value={bName} onChange={e => setBName(e.target.value)} />
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Nom de l&apos;offre (HTML supporté)</label>
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" placeholder="Ex: 2 Paires" value={bName} onChange={e => setBName(e.target.value)} />
                             </div>
                             <div>
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
-                                    <span>Badge Accrocheur</span>
+                                    <span>Badge Accrocheur (HTML supporté)</span>
                                     <span className="text-gray-400 font-normal text-xs">Optionnel</span>
                                 </label>
-                                <Input className="rounded-xl border-gray-300 bg-white" placeholder="Ex: ÉCONOMISEZ 50%" value={bBadge} onChange={e => setBBadge(e.target.value)} />
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" placeholder="Ex: ÉCONOMISEZ 50%" value={bBadge} onChange={e => setBBadge(e.target.value)} />
                             </div>
                             <div>
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
                                     <span>Prix Total (€)</span>
                                 </label>
-                                <Input className="rounded-xl border-gray-300 bg-white" type="number" step="0.01" value={bPrice} onChange={e => setBPrice(e.target.value)} />
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" step="0.01" value={bPrice} onChange={e => setBPrice(e.target.value)} />
                             </div>
                             <div>
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
                                     <span>Prix Barré (€)</span>
                                 </label>
-                                <Input className="rounded-xl border-gray-300 bg-white" type="number" step="0.01" value={bCompare} onChange={e => setBCompare(e.target.value)} />
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" step="0.01" value={bCompare} onChange={e => setBCompare(e.target.value)} />
                             </div>
                             <div>
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5 flex justify-between">
                                     <span>% Remise affichée</span>
                                 </label>
-                                <Input className="rounded-xl border-gray-300 bg-white" type="number" placeholder="Ex: 50" value={bDiscount} onChange={e => setBDiscount(e.target.value)} />
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900" type="number" placeholder="Ex: 50" value={bDiscount} onChange={e => setBDiscount(e.target.value)} />
                             </div>
                         </div>
                     </div>
