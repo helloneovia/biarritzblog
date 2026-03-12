@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import AdminPayoutActions from "./AdminPayoutActions";
+import AdminAffiliateEditDialog from "./AdminAffiliateEditDialog";
 
 export const dynamic = "force-dynamic";
 
@@ -121,10 +122,12 @@ export default async function AdminAffiliatesPage() {
                                             <TableHead>Nom</TableHead>
                                             <TableHead>Email</TableHead>
                                             <TableHead>Code Promo</TableHead>
+                                            <TableHead>Taux (Comm / Réd)</TableHead>
                                             <TableHead>Utilisations</TableHead>
                                             <TableHead>Ventes Générées</TableHead>
                                             <TableHead>Gains Totaux</TableHead>
                                             <TableHead className="text-right">Solde Dû</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -139,6 +142,12 @@ export default async function AdminAffiliatesPage() {
                                                         {affiliate.promoCode?.code || "Aucun"}
                                                     </Badge>
                                                 </TableCell>
+                                                <TableCell>
+                                                    <div className="flex flex-col text-xs text-muted-foreground">
+                                                        <span>Comm: {affiliate.commissionRate}%</span>
+                                                        <span>Réduc: {affiliate.promoCode?.discount || 0}%</span>
+                                                    </div>
+                                                </TableCell>
                                                 <TableCell>{affiliate.promoCode?.usageCount || 0}</TableCell>
                                                 <TableCell>{affiliate._count.commissions}</TableCell>
                                                 <TableCell className="text-green-600">
@@ -146,6 +155,13 @@ export default async function AdminAffiliatesPage() {
                                                 </TableCell>
                                                 <TableCell className="text-right font-bold text-orange-600">
                                                     {formatCurrency(affiliate.balance)}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <AdminAffiliateEditDialog
+                                                        affiliateId={affiliate.id}
+                                                        currentCommission={affiliate.commissionRate}
+                                                        currentDiscount={affiliate.promoCode?.discount || 0}
+                                                    />
                                                 </TableCell>
                                             </TableRow>
                                         ))}

@@ -95,6 +95,7 @@ model AffiliateProfile {
   
   balance       Float    @default(0) // total unpaid earnings
   totalEarned   Float    @default(0) // lifetime earnings
+  commissionRate Float   @default(50) // Percentage of total amount paid to affiliate
   iban          String?
   bic           String?
   

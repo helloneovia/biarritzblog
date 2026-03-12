@@ -61,7 +61,7 @@ export default async function AffiliateDashboardPage() {
 
                 <Card className="shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">Gains Totaux (Historique)</CardTitle>
+                        <CardTitle className="text-sm font-medium">Gains ({profile.commissionRate}%)</CardTitle>
                         <Euro className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -72,7 +72,7 @@ export default async function AffiliateDashboardPage() {
 
                 <Card className="shadow-sm border-primary/20 bg-primary/5">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium text-primary">Votre Code Promo (15%)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-primary">Votre Code Promo ({profile.promoCode?.discount || 20}%)</CardTitle>
                         <Gift className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>

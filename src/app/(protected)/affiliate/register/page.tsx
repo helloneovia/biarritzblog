@@ -60,7 +60,7 @@ export default function AffiliateRegisterPage() {
                                 <Award className="w-6 h-6 text-primary" />
                             </div>
                             <h3 className="font-semibold">Code de Réduction</h3>
-                            <p className="text-sm text-muted-foreground">-15% offert à vos clients</p>
+                            <p className="text-sm text-muted-foreground">-20% offert à vos clients</p>
                         </div>
                         <div className="flex flex-col items-center text-center space-y-2">
                             <div className="p-3 bg-primary/10 rounded-full">

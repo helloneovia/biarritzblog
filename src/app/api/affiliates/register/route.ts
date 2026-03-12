@@ -28,8 +28,8 @@ export async function POST(req: Request) {
         // Generate a random unique promo code prefix
         const codeString = `AFF-${user.name?.slice(0, 3).toUpperCase() || 'PRO'}-${Math.floor(1000 + Math.random() * 9000)}`;
 
-        // Check if there's a 15% off coupon in Stripe, if not create it
-        const couponId = 'AFFILIATE_15_PERCENT';
+        // Check if there's a 20% off coupon in Stripe, if not create it
+        const couponId = 'AFFILIATE_20_PERCENT';
         try {
             await stripe.coupons.retrieve(couponId);
         } catch (error: any) {
@@ -37,9 +37,9 @@ export async function POST(req: Request) {
                 // Create the coupon
                 await stripe.coupons.create({
                     id: couponId,
-                    percent_off: 15,
+                    percent_off: 20,
                     duration: 'forever',
-                    name: "15% Affilié"
+                    name: "20% Affilié"
                 });
             } else {
                 throw error;
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
             await tx.promoCode.create({
                 data: {
                     code: codeString,
-                    discount: 15,
+                    discount: 20,
                     isPercent: true,
                     affiliateId: profile.id
                 }

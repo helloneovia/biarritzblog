@@ -164,12 +164,13 @@ export async function POST(req: Request) {
                         data: { promoCodeId: promoCode.id }
                     });
 
-                    if (promoCode.affiliateId) {
+                    if (promoCode.affiliateId && promoCode.affiliate) {
                         log(`Affiliate ${promoCode.affiliateId} found for promo code ${appliedPromoCodeStr}`);
 
-                        // Calculate 50% of the totalAmount paid by user
+                        // Calculate dynamic commission based on affiliate's commissionRate
                         // Note: totalAmount is already net of discounts from Stripe
-                        const commissionAmount = order.totalAmount * 0.50;
+                        const rate = promoCode.affiliate.commissionRate / 100;
+                        const commissionAmount = order.totalAmount * rate;
 
                         // Create Commission record
                         await prisma.commission.create({
