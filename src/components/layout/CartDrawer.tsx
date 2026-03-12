@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 
 export function CartDrawer({ t }: { t: Record<string, string> }) {
-    const { items, removeFromCart, updateQuantity, isCartOpen, setCartOpen, totalAmount } = useCart();
+    const { items, addToCart, removeFromCart, updateQuantity, isCartOpen, setCartOpen, totalAmount } = useCart();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const [countdown, setCountdown] = useState(4 * 60 + 48); // 4 min 48 sec
@@ -48,32 +48,24 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
 
     const proceedToStripe = async (withUpsells: boolean) => {
         setIsLoading(true);
-        try {
-            const finalItems = [...items]
-            if (withUpsells) {
-                upsells.forEach(u => {
-                    if (upsellsAdded[u.id]) {
-                        finalItems.push({
-                            id: `upsell-${u.id}`,
-                            name: u.name,
-                            price: u.price,
-                            quantity: upsellQtys[u.id] || 1,
-                            image: u.image || "https://images.unsplash.com/photo-1580828369019-2228f4fff605?w=500&q=80",
-                            bundle: "Vente Additionnelle",
-                            size: "Unique"
-                        } as any)
-                    }
-                })
-            }
-            const res = await fetch("/api/checkout", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items: finalItems })
-            });
-            const data = await res.json();
-            if (data.url) window.location.href = data.url;
-            else { toast.error(data.error || "Erreur de paiement checkout"); setIsLoading(false); }
-        } catch { toast.error("Erreur de connexion"); setIsLoading(false); }
+        if (withUpsells) {
+            upsells.forEach(u => {
+                if (upsellsAdded[u.id]) {
+                    addToCart({
+                        id: `upsell-${u.id}`,
+                        name: u.name,
+                        price: u.price,
+                        quantity: upsellQtys[u.id] || 1,
+                        image: u.image || "https://images.unsplash.com/photo-1580828369019-2228f4fff605?w=500&q=80",
+                        bundle: "Vente Additionnelle",
+                        size: "Unique"
+                    } as any)
+                }
+            })
+        }
+        setIsUpsellModalOpen(false);
+        router.push("/checkout");
+        // We do not set loading to false here to allow smooth transition
     };
 
     const handleCheckoutClick = () => {

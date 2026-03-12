@@ -185,18 +185,18 @@ export function ProductForm({
             </Button>
 
             {/* 3-cell trust grid */}
-            <div className="grid grid-cols-3 gap-2 py-2 border-y">
-                <div className="flex flex-col items-center gap-1 text-center">
-                    <RotateCcw className="h-5 w-5 text-primary" />
-                    <span className="text-[10px] font-black uppercase leading-tight">Essai<br />90 Jours</span>
+            <div className="grid grid-cols-3 gap-2 py-4 border-y mt-2">
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <RotateCcw className="h-7 w-7 text-primary" />
+                    <span className="text-[11px] sm:text-xs font-black uppercase leading-tight">Essai<br />90 Jours</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 text-center">
-                    <Truck className="h-5 w-5 text-primary" />
-                    <span className="text-[10px] font-black uppercase leading-tight">Livraison<br />Assurée</span>
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <Truck className="h-7 w-7 text-primary" />
+                    <span className="text-[11px] sm:text-xs font-black uppercase leading-tight">Livraison<br />Assurée</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 text-center">
-                    <ShieldCheck className="h-5 w-5 text-primary" />
-                    <span className="text-[10px] font-black uppercase leading-tight">Paiement<br />Sécurisé</span>
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <ShieldCheck className="h-7 w-7 text-primary" />
+                    <span className="text-[11px] sm:text-xs font-black uppercase leading-tight">Paiement<br />Sécurisé</span>
                 </div>
             </div>
 

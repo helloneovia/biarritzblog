@@ -98,22 +98,7 @@ export default function CheckoutPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Branded Header */}
-            <header className="bg-white border-b">
-                <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col items-center gap-2">
-                    <Link href="/">
-                        <div className="bg-primary text-white font-black text-2xl tracking-tighter px-4 py-1.5 rounded-sm cursor-pointer hover:opacity-90 transition-opacity">
-                            biarritz.
-                        </div>
-                    </Link>
-                    {/* Trust strip */}
-                    <div className="flex items-center gap-6 text-xs text-muted-foreground font-semibold flex-wrap justify-center">
-                        <span className="flex items-center gap-1"><RotateCcw className="h-3.5 w-3.5 text-primary" /> Garantie 90 Jours</span>
-                        <span className="flex items-center gap-1"><Truck className="h-3.5 w-3.5 text-primary" /> Livraison Assurée</span>
-                        <span className="flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Paiement Sécurisé</span>
-                    </div>
-                </div>
-            </header>
+            {/* Header removed to avoid double logo since Navbar is present */}
 
             <div className="max-w-5xl mx-auto px-4 py-10">
                 {items.length === 0 ? (
@@ -128,21 +113,21 @@ export default function CheckoutPage() {
                         <div className="space-y-4 lg:space-y-6 order-2 lg:order-1">
                             {/* Express checkout */}
                             {clientSecret && stripePromise && (
-                                <div className="bg-white rounded-2xl border p-6 shadow-sm">
-                                    <p className="text-sm font-bold text-center text-muted-foreground mb-4 uppercase tracking-wider">Paiement Express</p>
+                                <div className="bg-white text-slate-900 rounded-2xl border p-6 shadow-sm">
+                                    <p className="text-sm font-bold text-center text-slate-500 mb-4 uppercase tracking-wider">Paiement Express</p>
                                     <Elements stripe={stripePromise} options={{ clientSecret, appearance, locale: "fr" }}>
                                         <ExpressCheckoutElement onReady={() => setLoading(false)} onConfirm={async () => {}} />
                                     </Elements>
                                     <div className="flex items-center gap-3 mt-5">
                                         <div className="flex-1 h-px bg-border" />
-                                        <span className="text-xs text-muted-foreground font-semibold uppercase">ou continuer ci-dessous</span>
+                                        <span className="text-xs text-slate-500 font-semibold uppercase">ou continuer ci-dessous</span>
                                         <div className="flex-1 h-px bg-border" />
                                     </div>
                                 </div>
                             )}
 
                             {/* Stripe Elements */}
-                            <div className="bg-white rounded-2xl border p-6 shadow-sm">
+                            <div className="bg-white text-slate-900 rounded-2xl border p-6 shadow-sm">
                                 <h2 className="font-black text-lg mb-5 flex items-center gap-2">
                                     <Lock className="h-4 w-4 text-primary" /> Informations de livraison & Paiement
                                 </h2>
@@ -171,7 +156,7 @@ export default function CheckoutPage() {
 
                         {/* RIGHT: Order summary */}
                         <div className="space-y-4 order-1 lg:order-2">
-                            <div className="bg-white rounded-2xl border p-6 shadow-sm space-y-4">
+                            <div className="bg-white text-slate-900 rounded-2xl border p-6 shadow-sm space-y-4">
                                 <h2 className="font-black text-base uppercase tracking-wide">Résumé de la commande</h2>
 
                                 {/* Items */}
@@ -186,11 +171,11 @@ export default function CheckoutPage() {
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-bold text-sm line-clamp-1">{item.name}</p>
-                                                <p className="text-xs text-muted-foreground">{item.bundle} · {item.size}</p>
+                                                <p className="text-xs text-slate-500">{item.bundle} · {item.size}</p>
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <p className="font-black text-primary">€{(item.price * item.quantity).toFixed(2)}</p>
-                                                <p className="text-xs text-muted-foreground line-through">€{(item.price * item.quantity * 2).toFixed(2)}</p>
+                                                <p className="text-xs text-slate-500 line-through">€{(item.price * item.quantity * 2).toFixed(2)}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -211,7 +196,7 @@ export default function CheckoutPage() {
                                 {/* Totals */}
                                 <div className="space-y-2 border-t pt-4">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground">Sous-total · {items.length} article{items.length > 1 ? 's' : ''}</span>
+                                        <span className="text-slate-500">Sous-total · {items.length} article{items.length > 1 ? 's' : ''}</span>
                                         <span className="font-semibold">€{totalAmount.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between text-sm text-green-600 font-semibold">
@@ -221,7 +206,7 @@ export default function CheckoutPage() {
                                     <div className="flex justify-between font-black text-xl border-t pt-3 mt-2">
                                         <span>Total</span>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xs text-muted-foreground font-medium uppercase">EUR</span>
+                                            <span className="text-xs text-slate-500 font-medium uppercase">EUR</span>
                                             <span>€{totalAmount.toFixed(2)}</span>
                                         </div>
                                     </div>
@@ -239,10 +224,10 @@ export default function CheckoutPage() {
                                 <div className="space-y-3">
                                     <div className="text-center space-y-1">
                                         <h3 className="font-black text-[15px] uppercase">Recommandé pour vous</h3>
-                                        <p className="text-xs text-muted-foreground">Voici quelques extras pour compléter votre commande</p>
+                                        <p className="text-xs text-slate-500">Voici quelques extras pour compléter votre commande</p>
                                     </div>
                                     {remainingUpsells.map(u => (
-                                        <div key={u.id} className="bg-white rounded-xl border p-4 shadow-sm">
+                                        <div key={u.id} className="bg-white text-slate-900 rounded-xl border p-4 shadow-sm">
                                             <div className="flex gap-4 items-center">
                                                 <div className="w-16 h-16 shrink-0 bg-muted rounded-lg border overflow-hidden">
                                                     <img src={u.image} alt={u.name} className="w-full h-full object-cover" />
@@ -280,7 +265,7 @@ export default function CheckoutPage() {
                             )}
 
                             {/* Trust badges */}
-                            <div className="bg-white rounded-2xl border p-5 shadow-sm">
+                            <div className="bg-white text-slate-900 rounded-2xl border p-5 shadow-sm">
                                 <div className="space-y-3">
                                     {[
                                         { icon: <RotateCcw className="h-5 w-5 text-primary" />, title: "Essai 90 Jours", desc: "Remboursement complet si insatisfait" },
@@ -291,7 +276,7 @@ export default function CheckoutPage() {
                                             {badge.icon}
                                             <div>
                                                 <p className="text-sm font-black">{badge.title}</p>
-                                                <p className="text-xs text-muted-foreground">{badge.desc}</p>
+                                                <p className="text-xs text-slate-500">{badge.desc}</p>
                                             </div>
                                         </div>
                                     ))}
