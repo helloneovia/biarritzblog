@@ -1,37 +1,41 @@
 import { prisma } from "@/lib/prisma"
-import { ProductsManager } from "@/components/admin/ProductsManager"
+import { SingleProductManager } from "@/components/admin/SingleProductManager"
 
 export const dynamic = "force-dynamic"
 
-export const metadata = { title: "Produits - Admin Biarritz" }
+export const metadata = { title: "Produit - Admin Biarritz" }
 
 export default async function AdminProductsPage() {
-    const [products, bundles] = await Promise.all([
-        prisma.product.findMany({
-            orderBy: { createdAt: 'desc' },
-            include: { variants: true },
-        }),
-        prisma.bundle.findMany({ orderBy: { quantity: 'asc' } }),
-    ])
+    // Fetch the primary product and the first bundle (upsell)
+    const product = await prisma.product.findFirst({
+        orderBy: { createdAt: 'desc' },
+        include: { variants: true },
+    })
+    
+    // We assume the upsell is either the first bundle, or you specifically want to target a quantity. We'll pick the the highest discount or first one.
+    const bundle = await prisma.bundle.findFirst({
+        orderBy: { quantity: 'asc' }, // usually the first one is the lowest quantity upsell
+        skip: product ? 0 : 0 // just simple findFirst
+    })
 
-    const serializedProducts = products.map(p => ({
-        ...p,
-        createdAt: p.createdAt.toISOString(),
-        updatedAt: p.updatedAt.toISOString(),
-        variants: p.variants.map(v => ({
+    const serializedProduct = product ? {
+        ...product,
+        createdAt: product.createdAt.toISOString(),
+        updatedAt: product.updatedAt.toISOString(),
+        variants: product.variants.map(v => ({
             ...v,
             createdAt: v.createdAt.toISOString(),
             updatedAt: v.updatedAt.toISOString(),
         }))
-    }))
+    } : null
 
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight">Produits & Offres</h1>
-                <p className="text-muted-foreground mt-1">Gérez votre catalogue produits et les offres bundles.</p>
+                <h1 className="text-3xl font-bold tracking-tight">Paramètres du Produit</h1>
+                <p className="text-muted-foreground mt-1">Gérez les informations de votre produit unique et de son upsell.</p>
             </div>
-            <ProductsManager initialProducts={serializedProducts} initialBundles={bundles} />
+            <SingleProductManager initialProduct={serializedProduct} initialBundle={bundle} />
         </div>
     )
 }
