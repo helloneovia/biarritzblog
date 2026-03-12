@@ -24,7 +24,7 @@ export default async function ProductPage() {
     let dbBundles: any[] = [];
 
     try {
-        const prod = await prisma.product.findFirst();
+        const prod = await prisma.product.findFirst({ orderBy: { createdAt: 'desc' } });
         if (prod) {
             dbProduct = prod;
             const bundles = await prisma.bundle.findMany({ orderBy: { quantity: 'asc' } });
