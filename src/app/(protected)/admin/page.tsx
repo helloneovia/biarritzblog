@@ -35,6 +35,12 @@ export default async function AdminDashboard() {
         }
     });
 
+    const totalAffiliates = await prisma.user.count({
+        where: {
+            role: "AFFILIATE"
+        }
+    });
+
     const recentOrders = await prisma.order.findMany({
         take: 5,
         orderBy: {
@@ -89,7 +95,7 @@ export default async function AdminDashboard() {
                 </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                 {/* Revenue Card */}
                 <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
                     <div className="flex items-center justify-between space-y-0 pb-2">
@@ -135,6 +141,18 @@ export default async function AdminDashboard() {
                     <div className="text-2xl font-bold">{pendingTickets}</div>
                     <p className="text-xs text-muted-foreground mt-1">
                         Demandes client en attente
+                    </p>
+                </div>
+
+                {/* Affiliates Card */}
+                <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
+                    <div className="flex items-center justify-between space-y-0 pb-2">
+                        <h3 className="tracking-tight text-sm font-medium">Affiliés</h3>
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div className="text-2xl font-bold">{totalAffiliates}</div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                        Partenaires enregistrés
                     </p>
                 </div>
             </div>

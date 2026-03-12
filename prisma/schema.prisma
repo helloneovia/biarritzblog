@@ -18,11 +18,13 @@ model User {
   posts     Post[]
   orders    Order[]
   tickets   Ticket[]
+  affiliateProfile AffiliateProfile?
 }
 
 enum Role {
   ADMIN
   USER
+  AFFILIATE
 }
 
 model Product {
@@ -77,10 +79,76 @@ model PromoCode {
   usageCount  Int      @default(0)
   maxUses     Int?
   
+  affiliateId String?  @unique
+  affiliate   AffiliateProfile? @relation(fields: [affiliateId], references: [id])
+  
   orders      Order[]
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model AffiliateProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  balance       Float    @default(0) // total unpaid earnings
+  totalEarned   Float    @default(0) // lifetime earnings
+  iban          String?
+  bic           String?
+  
+  promoCode     PromoCode?
+  commissions   Commission[]
+  payouts       PayoutRequest[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Commission {
+  id            String   @id @default(cuid())
+  affiliateId   String
+  affiliate     AffiliateProfile @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  amount        Float    // 50% commission amount
+  status        CommissionStatus @default(PENDING) // pending (not paid yet), paid, refunded
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum CommissionStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+model PayoutRequest {
+  id            String   @id @default(cuid())
+  affiliateId   String
+  affiliate     AffiliateProfile @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  
+  amount        Float
+  status        PayoutStatus @default(PENDING)
+  iban          String?  // Snapshotted at request time
+  bic           String?
+  
+  transactionId String?  // Optional bank reference
+  notes         String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  PAID
+  REJECTED
 }
 
 model Order {
@@ -106,6 +174,8 @@ model Order {
   
   promoCodeId   String?
   promoCode     PromoCode?  @relation(fields: [promoCodeId], references: [id], onDelete: SetNull)
+  
+  commission    Commission?
   
   items         OrderItem[]
   

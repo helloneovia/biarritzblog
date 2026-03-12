@@ -31,6 +31,7 @@ export async function Footer() {
                             <li><Link href="/contact" className="hover:text-primary">{t.footerContact}</Link></li>
                             <li><Link href="/#faq" className="hover:text-primary">{t.navFaq}</Link></li>
                             <li><Link href="/login?callbackUrl=/dashboard" className="hover:text-primary">Track Order</Link></li>
+                            <li><Link href="/affiliate/register" className="hover:text-primary">Devenir Affilié</Link></li>
                         </ul>
                     </div>
                     <div>

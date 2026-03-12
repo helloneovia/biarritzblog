@@ -45,7 +45,12 @@ export async function POST(req: Request) {
         }
 
         if (event.type === "checkout.session.completed") {
-            const session = event.data.object as any
+            const rawSession = event.data.object as any
+
+            // Re-fetch session to expand discounts and get the promotion code used
+            const session = await stripe.checkout.sessions.retrieve(rawSession.id, {
+                expand: ['total_details.breakdown.discounts.discount.promotion_code']
+            })
 
             // 1. Retrieve items from metadata
             const items = JSON.parse(session.metadata?.items || "[]")
@@ -100,7 +105,7 @@ export async function POST(req: Request) {
                     city: session.customer_details?.address?.city || '',
                     postalCode: session.customer_details?.address?.postal_code || '',
                     country: session.customer_details?.address?.country || 'FR',
-                    totalAmount: session.amount_total / 100,
+                    totalAmount: (session.amount_total || 0) / 100,
                     status: "PAID",
                     stripeSession: session.id,
                     userId: user.id,
@@ -127,6 +132,69 @@ export async function POST(req: Request) {
 
             log(`Order created: ${order.id}`)
 
+            // 2.5 Affiliate Commission Logic
+            const discounts = session.total_details?.breakdown?.discounts as any[];
+            let appliedPromoCodeStr = null;
+
+            if (discounts && discounts.length > 0) {
+                const discountObj = discounts[0].discount;
+                if (discountObj && discountObj.promotion_code) {
+                    appliedPromoCodeStr = discountObj.promotion_code.code;
+                }
+            }
+
+            if (appliedPromoCodeStr) {
+                log(`Promo code used: ${appliedPromoCodeStr}`);
+
+                // Find PromoCode in DB and check if it belongs to an Affiliate
+                const promoCode = await prisma.promoCode.findUnique({
+                    where: { code: appliedPromoCodeStr },
+                    include: { affiliate: true }
+                });
+
+                if (promoCode) {
+                    // Update usage count and link to order
+                    await prisma.promoCode.update({
+                        where: { id: promoCode.id },
+                        data: { usageCount: { increment: 1 } }
+                    });
+
+                    await prisma.order.update({
+                        where: { id: order.id },
+                        data: { promoCodeId: promoCode.id }
+                    });
+
+                    if (promoCode.affiliateId) {
+                        log(`Affiliate ${promoCode.affiliateId} found for promo code ${appliedPromoCodeStr}`);
+
+                        // Calculate 50% of the totalAmount paid by user
+                        // Note: totalAmount is already net of discounts from Stripe
+                        const commissionAmount = order.totalAmount * 0.50;
+
+                        // Create Commission record
+                        await prisma.commission.create({
+                            data: {
+                                affiliateId: promoCode.affiliateId,
+                                orderId: order.id,
+                                amount: commissionAmount,
+                                status: "PENDING"
+                            }
+                        });
+
+                        // Add to Affiliate balance
+                        await prisma.affiliateProfile.update({
+                            where: { id: promoCode.affiliateId },
+                            data: {
+                                balance: { increment: commissionAmount },
+                                totalEarned: { increment: commissionAmount }
+                            }
+                        });
+
+                        log(`Credited ${commissionAmount}€ to affiliate ${promoCode.affiliateId}`);
+                    }
+                }
+            }
+
             // 3. Send emails
             const orderItemsForEmail = items.map((item: any) => ({
                 name: `Semelles Biarritz (Bundle ${item.id})`,
@@ -141,7 +209,7 @@ export async function POST(req: Request) {
                 name: session.customer_details?.name || 'Client',
                 orderId: order.id.slice(-8).toUpperCase(),
                 orderItems: orderItemsForEmail,
-                totalAmount: session.amount_total / 100,
+                totalAmount: (session.amount_total || 0) / 100,
                 address: fullAddress,
             })
 

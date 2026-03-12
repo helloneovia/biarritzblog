@@ -9,7 +9,8 @@ import {
     Settings,
     LogOut,
     ArrowLeft,
-    ShoppingBag
+    ShoppingBag,
+    Users
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +36,7 @@ export default async function AdminLayout({
         { name: "Commandes", href: "/admin/orders", icon: Package },
         { name: "Produits & Offres", href: "/admin/products", icon: ShoppingBag },
         { name: "Support", href: "/admin/support", icon: MessageSquare },
+        { name: "Affiliés & Virements", href: "/admin/affiliates", icon: Users },
         { name: "Paramètres (CMS)", href: "/admin/settings", icon: Settings },
     ];
 

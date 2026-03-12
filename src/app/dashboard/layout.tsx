@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth/options"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Package, MessageCircle, Settings, LogOut, ShieldCheck } from "lucide-react"
+import { Package, MessageCircle, Settings, LogOut, ShieldCheck, Gift } from "lucide-react"
 import { SignOutButton } from "@/components/auth/SignOutButton"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
@@ -57,6 +57,25 @@ export default async function DashboardLayout({ children }: { children: React.Re
                                     {item.label}
                                 </Link>
                             ))}
+
+                            {/* Affiliate Link */}
+                            {session?.user?.role === "AFFILIATE" ? (
+                                <Link
+                                    href="/affiliate/dashboard"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
+                                >
+                                    <Gift className="h-4 w-4" />
+                                    Tableau de Bord Affilié
+                                </Link>
+                            ) : session?.user?.role === "USER" ? (
+                                <Link
+                                    href="/affiliate/register"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
+                                >
+                                    <Gift className="h-4 w-4" />
+                                    Devenir Affilié (-15%)
+                                </Link>
+                            ) : null}
 
                             {/* Admin Link */}
                             {session?.user?.role === "ADMIN" && (

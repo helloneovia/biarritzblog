@@ -58,6 +58,12 @@ export async function Navbar() {
                                     {t.navAdmin}
                                 </Link>
                             )}
+                            {session.user?.role === "AFFILIATE" && (
+                                <Link href="/affiliate/dashboard" className="flex items-center gap-1 text-sm font-bold text-green-600 hover:text-green-800 transition-colors">
+                                    <UserCircle className="h-5 w-5" />
+                                    Affiliation
+                                </Link>
+                            )}
                             <Link href="/dashboard" className="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary/80 transition-colors">
                                 <UserCircle className="h-5 w-5" />
                                 {t.navDashboard}
@@ -98,6 +104,12 @@ export async function Navbar() {
                                             <Link href="/admin" className="flex items-center gap-2 text-red-600 font-bold hover:text-red-800">
                                                 <UserCircle className="h-5 w-5" />
                                                 {t.navAdmin}
+                                            </Link>
+                                        )}
+                                        {session.user?.role === "AFFILIATE" && (
+                                            <Link href="/affiliate/dashboard" className="flex items-center gap-2 text-green-600 font-bold hover:text-green-800">
+                                                <UserCircle className="h-5 w-5" />
+                                                Affiliation
                                             </Link>
                                         )}
                                         <Link href="/dashboard" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80">
