@@ -19,8 +19,10 @@ type Bundle = {
     discount: number; badge: string | null;
 };
 
-export function SingleProductManager({ initialProduct, initialBundles, initialStripeUpsell }: {
-    initialProduct: Product | null; initialBundles: Bundle[]; initialStripeUpsell: string;
+export function SingleProductManager({ initialProduct, initialBundles, initialUpsell }: {
+    initialProduct: Product | null; 
+    initialBundles: Bundle[]; 
+    initialUpsell: { active: boolean, title: string, price: number };
 }) {
     // Product state
     const [productId, setProductId] = useState(initialProduct?.id || null);
@@ -45,8 +47,10 @@ export function SingleProductManager({ initialProduct, initialBundles, initialSt
         };
     }));
 
-    // Stripe Upsell state
-    const [stripeUpsell, setStripeUpsell] = useState(initialStripeUpsell || "");
+    // Local Upsell state
+    const [upsellActive, setUpsellActive] = useState(initialUpsell?.active ?? false);
+    const [upsellTitle, setUpsellTitle] = useState(initialUpsell?.title || "Livraison Express");
+    const [upsellPrice, setUpsellPrice] = useState(String(initialUpsell?.price || 9.99));
 
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -115,9 +119,17 @@ export function SingleProductManager({ initialProduct, initialBundles, initialSt
             }
             setPacks(newPacks);
 
-            // 3. Save Stripe Upsell
-            const sRes = await fetch("/api/admin/stripe-upsell", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ stripeUpsellPriceId: stripeUpsell }) });
-            if (!sRes.ok) throw new Error("Erreur enregistrement de l'Upsell Stripe");
+            // 3. Save Custom Upsell Config
+            const sRes = await fetch("/api/admin/stripe-upsell", { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify({ 
+                    upsellActive, 
+                    upsellTitle, 
+                    upsellPrice: parseFloat(upsellPrice) 
+                }) 
+            });
+            if (!sRes.ok) throw new Error("Erreur enregistrement de l'Upsell");
 
             alert("Modifications sauvegardées avec succès !");
         } catch (e: any) { 
@@ -300,23 +312,31 @@ export function SingleProductManager({ initialProduct, initialBundles, initialSt
                         </div>
                     </div>
 
-                    {/* Stripe Upsell */}
+                    {/* Local Upsell / Order Bump */}
                     <div className="bg-gradient-to-b from-orange-50/50 to-white rounded-3xl border border-orange-100 shadow-sm overflow-hidden sticky top-28">
-                        <div className="bg-orange-50/80 px-6 py-4 flex items-center gap-3 border-b border-orange-100">
-                            <div className="bg-white p-2 rounded-xl shadow-sm"><Tag className="h-5 w-5 text-orange-600" /></div>
-                            <div>
-                                <h3 className="font-bold text-lg text-orange-900">Upsell Stripe</h3>
-                                <p className="text-xs text-orange-600/70">Sur la page de paiement</p>
+                        <div className="bg-orange-50/80 px-6 py-4 flex items-center justify-between border-b border-orange-100">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-white p-2 rounded-xl shadow-sm"><Tag className="h-5 w-5 text-orange-600" /></div>
+                                <div>
+                                    <h3 className="font-bold text-lg text-orange-900">Vente additionnelle</h3>
+                                    <p className="text-xs text-orange-600/70">Avant le paiement (Order Bump)</p>
+                                </div>
                             </div>
+                            <label className="flex items-center cursor-pointer">
+                                <span className="mr-2 text-xs font-bold text-orange-900">Activer</span>
+                                <input type="checkbox" className="sr-only peer" checked={upsellActive} onChange={e => setUpsellActive(e.target.checked)} />
+                                <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500 relative"></div>
+                            </label>
                         </div>
                         
                         <div className="p-6 space-y-4">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 block mb-1.5">ID du Prix Stripe (price_...)</label>
-                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 font-mono text-sm shadow-sm" placeholder="Ex: price_1PXXX..." value={stripeUpsell} onChange={e => setStripeUpsell(e.target.value)} />
-                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                                    Copiez cet identifiant depuis votre tableau de bord Stripe pour proposer ce produit additionnel juste avant le paiement (Cross-Sell).
-                                </p>
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Que proposez-vous ? (Titre)</label>
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 text-sm shadow-sm" placeholder="Ex: Livraison Express & Assurée" value={upsellTitle} onChange={e => setUpsellTitle(e.target.value)} disabled={!upsellActive} />
+                            </div>
+                            <div>
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Prix supplémentaire (€)</label>
+                                <Input className="rounded-xl border-gray-300 bg-white text-gray-900 text-sm shadow-sm" type="number" step="0.01" placeholder="Ex: 9.99" value={upsellPrice} onChange={e => setUpsellPrice(e.target.value)} disabled={!upsellActive} />
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,11 @@ export default async function AdminProductsPage() {
             <SingleProductManager 
                 initialProduct={serializedProduct} 
                 initialBundles={bundles} 
-                initialStripeUpsell={texts?.stripeUpsellPriceId || ""}
+                initialUpsell={{
+                    active: texts?.upsellActive ?? false,
+                    title: texts?.upsellTitle || "Livraison Express",
+                    price: texts?.upsellPrice || 9.99
+                }}
             />
         </div>
     )

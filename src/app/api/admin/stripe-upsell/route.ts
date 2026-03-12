@@ -10,11 +10,15 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
         }
 
-        const { stripeUpsellPriceId } = await req.json();
+        const { upsellActive, upsellTitle, upsellPrice } = await req.json();
 
         const config = await prisma.siteConfig.findUnique({ where: { id: "global" } });
         const texts = config?.texts as Record<string, any> || {};
-        texts.stripeUpsellPriceId = stripeUpsellPriceId;
+        
+        // Save the custom Upsell config instead of Stripe Price ID
+        texts.upsellActive = upsellActive;
+        texts.upsellTitle = upsellTitle;
+        texts.upsellPrice = upsellPrice;
 
         await prisma.siteConfig.upsert({
             where: { id: "global" },
@@ -24,7 +28,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error("Stripe Upsell save error:", error);
+        console.error("Upsell save error:", error);
         return NextResponse.json({ error: "Erreur" }, { status: 500 });
     }
 }
