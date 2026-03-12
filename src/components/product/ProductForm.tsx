@@ -6,7 +6,7 @@ import { ShoppingCart, ShieldCheck, Truck, RotateCcw } from "lucide-react"
 import { useCart } from "@/lib/store/CartContext"
 
 interface Bundle {
-    id: number
+    id: number | string
     name: string
     price: number
     original: number
@@ -24,7 +24,7 @@ export function ProductForm({
     dbProduct?: any
 }) {
     const [size, setSize] = useState<string>("EU 40-41")
-    const [bundle, setBundle] = useState<number>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
+    const [bundle, setBundle] = useState<number | string>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [timeLeft, setTimeLeft] = useState(14 * 60 + 32); // 14 mins 32 seconds
 
@@ -62,7 +62,7 @@ export function ProductForm({
     return (
         <div className="flex flex-col gap-8">
             <div>
-                <h1 className="text-3xl sm:text-4xl font-black tracking-tighter mb-2 text-primary leading-tight text-balance">{t.heroTitle || "Acupression Magnétique Premium"}</h1>
+                <h1 className="text-3xl sm:text-4xl font-black tracking-tighter mb-2 text-primary leading-tight text-balance">{dbProduct?.name || t.heroTitle || "Acupression Magnétique Premium"}</h1>
                 <div className="flex items-center gap-4 mb-4">
                     <div className="flex text-primary text-base gap-0.5">★★★★★</div>
                     <span className="text-sm text-muted-foreground underline cursor-pointer font-semibold">4.9 (3 450 Avis)</span>
@@ -201,11 +201,19 @@ export function ProductForm({
             </div>
 
             <div className="text-sm prose prose-sm text-muted-foreground">
-                <p><strong>Soulagement Immédiat</strong> pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds.</p>
+                <p>{dbProduct?.description || "Soulagement Immédiat pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds."}</p>
                 <ul className="mt-2 space-y-1">
-                    <li>✔ Design ergonomique en matériau EVA extra-doux et respirant</li>
-                    <li>✔ Nœuds magnétiques stratégiques pour une voûte soutenue</li>
-                    <li>✔ Découpe DIY universelle : s'adapte à 100% de vos chaussures</li>
+                    {dbProduct?.features?.length > 0 ? (
+                        dbProduct.features.map((feature: string, index: number) => (
+                            <li key={index}>✔ {feature}</li>
+                        ))
+                    ) : (
+                        <>
+                            <li>✔ Design ergonomique en matériau EVA extra-doux et respirant</li>
+                            <li>✔ Nœuds magnétiques stratégiques pour une voûte soutenue</li>
+                            <li>✔ Découpe DIY universelle : s'adapte à 100% de vos chaussures</li>
+                        </>
+                    )}
                 </ul>
             </div>
         </div>

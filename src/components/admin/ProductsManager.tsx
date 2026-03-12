@@ -46,6 +46,7 @@ export function ProductsManager({ initialProducts, initialBundles }: {
     const [pPrice, setPPrice] = useState("");
     const [pCompare, setPCompare] = useState("");
     const [pImages, setPImages] = useState<string[]>([]);
+    const [pFeatures, setPFeatures] = useState("");
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,11 +55,12 @@ export function ProductsManager({ initialProducts, initialBundles }: {
         setPName(p.name); setPDesc(p.description);
         setPPrice(String(p.price)); setPCompare(p.compareAt ? String(p.compareAt) : "");
         setPImages(p.images || []);
+        setPFeatures(p.features?.join("\n") || "");
     };
 
     const openNewProduct = () => {
         setEditProduct(null); setNewProduct(true);
-        setPName(""); setPDesc(""); setPPrice(""); setPCompare(""); setPImages([]);
+        setPName(""); setPDesc(""); setPPrice(""); setPCompare(""); setPImages([]); setPFeatures("");
     };
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +93,7 @@ export function ProductsManager({ initialProducts, initialBundles }: {
         const body = {
             name: pName, description: pDesc,
             price: parseFloat(pPrice), compareAt: pCompare ? parseFloat(pCompare) : null,
-            images: pImages,
+            images: pImages, features: pFeatures.split("\n").map(s => s.trim()).filter(Boolean),
         };
         try {
             const url = editProduct ? `/api/admin/products/${editProduct.id}` : "/api/admin/products";
@@ -286,6 +288,13 @@ export function ProductsManager({ initialProducts, initialBundles }: {
                                 <textarea
                                     className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[100px]"
                                     value={pDesc} onChange={e => setPDesc(e.target.value)} placeholder="Description complète et détaillée du produit..."
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm font-bold text-gray-700 block mb-1.5">Points de vente (1 par ligne)</label>
+                                <textarea
+                                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 p-3 text-sm outline-none resize-none min-h-[80px]"
+                                    value={pFeatures} onChange={e => setPFeatures(e.target.value)} placeholder="✔ Design ergonomique...&#10;✔ Soulage les douleurs..."
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4">

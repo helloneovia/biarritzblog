@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export interface CartItem {
     id: string; // Unique combination of productId + size
-    productId: number;
+    productId: number | string;
     name: string;
     image: string;
     bundle: string;

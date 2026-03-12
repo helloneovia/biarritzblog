@@ -36,8 +36,8 @@ export default async function ProductPage() {
 
     const bundles = dbBundles.length > 0
         ? dbBundles.map(b => ({
-            id: b.quantity,
-            name: b.quantity === 1 ? "1 Paire" : `${b.quantity} Paires`,
+            id: b.id || b.quantity,
+            name: b.name || (b.quantity === 1 ? "1 Paire" : `${b.quantity} Paires`),
             price: b.price,
             original: b.compareAt ?? Math.round(b.price * 1.5),
             subtitle: b.badge || '',
