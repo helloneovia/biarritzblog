@@ -12,8 +12,22 @@ import { prisma } from "@/lib/prisma"
 import Image from "next/image" // Added as per instruction
 import { Button } from "@/components/ui/button" // Re-added as it's used in CTA
 import Link from "next/link" // Re-added as it's used in CTA
+import { unstable_cache } from "next/cache"
 
 export const dynamic = "force-dynamic"
+
+const getCachedHomeProduct = unstable_cache(
+  async () => {
+    return prisma.product.findFirst({
+      orderBy: { createdAt: 'desc' }
+    }).catch(() => null);
+  },
+  ["home-product"],
+  {
+    revalidate: 3600, // Cache for 1 hour
+    tags: ["products"]
+  }
+)
 
 export default async function Home() {
   const cookieStore = await cookies()
@@ -22,9 +36,7 @@ export default async function Home() {
   const texts = getTexts(config, locale)
 
   // Fetch primary product to dynamize the Hero image (avoiding static shoes)
-  const dbProduct = await prisma.product.findFirst({
-    orderBy: { createdAt: 'desc' }
-  }).catch(() => null);
+  const dbProduct = await getCachedHomeProduct();
 
   // Assuming 't' is meant to be 'texts' based on the original code's context
   // If 't' is meant to come from i18n, the setup for 't' would need to be added here.

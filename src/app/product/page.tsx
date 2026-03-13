@@ -5,8 +5,29 @@ import { Testimonials } from "@/components/sections/Testimonials"
 import { Faq } from "@/components/sections/Faq"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
+import { unstable_cache } from "next/cache"
 
 export const dynamic = "force-dynamic"
+
+const getCachedProductData = unstable_cache(
+    async () => {
+        try {
+            const prod = await prisma.product.findFirst({ orderBy: { createdAt: 'desc' } });
+            if (prod) {
+                const bundles = await prisma.bundle.findMany({ orderBy: { quantity: 'asc' } });
+                return { dbProduct: prod, dbBundles: bundles || [] };
+            }
+        } catch (e) {
+            console.error("Failed to load product from DB:", e);
+        }
+        return { dbProduct: null, dbBundles: [] };
+    },
+    ["product-page-data"],
+    {
+        revalidate: 3600, // Cache for 1 hour
+        tags: ["products", "bundles"]
+    }
+)
 
 export const metadata = {
     title: "Premium Orthopaedic Insoles - Biarritz",
@@ -20,19 +41,7 @@ export default async function ProductPage() {
     const t = getTexts(config, locale)
 
     // Fetch the primary product and real bundles from DB
-    let dbProduct: any = null;
-    let dbBundles: any[] = [];
-
-    try {
-        const prod = await prisma.product.findFirst({ orderBy: { createdAt: 'desc' } });
-        if (prod) {
-            dbProduct = prod;
-            const bundles = await prisma.bundle.findMany({ orderBy: { quantity: 'asc' } });
-            dbBundles = bundles || [];
-        }
-    } catch (e) {
-        console.error("Failed to load product from DB:", e);
-    }
+    const { dbProduct, dbBundles } = await getCachedProductData();
 
     const bundles = dbBundles.length > 0
         ? dbBundles.map(b => ({

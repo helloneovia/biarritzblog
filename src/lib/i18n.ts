@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { unstable_cache } from "next/cache"
 
 export type Locale = "EN" | "FR" | "ES"
 export const SUPPORTED_LOCALES: Locale[] = ["EN", "FR", "ES"]
@@ -148,13 +149,26 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
     },
 }
 
-export async function getSiteConfig() {
-    try {
-        const config = await prisma.siteConfig.findFirst()
-        if (config) return config
-    } catch (e) {
-        console.error("Database connection failed or config missing, using defaults.", e)
+const getCachedSiteConfig = unstable_cache(
+    async () => {
+        try {
+            const config = await prisma.siteConfig.findFirst()
+            if (config) return config
+        } catch (e) {
+            console.error("Database connection failed or config missing, using defaults.", e)
+        }
+        return null;
+    },
+    ["site-config"],
+    {
+        revalidate: 3600, // Cache for 1 hour
+        tags: ["site-config"]
     }
+)
+
+export async function getSiteConfig() {
+    const config = await getCachedSiteConfig()
+    if (config) return config
 
     // Safe fallback if DB is offline
     return {
