@@ -110,7 +110,7 @@ export default function CheckoutPage() {
                     <div className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-10 items-start">
 
                         {/* LEFT: Payment form */}
-                        <div className="space-y-4 lg:space-y-6 order-2 lg:order-1">
+                        <div className="space-y-4 lg:space-y-6">
                             {/* Express checkout */}
                             {clientSecret && stripePromise && (
                                 <div className="bg-white text-slate-900 rounded-2xl border p-6 shadow-sm">
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
                         </div>
 
                         {/* RIGHT: Order summary */}
-                        <div className="space-y-4 order-1 lg:order-2">
+                        <div className="space-y-4">
                             <div className="bg-white text-slate-900 rounded-2xl border p-6 shadow-sm space-y-4">
                                 <h2 className="font-black text-base uppercase tracking-wide">Résumé de la commande</h2>
 
