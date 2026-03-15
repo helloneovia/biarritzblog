@@ -1,13 +1,22 @@
 import { prisma } from "@/lib/prisma"
-import { ProductGallery } from "@/components/product/ProductGallery"
-import { ProductForm } from "@/components/product/ProductForm"
 import { Testimonials } from "@/components/sections/Testimonials"
-import { Faq } from "@/components/sections/Faq"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
 import { unstable_cache } from "next/cache"
+import Image from "next/image"
+import dynamic from "next/dynamic"
 
-export const dynamic = "force-dynamic"
+const ProductGallery = dynamic(
+    () => import("@/components/product/ProductGallery").then(m => m.ProductGallery),
+    { loading: () => <div className="aspect-square bg-muted/30 rounded-3xl animate-pulse" /> }
+)
+const ProductForm = dynamic(
+    () => import("@/components/product/ProductForm").then(m => m.ProductForm),
+    { loading: () => <div className="h-[600px] bg-muted/30 rounded-3xl animate-pulse" /> }
+)
+const Faq = dynamic(() => import("@/components/sections/Faq").then(m => m.Faq))
+
+export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
 
 const getCachedProductData = unstable_cache(
     async () => {
@@ -88,15 +97,15 @@ export default async function ProductPage() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="/insole-running.png" alt="Semelles sport" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <Image src="/insole-running.png" alt="Semelles sport" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
                             <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Sport &amp; Running</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="/insole-daily.png" alt="Semelles quotidien" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <Image src="/insole-daily.png" alt="Semelles quotidien" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
                             <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Marche Quotidienne</div>
                         </div>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <img src="/insole-work.png" alt="Semelles travail" className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                            <Image src="/insole-work.png" alt="Semelles travail" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
                             <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">Travail &amp; Bureau</div>
                         </div>
                     </div>

@@ -1,5 +1,7 @@
 import { Star } from "lucide-react"
+import Image from "next/image"
 import { prisma } from "@/lib/prisma"
+import { unstable_cache } from "next/cache"
 
 // Fallback reviews if DB has none yet
 const FALLBACK_REVIEWS = [
@@ -47,20 +49,29 @@ const FALLBACK_REVIEWS = [
     }
 ]
 
+// Cache testimonials data for 1 hour
+const getCachedTestimonials = unstable_cache(
+    async () => {
+        const dbReviews = await prisma.review.findMany({
+            where: { isVerified: true },
+            orderBy: { createdAt: 'desc' },
+            take: 6,
+        }).catch(() => [])
+
+        const reviews = dbReviews.length >= 3 ? dbReviews : FALLBACK_REVIEWS
+        const totalReviews = await prisma.review.count().catch(() => 50000)
+        const avgRating = dbReviews.length > 0
+            ? dbReviews.reduce((sum, r) => sum + r.rating, 0) / dbReviews.length
+            : 4.9
+
+        return { reviews, totalReviews, avgRating }
+    },
+    ["testimonials-data"],
+    { revalidate: 3600, tags: ["reviews"] }
+)
+
 export async function Testimonials() {
-    // Fetch real reviews from DB
-    const dbReviews = await prisma.review.findMany({
-        where: { isVerified: true },
-        orderBy: { createdAt: 'desc' },
-        take: 6,
-    }).catch(() => [])
-
-    const reviews = dbReviews.length >= 3 ? dbReviews : FALLBACK_REVIEWS
-
-    const totalReviews = await prisma.review.count().catch(() => 50000)
-    const avgRating = dbReviews.length > 0
-        ? dbReviews.reduce((sum, r) => sum + r.rating, 0) / dbReviews.length
-        : 4.9
+    const { reviews, totalReviews, avgRating } = await getCachedTestimonials()
 
     const displayCount = totalReviews > 0 ? totalReviews.toLocaleString('fr-FR') : '3,450+'
     const displayRating = avgRating.toFixed(1)
@@ -90,10 +101,12 @@ export async function Testimonials() {
                             <p className="italic text-muted-foreground mb-6 min-h-[80px]">&quot;{review.content}&quot;</p>
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20 bg-muted shrink-0">
-                                    <img
+                                    <Image
                                         src={(review as any).avatar || `https://i.pravatar.cc/80?img=${idx + 10}`}
                                         alt={review.author}
-                                        className="w-full h-full object-cover"
+                                        width={48}
+                                        height={48}
+                                        className="object-cover"
                                     />
                                 </div>
                                 <div>

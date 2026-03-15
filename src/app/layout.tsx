@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/Analytics";
 import { Providers } from "@/components/auth/Providers";
-import { SupportWidget } from "@/components/layout/SupportWidget";
+import { LazySupportWidget } from "@/components/layout/LazySupportWidget";
 import { CartProvider } from "@/lib/store/CartContext";
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
@@ -55,7 +55,7 @@ export default async function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
-            <SupportWidget t={t} />
+            <LazySupportWidget t={t} />
             <Toaster position="top-center" />
             <Analytics />
           </CartProvider>

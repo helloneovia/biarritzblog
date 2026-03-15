@@ -5,6 +5,11 @@ import { cn } from "@/lib/utils"
 import { ShoppingCart, ShieldCheck, Truck, RotateCcw } from "lucide-react"
 import { useCart } from "@/lib/store/CartContext"
 
+// Strip inline base64 images from rich-text HTML to prevent massive payloads
+function stripBase64Images(html: string): string {
+    return html.replace(/<img[^>]+src=["']data:[^"']+["'][^>]*\/?>/gi, '')
+}
+
 interface Bundle {
     id: number | string
     name: string
@@ -201,11 +206,11 @@ export function ProductForm({
             </div>
 
             <div className="text-sm prose prose-sm text-muted-foreground overflow-hidden break-words max-w-full [&_img]:max-w-full [&_img]:h-auto">
-                <div dangerouslySetInnerHTML={{ __html: dbProduct?.description || "Soulagement Immédiat pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds." }} />
+                <div dangerouslySetInnerHTML={{ __html: stripBase64Images(dbProduct?.description || "Soulagement Immédiat pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds.") }} />
                 <ul className="mt-2 space-y-1">
                     {dbProduct?.features?.length > 0 ? (
                         dbProduct.features.map((feature: string, index: number) => (
-                            <li key={index}>✔ <span dangerouslySetInnerHTML={{ __html: feature }} /></li>
+                            <li key={index}>✔ <span dangerouslySetInnerHTML={{ __html: stripBase64Images(feature) }} /></li>
                         ))
                     ) : (
                         <>

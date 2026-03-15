@@ -1,26 +1,29 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { unstable_cache } from "next/cache"
 
-export const dynamic = "force-dynamic"
-export const fetchCache = "force-no-store"
+const getCachedPosts = unstable_cache(
+    async () => {
+        try {
+            return await prisma.post.findMany({
+                where: { published: true },
+                orderBy: { createdAt: 'desc' }
+            });
+        } catch (e) {
+            console.warn("Prisma failed to connect, returning empty posts.");
+            return [];
+        }
+    },
+    ["blog-posts-list"],
+    { revalidate: 60, tags: ["posts"] }
+)
+
+export const revalidate = 60 // ISR: regenerate every 60s
 
 export default async function BlogPage() {
-    let posts: any[] = [];
-
-    // Prevent Prisma execution during Next.js build time without a valid connection
-    if (process.env.NODE_ENV !== "development" && process.env.NODE_ENV !== "production") {
-        return <div className="p-24">Building...</div>
-    }
-
-    try {
-        posts = await prisma.post.findMany({
-            where: { published: true },
-            orderBy: { createdAt: 'desc' }
-        });
-    } catch (e) {
-        console.warn("Prisma failed to connect during build/render, returning empty posts.");
-    }
+    const posts = await getCachedPosts();
 
     return (
         <div className="container mx-auto px-4 py-24 min-h-screen mt-16">
@@ -42,7 +45,7 @@ export default async function BlogPage() {
                         <Link href={`/blog/${post.slug}`} key={post.id} className="group flex flex-col h-full bg-card border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                             {post.imageUrl ? (
                                 <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
-                                    <img src={post.imageUrl} alt={post.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                                    <Image src={post.imageUrl} alt={post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                                 </div>
                             ) : (
                                 <div className="aspect-[4/3] w-full bg-primary/5 flex items-center justify-center relative overflow-hidden">

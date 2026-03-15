@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/Hero"
 import { Features } from "@/components/sections/Features"
 import { Testimonials } from "@/components/sections/Testimonials"
-import { Faq } from "@/components/sections/Faq"
 import { ReasonsToBuy } from "@/components/sections/ReasonsToBuy"
 import { InsoleGallery } from "@/components/sections/InsoleGallery"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
@@ -9,12 +8,15 @@ import { cookies } from "next/headers"
 import { CheckCircle2 } from "lucide-react"
 import { ArrowRight } from "lucide-react"
 import { prisma } from "@/lib/prisma"
-import Image from "next/image" // Added as per instruction
-import { Button } from "@/components/ui/button" // Re-added as it's used in CTA
-import Link from "next/link" // Re-added as it's used in CTA
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { unstable_cache } from "next/cache"
+import dynamic from "next/dynamic"
 
-export const dynamic = "force-dynamic"
+const Faq = dynamic(() => import("@/components/sections/Faq").then(mod => mod.Faq))
+
+export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
 
 const getCachedHomeProduct = unstable_cache(
   async () => {
@@ -38,11 +40,6 @@ export default async function Home() {
   // Fetch primary product to dynamize the Hero image (avoiding static shoes)
   const dbProduct = await getCachedHomeProduct();
 
-  // Assuming 't' is meant to be 'texts' based on the original code's context
-  // If 't' is meant to come from i18n, the setup for 't' would need to be added here.
-  // For now, I'll use 'texts' where 't' was indicated in the provided snippet,
-  // and keep the original 'texts' variable for the CTA section.
-
   // Helper: use CMS value if it's any valid URL or local path, not an empty string
   const localOrFallback = (cmsVal: string | undefined, fallback: string) =>
     cmsVal && cmsVal.trim() !== ''
@@ -52,7 +49,7 @@ export default async function Home() {
   return (
     <main>
       <Hero texts={texts} dbProduct={dbProduct} />
-      <Features texts={texts} /> {/* Changed 't' to 'texts' for consistency with current file logic */}
+      <Features texts={texts} />
 
       {/* Visual Break - Science section */}
       <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
@@ -60,7 +57,7 @@ export default async function Home() {
           {(texts.scienceBgImage || "/insole-science.png").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <img src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" className="w-full h-full object-cover" />
+            <Image src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" fill sizes="100vw" className="object-cover" />
           )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -87,7 +84,7 @@ export default async function Home() {
               {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover" />
+                <Image src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
               )}
             </div>
           </div>
@@ -110,7 +107,7 @@ export default async function Home() {
                 {item.img.match(/\.(mp4|webm)$/i) ? (
                   <video src={item.img} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
                 ) : (
-                  <img src={item.img} alt={item.label} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                  <Image src={item.img} alt={item.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
                 )}
                 <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">{item.label}</div>
               </div>

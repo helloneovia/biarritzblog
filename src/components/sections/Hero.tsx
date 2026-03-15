@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, Star } from "lucide-react"
 
 export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }) {
@@ -13,6 +14,8 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     } else {
         heroSrc = "/temu-product.jpg";
     }
+
+    const isVideo = heroSrc.match(/\.(mp4|webm)$/i);
 
     return (
         <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32 w-full">
@@ -82,7 +85,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             <div className="flex -space-x-3">
                                 {[1, 2, 3, 4, 5].map((i) => (
                                     <div key={i} className="w-12 h-12 rounded-full border-4 border-background bg-muted flex items-center justify-center overflow-hidden z-20" style={{ zIndex: 10 - i }}>
-                                        <img src={`https://i.pravatar.cc/100?img=${i + 15}`} alt={`Customer ${i}`} />
+                                        <Image src={`https://i.pravatar.cc/100?img=${i + 15}`} alt={`Customer ${i}`} width={48} height={48} className="object-cover" />
                                     </div>
                                 ))}
                             </div>
@@ -100,13 +103,16 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                         <div className="absolute inset-0 bg-primary/5 rounded-[3rem] -mt-4 lg:ml-8 transform rotate-3" />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
-                            {heroSrc.match(/\.(mp4|webm)$/i) ? (
+                            {isVideo ? (
                                 <video src={heroSrc} className="object-cover w-full h-full" autoPlay loop muted playsInline />
                             ) : (
-                                <img
+                                <Image
                                     src={heroSrc}
                                     alt="Premium Orthopaedic Insoles"
-                                    className="object-cover w-full h-full"
+                                    fill
+                                    sizes="(max-width: 1024px) 500px, 50vw"
+                                    className="object-cover"
+                                    priority
                                 />
                             )}
                         </div>

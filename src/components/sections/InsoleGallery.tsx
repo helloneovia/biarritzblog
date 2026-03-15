@@ -1,4 +1,5 @@
 import { ZoomIn } from "lucide-react"
+import Image from "next/image"
 
 export function InsoleGallery({ texts = {} }: { texts?: any }) {
     const images = [
@@ -25,10 +26,12 @@ export function InsoleGallery({ texts = {} }: { texts?: any }) {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
                     {images.map((img, idx) => (
                         <div key={idx} className="group relative aspect-square rounded-3xl overflow-hidden border bg-muted/20 hover:border-primary/50 transition-all duration-500">
-                            <img
+                            <Image
                                 src={img.src}
                                 alt={img.label}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                fill
+                                sizes="(max-width: 768px) 50vw, 33vw"
+                                className="object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
                                 <div className="flex items-center gap-2 text-white">

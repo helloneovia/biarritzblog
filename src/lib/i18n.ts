@@ -178,11 +178,30 @@ export async function getSiteConfig() {
     }
 }
 
+/**
+ * Strip base64 data URLs from texts to prevent massive HTML payloads.
+ * Base64 images (up to 2MB each) stored in SiteConfig.texts were being
+ * serialized into every page response, causing 17MB+ HTML pages.
+ * We replace them with empty strings so the fallback URL gets used instead.
+ */
+function stripBase64FromTexts(texts: Record<string, string>): Record<string, string> {
+    const cleaned: Record<string, string> = {}
+    for (const [key, value] of Object.entries(texts)) {
+        if (typeof value === "string" && value.startsWith("data:")) {
+            // Strip base64 data URL — the component will use its fallback URL
+            cleaned[key] = ""
+        } else {
+            cleaned[key] = value
+        }
+    }
+    return cleaned
+}
+
 export function getTexts(config: { texts: any; language: string }, locale?: Locale): Record<string, string> {
     const effectiveLocale = (locale || config.language || DEFAULT_LOCALE) as Locale
     const stored = config.texts?.[effectiveLocale] || {}
     const defaults = DEFAULTS[effectiveLocale] || DEFAULTS[DEFAULT_LOCALE]
-    return { ...defaults, ...stored }
+    return stripBase64FromTexts({ ...defaults, ...stored })
 }
 
 export function formatPrice(amount: number, currencyCode: string): string {

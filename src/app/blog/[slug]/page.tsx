@@ -1,27 +1,31 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
+import { unstable_cache } from "next/cache"
 
-export const dynamic = "force-dynamic"
-export const fetchCache = "force-no-store"
+export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
+
+const getCachedPost = unstable_cache(
+    async (slug: string) => {
+        try {
+            return await prisma.post.findUnique({
+                where: { slug, published: true }
+            });
+        } catch (e) {
+            console.warn(`Prisma failed to connect, returning null post for slug: ${slug}`);
+            return null;
+        }
+    },
+    ["blog-post"],
+    { revalidate: 60, tags: ["posts"] }
+)
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
 
-    // Prevent Prisma execution during Next.js build time without a valid connection
-    if (process.env.NODE_ENV !== "development" && process.env.NODE_ENV !== "production") {
-        return <div className="p-24">Building...</div>
-    }
-
-    let post: any = null;
-    try {
-        post = await prisma.post.findUnique({
-            where: { slug: slug, published: true }
-        });
-    } catch (e) {
-        console.warn(`Prisma failed to connect, returning null post for slug: ${slug}`);
-    }
+    const post = await getCachedPost(slug);
 
     if (!post) {
         notFound();
@@ -41,8 +45,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </header>
 
             {post.imageUrl && (
-                <div className="w-full aspect-[2/1] rounded-[2rem] overflow-hidden mb-16 shadow-2xl border bg-muted">
-                    <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+                <div className="w-full aspect-[2/1] rounded-[2rem] overflow-hidden mb-16 shadow-2xl border bg-muted relative">
+                    <Image src={post.imageUrl} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 896px" className="object-cover" priority />
                 </div>
             )}
 
