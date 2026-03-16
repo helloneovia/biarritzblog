@@ -76,14 +76,14 @@ export default async function ProductPage() {
     return (
         <main className="py-12 md:py-24">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24 overflow-hidden">
                     {/* Left Column: Gallery */}
-                    <div className="lg:sticky lg:top-24 h-fit overflow-hidden min-w-0">
+                    <div className="lg:sticky lg:top-24 h-fit min-w-0 overflow-hidden">
                         <ProductGallery productImages={productImages} />
                     </div>
 
                     {/* Right Column: Details & Form */}
-                    <div>
+                    <div className="min-w-0">
                         <ProductForm bundles={bundles} t={t} dbProduct={dbProduct} />
                     </div>
                 </div>
