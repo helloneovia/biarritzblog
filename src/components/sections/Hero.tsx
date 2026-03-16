@@ -99,7 +99,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                         </div>
                     </div>
 
-                    <div className="relative mx-auto w-full max-w-[500px] lg:max-w-none aspect-square lg:aspect-[4/3]">
+                    <div className="relative mx-auto w-full max-w-[500px] lg:max-w-none aspect-square lg:aspect-[4/3] overflow-hidden lg:overflow-visible pb-6 lg:pb-0">
                         <div className="absolute inset-0 bg-primary/5 rounded-[3rem] -mt-4 lg:ml-8 transform rotate-3" />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
@@ -117,7 +117,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             )}
                         </div>
 
-                        <div className="absolute -bottom-6 -left-6 bg-background rounded-2xl shadow-xl p-4 border flex items-center gap-4 animate-bounce-slow">
+                        <div className="absolute bottom-6 left-2 lg:-bottom-6 lg:-left-6 bg-background rounded-2xl shadow-xl p-4 border flex items-center gap-4 animate-bounce-slow">
                             <div className="bg-green-100 text-green-700 p-2 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             </div>

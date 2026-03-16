@@ -220,7 +220,7 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
 
         {/* Upsell Dialog Modal */}
         <Dialog open={isUpsellModalOpen} onOpenChange={setIsUpsellModalOpen}>
-            <DialogContent className="max-w-2xl p-0 overflow-hidden border-orange-200" showCloseButton={false}>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl p-0 overflow-hidden border-orange-200" showCloseButton={false}>
                 <DialogTitle className="sr-only">Upsell Offers</DialogTitle>
                 <DialogDescription className="sr-only">Special offers before checkout</DialogDescription>
                 <div className="flex justify-between items-center p-4 border-b">
