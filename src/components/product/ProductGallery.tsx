@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { ZoomIn, X, Video } from "lucide-react"
 
@@ -15,28 +16,33 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
     const [activeIndex, setActiveIndex] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
 
+    const isVideo = (src: string) => /\.(mp4|webm)$/i.test(src)
+
     return (
-        <div className="flex flex-col gap-3 md:gap-4" style={{ maxWidth: "calc(100vw - 32px)" }}>
+        <div className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in flex items-center justify-center"
-                style={{ minHeight: "280px", maxWidth: "100%" }}
+                className="relative w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border group cursor-zoom-in"
+                style={{ aspectRatio: "1 / 1" }}
                 onClick={() => setIsZoomed(true)}
             >
-                {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
+                {isVideo(images[activeIndex]) ? (
                     <video
                         src={images[activeIndex]}
-                        style={{ display: "block", width: "100%", maxHeight: "65vw", objectFit: "contain" }}
+                        className="absolute inset-0 w-full h-full object-contain"
                         autoPlay loop muted playsInline
                     />
                 ) : (
-                    <img
+                    <Image
                         src={images[activeIndex]}
                         alt="Orthopaedic Insole"
-                        style={{ display: "block", width: "100%", maxHeight: "65vw", objectFit: "contain" }}
+                        fill
+                        sizes="(max-width: 1024px) calc(100vw - 32px), 50vw"
+                        className="object-contain"
+                        priority={activeIndex === 0}
                     />
                 )}
-                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity z-10">
                     <ZoomIn className="w-5 h-5" />
                 </div>
             </div>
@@ -48,17 +54,17 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
                         key={i}
                         onClick={() => setActiveIndex(i)}
                         className={cn(
-                            "w-16 h-16 md:w-20 md:h-20 rounded-lg md:rounded-xl overflow-hidden border-2 transition-all outline-none shrink-0",
+                            "w-16 h-16 md:w-20 md:h-20 rounded-lg md:rounded-xl overflow-hidden border-2 transition-all outline-none shrink-0 relative",
                             activeIndex === i ? "border-primary shadow-md" : "border-transparent hover:border-border"
                         )}
                     >
-                        {img.match(/\.(mp4|webm)$/i) ? (
+                        {isVideo(img) ? (
                             <div className="relative w-full h-full">
                                 <video src={img} className="w-full h-full object-cover" muted playsInline />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Video className="text-white h-5 w-5 drop-shadow-md" /></div>
                             </div>
                         ) : (
-                            <img src={img} alt={`Thumbnail ${i}`} className="w-full h-full object-cover" />
+                            <Image src={img} alt={`Thumbnail ${i}`} fill sizes="80px" className="object-cover" />
                         )}
                     </button>
                 ))}
@@ -76,7 +82,7 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
                     >
                         <X className="w-8 h-8" />
                     </button>
-                    {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
+                    {isVideo(images[activeIndex]) ? (
                         <video
                             src={images[activeIndex]}
                             className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
@@ -88,7 +94,7 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
                             src={images[activeIndex]}
                             alt="Zoomed Product"
                             className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
-                            onClick={(e) => e.stopPropagation()} // Prevent click from closing if clicking on image itself
+                            onClick={(e) => e.stopPropagation()}
                         />
                     )}
                 </div>
