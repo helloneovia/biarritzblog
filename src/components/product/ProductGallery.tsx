@@ -19,20 +19,23 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
         <div className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
+                className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in flex items-center justify-center"
+                style={{ minHeight: "280px" }}
                 onClick={() => setIsZoomed(true)}
             >
                 {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
                     <video
                         src={images[activeIndex]}
-                        style={{ display: "block", width: "100%", maxHeight: "65vw", objectFit: "contain" }}
+                        className="max-w-full max-h-[65vw] md:max-h-[500px]"
+                        style={{ objectFit: "contain", display: "block" }}
                         autoPlay loop muted playsInline
                     />
                 ) : (
                     <img
                         src={images[activeIndex]}
                         alt="Orthopaedic Insole"
-                        style={{ display: "block", width: "100%", maxHeight: "65vw", objectFit: "contain", backgroundColor: "white" }}
+                        className="max-w-full max-h-[65vw] md:max-h-[500px]"
+                        style={{ objectFit: "contain", display: "block", height: "auto" }}
                     />
                 )}
                 <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
