@@ -19,7 +19,7 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
         <div className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="w-full h-[340px] md:h-[500px] lg:h-[600px] bg-muted rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
+                className="w-full h-[340px] md:h-[500px] lg:h-[600px] bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
                 onClick={() => setIsZoomed(true)}
             >
                 {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
