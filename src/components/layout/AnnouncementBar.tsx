@@ -2,14 +2,18 @@
 
 import { useEffect, useState } from "react"
 
-const announcements = [
-    "🚀 NOUVEAU ! La technologie magnétique 2024 est enfin disponible.",
-    "✨ OFFRE SPÉCIALE : 50% de réduction pour les 100 prochaines commandes !",
-    "📦 Livraison express gratuite en France métropolitaine 🇫🇷",
-    "⭐ Plus de 50 000 clients satisfaits !"
-]
+export function AnnouncementBar({ t }: { t?: Record<string, string> }) {
+    const defaultAnnouncements = [
+        "🚀 NOUVEAU ! La technologie magnétique 2024 est enfin disponible.",
+        "✨ OFFRE SPÉCIALE : 50% de réduction pour les 100 prochaines commandes !",
+        "📦 Livraison express gratuite en France métropolitaine 🇫🇷",
+        "⭐ Plus de 50 000 clients satisfaits !"
+    ]
 
-export function AnnouncementBar() {
+    const announcements = t && t.announcement1 
+        ? [t.announcement1, t.announcement2, t.announcement3, t.announcement4].filter(Boolean) as string[]
+        : defaultAnnouncements
+
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
 

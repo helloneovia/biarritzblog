@@ -42,6 +42,10 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
         lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Special Offer: Buy 2, Get 1 FREE!",
+        announcement1: "🚀 NEW! 2024 Magnetic Technology is finally here.",
+        announcement2: "✨ SPECIAL OFFER: 50% off for the next 100 orders!",
+        announcement3: "📦 Free express delivery pending 🇺🇸",
+        announcement4: "⭐ Over 50,000 satisfied customers!"
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024", heroTitle: "Marchez vers la Sérénité.", heroTitleHighlight: "Chaque pas compte.",
@@ -63,6 +67,10 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
         lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Offre Spéciale : Achetez-en 2, Obtenez-en 1 GRATUITE !",
+        announcement1: "🚀 NOUVEAU ! La technologie magnétique 2024 est enfin disponible.",
+        announcement2: "✨ OFFRE SPÉCIALE : 50% de réduction pour les 100 prochaines commandes !",
+        announcement3: "📦 Livraison express gratuite en France métropolitaine 🇫🇷",
+        announcement4: "⭐ Plus de 50 000 clients satisfaits !"
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024", heroTitle: "Camina hacia la Serenidad.", heroTitleHighlight: "Cada paso importa.",
@@ -84,6 +92,10 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         lifestyle2: "https://images.unsplash.com/photo-1474631245212-f5627e62d5c0?q=80&w=1200&auto=format&fit=crop",
         lifestyle3: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?q=80&w=1200&auto=format&fit=crop",
         ctaOffer: "🔥 Oferta Especial: ¡Compra 2, llévate 1 GRATIS!",
+        announcement1: "🚀 ¡NUEVO! La tecnología magnética 2024 por fin está disponible.",
+        announcement2: "✨ OFERTA ESPECIAL: ¡50% de descuento para los próximos 100 pedidos!",
+        announcement3: "📦 Envío exprés gratuito 🇪🇸",
+        announcement4: "⭐ ¡Más de 50.000 clientes satisfechos!"
     },
 };
 
@@ -304,6 +316,17 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.heroSubtitle} onChange={e => updateText("heroSubtitle", e.target.value)} /></div>
                         </div>
                         <ImageUploadField label="Image Hero" value={texts.heroImage || ""} onChange={url => updateText("heroImage", url)} />
+                    </div>
+
+                    {/* Announcement Bar */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Barre d'Annonce (Haut de page)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Annonce 1</label><input className={inputClass} value={texts.announcement1 || ""} onChange={e => updateText("announcement1", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Annonce 2</label><input className={inputClass} value={texts.announcement2 || ""} onChange={e => updateText("announcement2", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Annonce 3</label><input className={inputClass} value={texts.announcement3 || ""} onChange={e => updateText("announcement3", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Annonce 4</label><input className={inputClass} value={texts.announcement4 || ""} onChange={e => updateText("announcement4", e.target.value)} /></div>
+                        </div>
                     </div>
 
                     {/* Features */}

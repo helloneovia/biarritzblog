@@ -51,7 +51,7 @@ export default async function RootLayout({
         <Providers>
           <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}
           <CartProvider>
-            <AnnouncementBar />
+            <AnnouncementBar t={t} />
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
