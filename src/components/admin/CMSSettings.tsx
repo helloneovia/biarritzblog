@@ -99,9 +99,9 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Limit to 2MB to keep DB size sane
-        if (file.size > 2 * 1024 * 1024) {
-            alert("Image trop lourde (max 2 Mo). Réduisez-la ou utilisez une URL externe.");
+        // Limit to 50MB
+        if (file.size > 50 * 1024 * 1024) {
+            alert("Fichier trop lourd (max 50 Mo). Réduisez-le ou utilisez une URL externe.");
             if (fileInputRef.current) fileInputRef.current.value = "";
             return;
         }
@@ -173,7 +173,7 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
                         accept="image/*,video/mp4,video/webm"
                         onChange={handleFileUpload}
                     />
-                    <p className="text-[10px] text-gray-500 leading-tight">Glissez-déposez, cliquez pour uploader, ou collez une URL. Formats : JPG, PNG, WEBP, MP4.</p>
+                    <p className="text-[10px] text-gray-500 leading-tight">Glissez-déposez, cliquez pour uploader, ou collez une URL. Formats : JPG, PNG, WEBP, MP4, WEBM. Max 50 Mo.</p>
                 </div>
             </div>
         </div>

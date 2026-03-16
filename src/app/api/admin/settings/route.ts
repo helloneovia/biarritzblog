@@ -3,6 +3,10 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth/options";
 import { prisma } from "@/lib/prisma";
 
+// Allow large payloads (video base64) — bypass Next.js bodyParser limit
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
+
 export async function PUT(req: Request) {
     try {
         const session = await getServerSession(authOptions);
@@ -14,7 +18,9 @@ export async function PUT(req: Request) {
             );
         }
 
-        const { currencyCode, language, contactEmail, homeTitle, texts } = await req.json();
+        // Use req.text() instead of req.json() to bypass Next.js 4MB bodyParser limit
+        const rawBody = await req.text();
+        const { currencyCode, language, contactEmail, homeTitle, texts } = JSON.parse(rawBody);
 
         const config = await prisma.siteConfig.upsert({
             where: {
