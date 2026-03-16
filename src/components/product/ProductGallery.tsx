@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { ZoomIn, X, Video } from "lucide-react"
@@ -10,20 +10,35 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
         "/insole-angle.png",
     ]
 
-    // Use DB images if available, else fall back to insole-specific images
     const images = (productImages && productImages.length > 0) ? productImages : fallbackImages;
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
+    const [containerWidth, setContainerWidth] = useState(0)
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (containerRef.current) {
+                setContainerWidth(containerRef.current.offsetWidth)
+            }
+        }
+        updateWidth()
+        window.addEventListener("resize", updateWidth)
+        return () => window.removeEventListener("resize", updateWidth)
+    }, [])
 
     const isVideo = (src: string) => /\.(mp4|webm)$/i.test(src)
 
+    // Square container height = width of the container
+    const containerHeight = containerWidth || 350
+
     return (
-        <div className="flex flex-col gap-3 md:gap-4">
+        <div ref={containerRef} className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="relative w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border group cursor-zoom-in"
-                style={{ aspectRatio: "1 / 1" }}
+                className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
+                style={{ height: `${containerHeight}px` }}
                 onClick={() => setIsZoomed(true)}
             >
                 {isVideo(images[activeIndex]) ? (
