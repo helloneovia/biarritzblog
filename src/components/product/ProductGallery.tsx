@@ -23,12 +23,12 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
                 onClick={() => setIsZoomed(true)}
             >
                 {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
-                    <video src={images[activeIndex]} className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-105 pointer-events-none" autoPlay loop muted playsInline />
+                    <video src={images[activeIndex]} className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105 pointer-events-none" autoPlay loop muted playsInline />
                 ) : (
                     <img
                         src={images[activeIndex]}
                         alt="Orthopaedic Insole"
-                        className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105"
                     />
                 )}
                 <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
