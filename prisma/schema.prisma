@@ -275,3 +275,11 @@ model SiteConfig {
   homeTitle     String @default("Premium Orthopaedic Insoles")
   texts         Json?  
 }
+
+model Upload {
+  id        String   @id @default(cuid())
+  filename  String   @unique
+  mimeType  String
+  data      String   @db.Text  // base64-encoded file content
+  createdAt DateTime @default(now())
+}

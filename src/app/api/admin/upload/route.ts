@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth/options"
-import { writeFile, mkdir } from "fs/promises"
+import { prisma } from "@/lib/prisma"
 import path from "path"
-import { existsSync } from "fs"
+
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions)
@@ -18,19 +19,33 @@ export async function POST(req: Request) {
 
         const bytes = await file.arrayBuffer()
         const buffer = Buffer.from(bytes)
+        const base64Data = buffer.toString("base64")
 
-        // Sanitize filename to avoid weird chars
+        // Sanitize filename
         const ext = path.extname(file.name)
         const name = path.basename(file.name, ext).replace(/[^a-zA-Z0-9]/g, "-")
         const filename = `${name}-${Date.now()}${ext}`
 
-        const uploadDir = path.join(process.cwd(), "public", "uploads")
-        if (!existsSync(uploadDir)) {
-            await mkdir(uploadDir, { recursive: true })
+        // Determine MIME type
+        const mimeMap: Record<string, string> = {
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".png": "image/png",
+            ".webp": "image/webp",
+            ".gif": "image/gif",
+            ".mp4": "video/mp4",
+            ".webm": "video/webm",
         }
+        const mimeType = mimeMap[ext.toLowerCase()] || file.type || "application/octet-stream"
 
-        const filepath = path.join(uploadDir, filename)
-        await writeFile(filepath, buffer)
+        // Store in database instead of filesystem
+        await prisma.upload.create({
+            data: {
+                filename,
+                mimeType,
+                data: base64Data,
+            }
+        })
 
         return NextResponse.json({ url: `/api/images/${filename}` })
     } catch (e: any) {

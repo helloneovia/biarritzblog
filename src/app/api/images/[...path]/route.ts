@@ -1,39 +1,35 @@
 import { NextResponse } from "next/server"
-import { readFile } from "fs/promises"
-import path from "path"
-import { existsSync } from "fs"
+import { prisma } from "@/lib/prisma"
 
 export async function GET(
     _req: Request,
     { params }: { params: Promise<{ path: string[] }> }
 ) {
     const { path: pathParts } = await params
-    const filePath = path.join(process.cwd(), "public", "uploads", ...pathParts)
-
-    if (!existsSync(filePath)) {
-        return new NextResponse("Not found", { status: 404 })
-    }
+    const filename = pathParts.join("/")
 
     try {
-        const file = await readFile(filePath)
-        const ext = path.extname(filePath).toLowerCase()
-        const mimeMap: Record<string, string> = {
-            ".jpg": "image/jpeg",
-            ".jpeg": "image/jpeg",
-            ".png": "image/png",
-            ".webp": "image/webp",
-            ".gif": "image/gif",
-            ".mp4": "video/mp4",
-            ".webm": "video/webm",
+        // Look up the file in the database
+        const upload = await prisma.upload.findUnique({
+            where: { filename }
+        })
+
+        if (!upload) {
+            return new NextResponse("Not found", { status: 404 })
         }
-        const contentType = mimeMap[ext] || "application/octet-stream"
-        return new NextResponse(file, {
+
+        // Decode the base64 data back to a buffer
+        const buffer = Buffer.from(upload.data, "base64")
+
+        return new NextResponse(buffer, {
             headers: {
-                "Content-Type": contentType,
+                "Content-Type": upload.mimeType,
                 "Cache-Control": "public, max-age=31536000, immutable",
+                "Content-Length": String(buffer.length),
             },
         })
-    } catch {
-        return new NextResponse("Error reading file", { status: 500 })
+    } catch (error) {
+        console.error("Image serve error:", error)
+        return new NextResponse("Error serving file", { status: 500 })
     }
 }
