@@ -28,7 +28,12 @@ export async function GET(
                 "Content-Length": String(buffer.length),
             },
         })
-    } catch (error) {
+    } catch (error: any) {
+        // If the Upload table doesn't exist yet (db push not run), return a clear error
+        if (error?.code === "P2021" || error?.message?.includes("relation") || error?.message?.includes("Upload")) {
+            console.error("Upload table missing in DB — run 'npx prisma db push' on the server:", error.message)
+            return new NextResponse("Upload table not initialized. Run: npx prisma db push", { status: 503 })
+        }
         console.error("Image serve error:", error)
         return new NextResponse("Error serving file", { status: 500 })
     }
