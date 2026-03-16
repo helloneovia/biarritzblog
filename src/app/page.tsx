@@ -8,7 +8,6 @@ import { cookies } from "next/headers"
 import { CheckCircle2 } from "lucide-react"
 import { ArrowRight } from "lucide-react"
 import { prisma } from "@/lib/prisma"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { unstable_cache } from "next/cache"
@@ -57,7 +56,7 @@ export default async function Home() {
           {(texts.scienceBgImage || "/insole-science.png").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <Image src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" fill sizes="100vw" className="object-cover" />
+            <img src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" className="w-full h-full object-cover" />
           )}
         </div>
         <div className="container mx-auto px-4 relative z-10">
@@ -84,7 +83,7 @@ export default async function Home() {
               {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
               ) : (
-                <Image src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover" />
               )}
             </div>
           </div>
@@ -107,7 +106,7 @@ export default async function Home() {
                 {item.img.match(/\.(mp4|webm)$/i) ? (
                   <video src={item.img} className="object-cover w-full h-full hover:scale-105 transition-transform duration-700" autoPlay loop muted playsInline />
                 ) : (
-                  <Image src={item.img} alt={item.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
+                  <img src={item.img} alt={item.label} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 )}
                 <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider">{item.label}</div>
               </div>

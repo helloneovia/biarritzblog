@@ -106,13 +106,11 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                             {isVideo ? (
                                 <video src={heroSrc} className="object-cover w-full h-full" autoPlay loop muted playsInline />
                             ) : (
-                                <Image
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
                                     src={heroSrc}
                                     alt="Premium Orthopaedic Insoles"
-                                    fill
-                                    sizes="(max-width: 1024px) 500px, 50vw"
-                                    className="object-cover"
-                                    priority
+                                    className="object-cover w-full h-full"
                                 />
                             )}
                         </div>

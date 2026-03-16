@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { unstable_cache } from "next/cache"
 
@@ -45,7 +44,7 @@ export default async function BlogPage() {
                         <Link href={`/blog/${post.slug}`} key={post.id} className="group flex flex-col h-full bg-card border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                             {post.imageUrl ? (
                                 <div className="aspect-[4/3] w-full bg-muted relative overflow-hidden">
-                                    <Image src={post.imageUrl} alt={post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <img src={post.imageUrl!} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 </div>
                             ) : (
                                 <div className="aspect-[4/3] w-full bg-primary/5 flex items-center justify-center relative overflow-hidden">

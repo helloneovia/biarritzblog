@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
 import { unstable_cache } from "next/cache"
 
@@ -46,7 +45,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
             {post.imageUrl && (
                 <div className="w-full aspect-[2/1] rounded-[2rem] overflow-hidden mb-16 shadow-2xl border bg-muted relative">
-                    <Image src={post.imageUrl} alt={post.title} fill sizes="(max-width: 1024px) 100vw, 896px" className="object-cover" priority />
+                    <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
                 </div>
             )}
 
