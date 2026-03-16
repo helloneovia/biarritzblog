@@ -16,10 +16,10 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
     const [isZoomed, setIsZoomed] = useState(false)
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="aspect-square bg-muted rounded-3xl overflow-hidden border relative group cursor-zoom-in"
+                className="aspect-square sm:aspect-auto sm:h-[400px] md:h-[500px] lg:h-[600px] w-full bg-muted rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
                 onClick={() => setIsZoomed(true)}
             >
                 {images[activeIndex].match(/\.(mp4|webm)$/i) ? (
@@ -37,13 +37,13 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
             </div>
 
             {/* Thumbnails */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-2 md:gap-4">
                 {images.map((img, i) => (
                     <button
                         key={i}
                         onClick={() => setActiveIndex(i)}
                         className={cn(
-                            "w-20 h-20 rounded-xl overflow-hidden border-2 transition-all outline-none shrink-0",
+                            "w-16 h-16 md:w-20 md:h-20 rounded-lg md:rounded-xl overflow-hidden border-2 transition-all outline-none shrink-0",
                             activeIndex === i ? "border-primary shadow-md" : "border-transparent hover:border-border"
                         )}
                     >

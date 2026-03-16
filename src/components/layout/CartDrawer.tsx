@@ -65,7 +65,8 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
         }
         setIsUpsellModalOpen(false);
         router.push("/checkout");
-        // We do not set loading to false here to allow smooth transition
+        // Reset loading state after a short delay so the button isn't stuck if they go back
+        setTimeout(() => setIsLoading(false), 2000);
     };
 
     const handleCheckoutClick = () => {
@@ -221,10 +222,10 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
         {/* Upsell Dialog Modal */}
         <Dialog open={isUpsellModalOpen} onOpenChange={setIsUpsellModalOpen}>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl p-0 overflow-hidden border-orange-200" showCloseButton={false}>
-                <DialogTitle className="sr-only">Upsell Offers</DialogTitle>
-                <DialogDescription className="sr-only">Special offers before checkout</DialogDescription>
+                <DialogTitle className="sr-only">Offres Exclusives</DialogTitle>
+                <DialogDescription className="sr-only">Offres spéciales avant le paiement</DialogDescription>
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-xl font-black uppercase tracking-tight text-center flex-1">COMPLETE YOUR RELIEF KIT</h2>
+                    <h2 className="text-xl font-black uppercase tracking-tight text-center flex-1">COMPLÉTEZ VOTRE COMMANDE</h2>
                     <button onClick={() => proceedToStripe(false)} className="p-2 shrink-0 hover:bg-muted rounded-full transition-colors">
                         <X className="h-5 w-5 text-gray-500" />
                     </button>
@@ -243,7 +244,7 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                                     <div className="flex items-center gap-2 flex-wrap">
                                         {u.compareAt && <span className="text-sm text-gray-400 line-through">€{u.compareAt.toFixed(2)}</span>}
                                         <span className="font-black text-lg">€{u.price.toFixed(2)}</span>
-                                        {savings > 0 && <span className="text-xs font-bold text-orange-600">€{savings.toFixed(2)} Savings</span>}
+                                        {savings > 0 && <span className="text-xs font-bold text-orange-600">€{savings.toFixed(2)} d'économie</span>}
                                     </div>
                                     <p className="text-xs text-gray-500 line-clamp-2">Parfait pour compléter votre commande et accroître votre confort quotidien.</p>
                                 </div>
@@ -256,7 +257,7 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                                     {upsellsAdded[u.id] ? (
                                         <Button disabled className="w-[100px] h-9 text-xs font-bold bg-green-600 text-white rounded-lg">Ajouté ✓</Button>
                                     ) : (
-                                        <Button onClick={() => handleAddUpsell(u.id)} className="w-[100px] h-9 text-xs font-black bg-[#FF6600] hover:bg-[#e65c00] text-white rounded-lg uppercase tracking-wider">Add to order</Button>
+                                        <Button onClick={() => handleAddUpsell(u.id)} className="w-[100px] h-9 text-xs font-black bg-[#FF6600] hover:bg-[#e65c00] text-white rounded-lg uppercase tracking-wider">Ajouter</Button>
                                     )}
                                 </div>
                             </div>
@@ -270,14 +271,14 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                         className="text-sm font-medium text-gray-500 hover:text-gray-800 underline order-2 sm:order-1"
                         disabled={isLoading}
                     >
-                        Decline this offer
+                        Décliner cette offre
                     </button>
                     <Button 
                         onClick={() => proceedToStripe(true)}
                         className="w-full sm:w-auto px-12 h-12 rounded-xl text-base font-black bg-[#FF6600] hover:bg-[#e65c00] text-white uppercase tracking-widest shadow-lg shadow-orange-500/30 order-1 sm:order-2"
                         disabled={isLoading}
                     >
-                        {isLoading ? "PROCESING..." : "CONTINUE"}
+                        {isLoading ? "TRAITEMENT..." : "CONTINUER"}
                     </Button>
                 </div>
             </DialogContent>
