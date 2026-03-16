@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth/options";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 // Allow large payloads (video base64) — bypass Next.js bodyParser limit
 export const maxDuration = 60;
@@ -44,8 +44,8 @@ export async function PUT(req: Request) {
             }
         });
 
-        // Invalidate the site-config cache so changes appear immediately on the site
-        revalidateTag("site-config");
+        // Invalidate cache so changes appear immediately on the site
+        revalidatePath("/", "layout");
 
         return NextResponse.json(config);
     } catch (error) {
