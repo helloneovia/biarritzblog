@@ -137,6 +137,7 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
 
     // For preview: if value is a data: URL (legacy), show it directly; otherwise use the URL
     const previewSrc = value;
+    const isYoutube = previewSrc?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
 
     return (
         <div className="space-y-2">
@@ -144,7 +145,13 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
             <div className="flex items-start gap-4">
                 {value ? (
                     <div className="relative aspect-video w-40 rounded-xl overflow-hidden border border-gray-200 group bg-gray-50 flex-shrink-0">
-                        {value.match(/\.(mp4|webm)$/i) ? (
+                        {isYoutube ? (
+                            <div className="relative w-full h-full">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={`https://img.youtube.com/vi/${isYoutube[1]}/0.jpg`} alt="youtube" className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Video className="text-white h-6 w-6" /></div>
+                            </div>
+                        ) : value.match(/\.(mp4|webm)$/i) ? (
                             <div className="relative w-full h-full">
                                 <video src={previewSrc} className="w-full h-full object-cover" muted />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Video className="text-white h-6 w-6" /></div>

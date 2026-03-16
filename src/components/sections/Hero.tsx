@@ -16,6 +16,8 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     }
 
     const isVideo = heroSrc.match(/\.(mp4|webm)$/i);
+    const ytMatch = heroSrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
+    const ytId = ytMatch ? ytMatch[1] : null;
 
     return (
         <section className="relative overflow-hidden bg-gradient-to-b from-muted/50 to-background pt-24 pb-32 w-full">
@@ -103,7 +105,14 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
                         <div className="absolute inset-0 bg-primary/5 rounded-[3rem] -mt-4 lg:ml-8 transform rotate-3" />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform -rotate-2" />
                         <div className="relative h-full w-full rounded-[3rem] overflow-hidden shadow-2xl border bg-white flex items-center justify-center">
-                            {isVideo ? (
+                            {ytId ? (
+                                <iframe 
+                                    className="w-full h-full object-cover scale-[1.35] pointer-events-none" 
+                                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0&modestbranding=1`}
+                                    allow="autoplay; encrypted-media; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            ) : isVideo ? (
                                 <video src={heroSrc} className="object-cover w-full h-full" autoPlay loop muted playsInline />
                             ) : (
                                 // eslint-disable-next-line @next/next/no-img-element
