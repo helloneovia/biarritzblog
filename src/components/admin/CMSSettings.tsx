@@ -93,13 +93,13 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState(false);
 
-    // Convert image to base64 Data URL client-side — no server upload needed.
-    // This works on Vercel and any serverless environment since the data is stored in the DB.
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Upload file to /api/admin/upload which stores it in the Upload DB table.
+    // Only the lightweight URL (/api/images/filename) is saved into the CMS texts JSON.
+    // This prevents bloating SiteConfig with multi-MB base64 strings.
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Limit to 50MB
         if (file.size > 50 * 1024 * 1024) {
             alert("Fichier trop lourd (max 50 Mo). Réduisez-le ou utilisez une URL externe.");
             if (fileInputRef.current) fileInputRef.current.value = "";
@@ -107,19 +107,24 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
         }
 
         setUploading(true);
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            const dataUrl = ev.target?.result as string;
-            onChange(dataUrl);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+            if (!res.ok) throw new Error("Upload failed");
+            const data = await res.json();
+            // Store the URL path, not the base64 data
+            onChange(data.url);
+        } catch (err) {
+            alert("Erreur lors de l'upload du fichier.");
+        } finally {
             setUploading(false);
-        };
-        reader.onerror = () => {
-            alert("Erreur lors de la lecture du fichier.");
-            setUploading(false);
-        };
-        reader.readAsDataURL(file);
-        if (fileInputRef.current) fileInputRef.current.value = "";
+            if (fileInputRef.current) fileInputRef.current.value = "";
+        }
     };
+
+    // For preview: if value is a data: URL (legacy), show it directly; otherwise use the URL
+    const previewSrc = value;
 
     return (
         <div className="space-y-2">
@@ -129,12 +134,12 @@ function ImageUploadField({ label, value, onChange }: { label: string; value: st
                     <div className="relative aspect-video w-40 rounded-xl overflow-hidden border border-gray-200 group bg-gray-50 flex-shrink-0">
                         {value.match(/\.(mp4|webm)$/i) ? (
                             <div className="relative w-full h-full">
-                                <video src={value} className="w-full h-full object-cover" muted />
+                                <video src={previewSrc} className="w-full h-full object-cover" muted />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Video className="text-white h-6 w-6" /></div>
                             </div>
                         ) : (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={value} alt="media" className="w-full h-full object-cover" />
+                            <img src={previewSrc} alt="media" className="w-full h-full object-cover" />
                         )}
                         <button
                             onClick={() => onChange("")}
