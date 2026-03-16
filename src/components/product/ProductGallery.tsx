@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { ZoomIn, X, Video } from "lucide-react"
@@ -14,52 +14,35 @@ export function ProductGallery({ productImages }: { productImages?: string[] | n
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
-    const [containerWidth, setContainerWidth] = useState(0)
-    const containerRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const updateWidth = () => {
-            if (containerRef.current) {
-                setContainerWidth(containerRef.current.offsetWidth)
-            }
-        }
-        updateWidth()
-        window.addEventListener("resize", updateWidth)
-        return () => window.removeEventListener("resize", updateWidth)
-    }, [])
 
     const isVideo = (src: string) => /\.(mp4|webm)$/i.test(src)
 
-    // Square container height = width of the container
-    const containerHeight = containerWidth || 350
-
     return (
-        <div ref={containerRef} className="flex flex-col gap-3 md:gap-4">
+        <div className="flex flex-col gap-3 md:gap-4">
             {/* Main Image */}
             <div
-                className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border relative group cursor-zoom-in"
-                style={{ height: `${containerHeight}px` }}
+                className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden border group cursor-zoom-in"
                 onClick={() => setIsZoomed(true)}
             >
                 {isVideo(images[activeIndex]) ? (
                     <video
                         src={images[activeIndex]}
-                        className="absolute inset-0 w-full h-full object-contain"
+                        className="w-full object-contain"
+                        style={{ maxHeight: "500px" }}
                         autoPlay loop muted playsInline
                     />
                 ) : (
                     <Image
                         src={images[activeIndex]}
                         alt="Orthopaedic Insole"
-                        fill
+                        width={800}
+                        height={800}
                         sizes="(max-width: 1024px) calc(100vw - 32px), 50vw"
                         className="object-contain"
+                        style={{ width: "100%", height: "auto", maxHeight: "500px" }}
                         priority={activeIndex === 0}
                     />
                 )}
-                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                    <ZoomIn className="w-5 h-5" />
-                </div>
             </div>
 
             {/* Thumbnails */}
