@@ -21,7 +21,7 @@ export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynam
 const getCachedProductData = unstable_cache(
     async () => {
         try {
-            const prod = await prisma.product.findFirst({ orderBy: { createdAt: 'desc' } });
+            const prod = await prisma.product.findFirst({ where: { type: "MAIN" }, orderBy: { createdAt: 'desc' } });
             if (prod) {
                 const bundles = await prisma.bundle.findMany({ orderBy: { quantity: 'asc' } });
                 return { dbProduct: prod, dbBundles: bundles || [] };
@@ -33,7 +33,7 @@ const getCachedProductData = unstable_cache(
     },
     ["product-page-data"],
     {
-        revalidate: 3600, // Cache for 1 hour
+        revalidate: 60, // Match page ISR — updates appear within 60s
         tags: ["products", "bundles"]
     }
 )

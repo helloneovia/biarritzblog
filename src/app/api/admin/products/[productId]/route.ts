@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth/options"
 import { prisma } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 
 async function requireAdmin() {
     const session = await getServerSession(authOptions)
@@ -31,6 +32,7 @@ export async function PATCH(
             },
             include: { variants: true }
         })
+        revalidatePath("/product", "page")
         return NextResponse.json(product)
     } catch (e: any) {
         return NextResponse.json({ error: e.message }, { status: 500 })
