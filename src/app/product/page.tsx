@@ -78,7 +78,7 @@ export default async function ProductPage() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
                     {/* Left Column: Gallery */}
-                    <div className="lg:sticky lg:top-24 h-fit overflow-hidden">
+                    <div className="lg:sticky lg:top-24 h-fit overflow-hidden min-w-0">
                         <ProductGallery productImages={productImages} />
                     </div>
 
