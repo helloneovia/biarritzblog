@@ -45,7 +45,49 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         announcement1: "🚀 NEW! 2024 Magnetic Technology is finally here.",
         announcement2: "✨ SPECIAL OFFER: 50% off for the next 100 orders!",
         announcement3: "📦 Free express delivery pending 🇺🇸",
-        announcement4: "⭐ Over 50,000 satisfied customers!"
+        announcement4: "⭐ Over 50,000 satisfied customers!",
+        // Clinical Stats
+        clinicalBadge: "Clinically Validated", clinicalTitle: "The Future Is Foot Pain-Free",
+        clinicalSubtitle: "Results from clinical and consumer studies.",
+        clinical1Percent: "95%", clinical1Label: "Reduced Foot Pain", clinical1Desc: "Arch support & cushioning help foot pain.",
+        clinical2Percent: "94%", clinical2Label: "Improved Comfort", clinical2Desc: "Comfort with every step.",
+        clinical3Percent: "90%", clinical3Label: "Reduced Injury Risk", clinical3Desc: "Cushioning reduces foot injury risk.",
+        clinicalNote: "* Results based on clinical and consumer satisfaction studies.",
+        // Use Cases
+        usecasesBadge: "For All Profiles", usecasesTitle: "Made for Everyone, Every Day",
+        usecasesSubtitle: "Our insoles adapt to your life.",
+        usecasesCta: "Your profile here?", usecasesCtaDesc: "Everyone deserves pain-free feet.",
+        // Expert
+        expertBadge: "Expert Opinions", expertTitle: "Recommended by Healthcare Professionals",
+        expertSubtitle: "Podiatrists and physiotherapists attest to the effectiveness.",
+        expertVerified: "Verified Professional",
+        // La Différence
+        differenceBadge: "Our Difference", differenceTitle: "The Biarritz Difference",
+        differenceSubtitle: "A design crafted for your daily comfort.",
+        difference1Title: "Improves Posture", difference1Desc: "Arch support promotes better spinal alignment.",
+        difference2Title: "Boosts Performance", difference2Desc: "Each step gains cushioning.",
+        difference3Title: "Adjustable Size", difference3Desc: "Cut along dotted lines for a perfect fit.",
+        difference4Title: "Easily Washable", difference4Desc: "Hand wash, air dry in a few hours.",
+        // Plantar Fasciitis Article
+        plantarBadge: "OrthoInsider Exclusive", plantarAuthor: "By Dr. M. Laurent · Updated March 2026",
+        plantarTitle: "Plantar Fasciitis: Why Orthopaedic Experts Are Shifting Their Recommendations",
+        plantarIntro: "The 2 million people suffering the stabbing agony of Plantar Fasciitis know finding relief is a nightmare.",
+        plantar1Title: "Instant Relief in Just One Wear", plantar1Desc: "Near-instant relief from the very first wear.",
+        plantar2Title: "Clinically Validated", plantar2Desc: "Tested and approved by healthcare professionals.",
+        plantar3Title: "Advanced Arch Support", plantar3Desc: "Calibrated arch support restores structural stability.",
+        plantar4Title: "Targeted Massage Points", plantar4Desc: "Stimulates the fascia with every step.",
+        plantar5Title: "Full 90-Day Guarantee", plantar5Desc: "Zero-risk 90-day money-back guarantee.",
+        plantarClose: "The orthopaedic choice is clear.",
+        plantarCloseDesc: "Clinical approval, instant relief, 50,000+ customers, 90-day guarantee.",
+        // Coin Flip Game
+        coinBadge: "🎮 Mini-Game", coinTitle: "Heads or Tails — Will You Buy?",
+        coinSubtitle: "Undecided? Let fate decide.",
+        coinHeadsLabel: "Heads", coinHeadsDesc: "= I'm buying!",
+        coinTailsLabel: "Tails", coinTailsDesc: "= I'll think about it",
+        coinQuestion: "Which side do you pick?",
+        coinFlipping: "The coin is in the air... 🎲", coinChose: "You picked:",
+        // Sticky CTA
+        stickyAddToCart: "Add to Cart", stickyAdded: "Added ✓",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024", heroTitle: "Marchez vers la Sérénité.", heroTitleHighlight: "Chaque pas compte.",
@@ -70,7 +112,49 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         announcement1: "🚀 NOUVEAU ! La technologie magnétique 2024 est enfin disponible.",
         announcement2: "✨ OFFRE SPÉCIALE : 50% de réduction pour les 100 prochaines commandes !",
         announcement3: "📦 Livraison express gratuite en France métropolitaine 🇫🇷",
-        announcement4: "⭐ Plus de 50 000 clients satisfaits !"
+        announcement4: "⭐ Plus de 50 000 clients satisfaits !",
+        // Clinical Stats
+        clinicalBadge: "Validé Cliniquement", clinicalTitle: "L'avenir, c'est des pieds sans douleur",
+        clinicalSubtitle: "Résultats d'études cliniques et consommateurs.",
+        clinical1Percent: "95%", clinical1Label: "Réduction de la douleur", clinical1Desc: "Le soutien de la voûte soulage significativement.",
+        clinical2Percent: "94%", clinical2Label: "Amélioration du confort", clinical2Desc: "Un confort renforcé à chaque pas.",
+        clinical3Percent: "90%", clinical3Label: "Réduction du risque de blessure", clinical3Desc: "L'amortissement aide à réduire les risques.",
+        clinicalNote: "* Résultats basés sur des études cliniques et de satisfaction consommateurs.",
+        // Use Cases
+        usecasesBadge: "Pour Tous les Profils", usecasesTitle: "Fabriquées pour Tous, Chaque Jour",
+        usecasesSubtitle: "Nos semelles s'adaptent à votre vie.",
+        usecasesCta: "Votre profil ici ?", usecasesCtaDesc: "Tout le monde mérite des pieds sans douleur.",
+        // Expert
+        expertBadge: "Avis Experts", expertTitle: "Recommandé par les Professionnels de Santé",
+        expertSubtitle: "Des podologues et kinésithérapeutes attestent de l'efficacité.",
+        expertVerified: "Professionnel Vérifié",
+        // La Différence
+        differenceBadge: "Notre Différence", differenceTitle: "La Différence Biarritz",
+        differenceSubtitle: "Une conception pensée pour votre confort au quotidien.",
+        difference1Title: "Améliore la Posture", difference1Desc: "Le soutien de la voûte favorise un meilleur alignement.",
+        difference2Title: "Booste les Performances", difference2Desc: "Chaque pas gagne en amorti.",
+        difference3Title: "Taille Ajustable", difference3Desc: "Découpez le long des lignes pointillées.",
+        difference4Title: "Facilement Lavables", difference4Desc: "Lavage à la main, séchage naturel.",
+        // Plantar Fasciitis Article
+        plantarBadge: "OrthoInsider Exclusif", plantarAuthor: "Par Dr. M. Laurent · Mis à jour Mars 2026",
+        plantarTitle: "Fasciite Plantaire : Pourquoi les Experts Orthopédiques Changent leurs Recommandations",
+        plantarIntro: "Les 2 millions de personnes souffrant des douleurs de la fasciite plantaire savent que trouver un soulagement ressemble à un parcours du combattant.",
+        plantar1Title: "Un soulagement dès le Premier Port", plantar1Desc: "Efficacité quasi-immédiate dès le premier port.",
+        plantar2Title: "Validées Cliniquement", plantar2Desc: "Testées et approuvées par des professionnels de santé.",
+        plantar3Title: "Soutien de la Voûte Avancé", plantar3Desc: "Calibré pour soulever et stabiliser la structure naturelle du pied.",
+        plantar4Title: "Points de Massage Ciblés", plantar4Desc: "Stimule le fascia à chaque pas.",
+        plantar5Title: "Garantie 90 Jours", plantar5Desc: "Période d'essai 90 jours sans risque.",
+        plantarClose: "Le choix orthopédique est clair.",
+        plantarCloseDesc: "Approbation clinique, soulagement instantané, 50 000+ clients, filet 90 jours.",
+        // Coin Flip Game
+        coinBadge: "🎮 Mini-Jeu", coinTitle: "Pile ou Face — Tu Achètes ?",
+        coinSubtitle: "Indécis ? Laisse le destin décider.",
+        coinHeadsLabel: "Pile", coinHeadsDesc: "= J'achète !",
+        coinTailsLabel: "Face", coinTailsDesc: "= Je réfléchis encore",
+        coinQuestion: "Quel côté choisis-tu ?",
+        coinFlipping: "La pièce est en l'air... 🎲", coinChose: "Tu as choisi :",
+        // Sticky CTA
+        stickyAddToCart: "Ajouter au panier", stickyAdded: "Ajouté ✓",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024", heroTitle: "Camina hacia la Serenidad.", heroTitleHighlight: "Cada paso importa.",
@@ -95,7 +179,49 @@ const DEFAULT_TEXTS: Record<Locale, Record<string, string>> = {
         announcement1: "🚀 ¡NUEVO! La tecnología magnética 2024 por fin está disponible.",
         announcement2: "✨ OFERTA ESPECIAL: ¡50% de descuento para los próximos 100 pedidos!",
         announcement3: "📦 Envío exprés gratuito 🇪🇸",
-        announcement4: "⭐ ¡Más de 50.000 clientes satisfechos!"
+        announcement4: "⭐ ¡Más de 50.000 clientes satisfechos!",
+        // Clinical Stats
+        clinicalBadge: "Validado Clínicamente", clinicalTitle: "El futuro es un pie sin dolor",
+        clinicalSubtitle: "Resultados de estudios clínicos y de consumidores.",
+        clinical1Percent: "95%", clinical1Label: "Reducción del dolor", clinical1Desc: "El soporte del arco alivia el dolor de pies.",
+        clinical2Percent: "94%", clinical2Label: "Mejora del confort", clinical2Desc: "Comodidad en cada paso.",
+        clinical3Percent: "90%", clinical3Label: "Reducción del riesgo", clinical3Desc: "La amortiguación reduce el riesgo de lesiones.",
+        clinicalNote: "* Resultados basados en estudios clínicos y de satisfacción.",
+        // Use Cases
+        usecasesBadge: "Para Todos los Perfiles", usecasesTitle: "Fabricadas para Todos, Cada Día",
+        usecasesSubtitle: "Nuestras plantillas se adaptan a tu vida.",
+        usecasesCta: "¿Tu perfil aquí?", usecasesCtaDesc: "Todo el mundo merece pies sin dolor.",
+        // Expert
+        expertBadge: "Opinión de Expertos", expertTitle: "Recomendado por Profesionales de la Salud",
+        expertSubtitle: "Podólogos y fisioterapeutas avalan la eficacia.",
+        expertVerified: "Profesional Verificado",
+        // La Différence
+        differenceBadge: "Nuestra Diferencia", differenceTitle: "La Diferencia Biarritz",
+        differenceSubtitle: "Un diseño pensado para tu comodidad diaria.",
+        difference1Title: "Mejora la Postura", difference1Desc: "El soporte del arco favorece el alineamiento.",
+        difference2Title: "Aumenta el Rendimiento", difference2Desc: "Cada paso gana amortiguación.",
+        difference3Title: "Talla Ajustable", difference3Desc: "Corta a lo largo de las líneas punteadas.",
+        difference4Title: "Fácil de Lavar", difference4Desc: "Lavado a mano, secado natural.",
+        // Plantar Fasciitis Article
+        plantarBadge: "OrthoInsider Exclusivo", plantarAuthor: "Por Dr. M. Laurent · Actualizado Marzo 2026",
+        plantarTitle: "Fascitis Plantar: Por Qué los Expertos Ortopédicos Están Cambiando sus Recomendaciones",
+        plantarIntro: "Los 2 millones de personas que sufren la fascitis plantar saben que encontrar alivio es una pesadilla.",
+        plantar1Title: "Alivio inmediato", plantar1Desc: "Eficacia casi inmediata desde el primer uso.",
+        plantar2Title: "Validado clínicamente", plantar2Desc: "Testado y aprobado por profesionales de la salud.",
+        plantar3Title: "Soporte de arco avanzado", plantar3Desc: "Calibrado estratégicamente para estabilizar el pie.",
+        plantar4Title: "Puntos de masaje dirigidos", plantar4Desc: "Estimula la fascia con cada paso.",
+        plantar5Title: "Garantía de 90 días", plantar5Desc: "Período de prueba sin riesgo de 90 días.",
+        plantarClose: "La elección ortopédica es clara.",
+        plantarCloseDesc: "Aprobación clínica, alivio instantáneo, 50,000+ clientes, garantía 90 días.",
+        // Coin Flip Game
+        coinBadge: "🎮 Mini-Juego", coinTitle: "Cara o Cruz — ¿Compras?",
+        coinSubtitle: "¿Indeciso? Deja que el destino decida.",
+        coinHeadsLabel: "Cara", coinHeadsDesc: "= ¡Compro!",
+        coinTailsLabel: "Cruz", coinTailsDesc: "= Lo sigo pensando",
+        coinQuestion: "¿Qué lado eliges?",
+        coinFlipping: "La moneda está en el aire... 🎲", coinChose: "Elegiste:",
+        // Sticky CTA
+        stickyAddToCart: "Añadir al carrito", stickyAdded: "Añadido ✓",
     },
 };
 
@@ -401,6 +527,97 @@ export function CMSSettings({ initialConfig }: { initialConfig: SiteConfig }) {
                                 <input className={inputClass} placeholder="Libellé (ex: Travail & Bureau)" value={texts.lifestyle3Label} onChange={e => updateText("lifestyle3Label", e.target.value)} />
                                 <ImageUploadField label="Média 3" value={texts.lifestyle3 || ""} onChange={url => updateText("lifestyle3", url)} />
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Clinical Stats */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Section Statistiques Cliniques</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.clinicalBadge || ""} onChange={e => updateText("clinicalBadge", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre</label><input className={inputClass} value={texts.clinicalTitle || ""} onChange={e => updateText("clinicalTitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.clinicalSubtitle || ""} onChange={e => updateText("clinicalSubtitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Note légale</label><input className={inputClass} value={texts.clinicalNote || ""} onChange={e => updateText("clinicalNote", e.target.value)} /></div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {[1, 2, 3].map(n => (
+                                <div key={n} className="border rounded-xl p-3 bg-muted/20 space-y-2">
+                                    <label className="text-xs font-semibold text-muted-foreground uppercase">Stat {n}</label>
+                                    <input className={inputClass} placeholder="%" value={texts[`clinical${n}Percent`] || ""} onChange={e => updateText(`clinical${n}Percent`, e.target.value)} />
+                                    <input className={inputClass} placeholder="Libellé" value={texts[`clinical${n}Label`] || ""} onChange={e => updateText(`clinical${n}Label`, e.target.value)} />
+                                    <input className={inputClass} placeholder="Description" value={texts[`clinical${n}Desc`] || ""} onChange={e => updateText(`clinical${n}Desc`, e.target.value)} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Use Cases & Expert */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Section Profils d&apos;Utilisateurs</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.usecasesBadge || ""} onChange={e => updateText("usecasesBadge", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre</label><input className={inputClass} value={texts.usecasesTitle || ""} onChange={e => updateText("usecasesTitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.usecasesSubtitle || ""} onChange={e => updateText("usecasesSubtitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">CTA</label><input className={inputClass} value={texts.usecasesCta || ""} onChange={e => updateText("usecasesCta", e.target.value)} /></div>
+                        </div>
+                    </div>
+
+                    {/* Expert Endorsement */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Section Avis Experts</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.expertBadge || ""} onChange={e => updateText("expertBadge", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre</label><input className={inputClass} value={texts.expertTitle || ""} onChange={e => updateText("expertTitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.expertSubtitle || ""} onChange={e => updateText("expertSubtitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Label Vérifié</label><input className={inputClass} value={texts.expertVerified || ""} onChange={e => updateText("expertVerified", e.target.value)} /></div>
+                        </div>
+                    </div>
+
+                    {/* Plantar Fasciitis Article */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Article Fasciite Plantaire (5 points)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.plantarBadge || ""} onChange={e => updateText("plantarBadge", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Auteur / Date</label><input className={inputClass} value={texts.plantarAuthor || ""} onChange={e => updateText("plantarAuthor", e.target.value)} /></div>
+                            <div className="md:col-span-2"><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre article</label><input className={inputClass} value={texts.plantarTitle || ""} onChange={e => updateText("plantarTitle", e.target.value)} /></div>
+                            <div className="md:col-span-2"><label className="text-xs font-medium text-muted-foreground mb-1 block">Intro</label><textarea rows={2} className={`${inputClass} resize-none`} value={texts.plantarIntro || ""} onChange={e => updateText("plantarIntro", e.target.value)} /></div>
+                        </div>
+                        <div className="grid grid-cols-1 gap-3">
+                            {[1, 2, 3, 4, 5].map(n => (
+                                <div key={n} className="border rounded-xl p-3 bg-muted/20 grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <label className="text-xs font-semibold text-muted-foreground uppercase md:col-span-2">Point {n}</label>
+                                    <input className={inputClass} placeholder={`Titre point ${n}`} value={texts[`plantar${n}Title`] || ""} onChange={e => updateText(`plantar${n}Title`, e.target.value)} />
+                                    <textarea rows={2} className={`${inputClass} resize-none`} placeholder={`Description point ${n}`} value={texts[`plantar${n}Desc`] || ""} onChange={e => updateText(`plantar${n}Desc`, e.target.value)} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre de clôture</label><input className={inputClass} value={texts.plantarClose || ""} onChange={e => updateText("plantarClose", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte de clôture</label><input className={inputClass} value={texts.plantarCloseDesc || ""} onChange={e => updateText("plantarCloseDesc", e.target.value)} /></div>
+                        </div>
+                    </div>
+
+                    {/* Coin Flip Game */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Mini-Jeu Pile ou Face</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Badge</label><input className={inputClass} value={texts.coinBadge || ""} onChange={e => updateText("coinBadge", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Titre</label><input className={inputClass} value={texts.coinTitle || ""} onChange={e => updateText("coinTitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Sous-titre</label><input className={inputClass} value={texts.coinSubtitle || ""} onChange={e => updateText("coinSubtitle", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Question</label><input className={inputClass} value={texts.coinQuestion || ""} onChange={e => updateText("coinQuestion", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Libellé Pile</label><input className={inputClass} value={texts.coinHeadsLabel || ""} onChange={e => updateText("coinHeadsLabel", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Description Pile</label><input className={inputClass} value={texts.coinHeadsDesc || ""} onChange={e => updateText("coinHeadsDesc", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Libellé Face</label><input className={inputClass} value={texts.coinTailsLabel || ""} onChange={e => updateText("coinTailsLabel", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Description Face</label><input className={inputClass} value={texts.coinTailsDesc || ""} onChange={e => updateText("coinTailsDesc", e.target.value)} /></div>
+                        </div>
+                    </div>
+
+                    {/* Sticky CTA */}
+                    <div className="space-y-3 pt-4 border-t">
+                        <h4 className="text-sm font-bold text-indigo-600 uppercase tracking-wide">Barre Flottante (Sticky Add to Cart)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Bouton</label><input className={inputClass} value={texts.stickyAddToCart || ""} onChange={e => updateText("stickyAddToCart", e.target.value)} /></div>
+                            <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Texte Ajouté</label><input className={inputClass} value={texts.stickyAdded || ""} onChange={e => updateText("stickyAdded", e.target.value)} /></div>
                         </div>
                     </div>
                 </CardContent>

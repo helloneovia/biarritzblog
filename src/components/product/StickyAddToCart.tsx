@@ -81,11 +81,11 @@ export function StickyAddToCart({ bundles, dbProduct }: { bundles: Bundle[]; dbP
                             <select
                                 value={size}
                                 onChange={e => setSize(e.target.value)}
-                                className="appearance-none border border-gray-200 rounded-xl px-3 py-2 pr-8 text-sm font-semibold bg-gray-50 focus:outline-none focus:border-primary"
+                                className="appearance-none border border-gray-300 rounded-xl px-3 py-2 pr-8 text-sm font-semibold bg-white text-gray-900 focus:outline-none focus:border-primary"
                             >
                                 {sizes.map(s => <option key={s} value={s}>{s}</option>)}
                             </select>
-                            <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-400 pointer-events-none" />
+                            <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-500 pointer-events-none" />
                         </div>
 
                         {/* Pack selector */}
@@ -96,11 +96,11 @@ export function StickyAddToCart({ bundles, dbProduct }: { bundles: Bundle[]; dbP
                                     const found = bundles.find(b => String(b.id) === e.target.value)
                                     if (found) setBundle(found.id)
                                 }}
-                                className="appearance-none border border-gray-200 rounded-xl px-3 py-2 pr-8 text-sm font-semibold bg-gray-50 focus:outline-none focus:border-primary"
+                                className="appearance-none border border-gray-300 rounded-xl px-3 py-2 pr-8 text-sm font-semibold bg-white text-gray-900 focus:outline-none focus:border-primary"
                             >
                                 {bundles.map(b => <option key={String(b.id)} value={String(b.id)}>{b.name} — €{b.price}</option>)}
                             </select>
-                            <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-400 pointer-events-none" />
+                            <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-500 pointer-events-none" />
                         </div>
 
                         {/* CTA */}
