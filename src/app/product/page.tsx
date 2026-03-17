@@ -18,6 +18,9 @@ const Faq = dynamic(() => import("@/components/sections/Faq").then(m => m.Faq))
 const ClinicalStats = dynamic(() => import("@/components/sections/ClinicalStats").then(m => m.ClinicalStats))
 const UseCases = dynamic(() => import("@/components/sections/UseCases").then(m => m.UseCases))
 const ExpertEndorsement = dynamic(() => import("@/components/sections/ExpertEndorsement").then(m => m.ExpertEndorsement))
+const PlantarFasciitisArticle = dynamic(() => import("@/components/sections/PlantarFasciitisArticle").then(m => m.PlantarFasciitisArticle))
+const CoinFlipGame = dynamic(() => import("@/components/sections/CoinFlipGame").then(m => m.CoinFlipGame))
+const StickyAddToCart = dynamic(() => import("@/components/product/StickyAddToCart").then(m => m.StickyAddToCart))
 
 export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
 
@@ -155,9 +158,20 @@ export default async function ProductPage() {
             {/* Expert Endorsement */}
             <ExpertEndorsement />
 
-            {/* Social Proof & FAQ */}
+            {/* Plantar Fasciitis Article - Medical Authority Content */}
+            <PlantarFasciitisArticle />
+
+            {/* Social Proof */}
             <Testimonials />
+
+            {/* Coin Flip Mini-Game */}
+            <CoinFlipGame />
+
+            {/* FAQ */}
             <Faq />
+
+            {/* Sticky bottom add-to-cart bar */}
+            <StickyAddToCart bundles={bundles} dbProduct={dbProduct} />
         </main>
     )
 }
