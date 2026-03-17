@@ -15,6 +15,9 @@ const ProductForm = dynamic(
     { loading: () => <div className="h-[600px] bg-muted/30 rounded-3xl animate-pulse" /> }
 )
 const Faq = dynamic(() => import("@/components/sections/Faq").then(m => m.Faq))
+const ClinicalStats = dynamic(() => import("@/components/sections/ClinicalStats").then(m => m.ClinicalStats))
+const UseCases = dynamic(() => import("@/components/sections/UseCases").then(m => m.UseCases))
+const ExpertEndorsement = dynamic(() => import("@/components/sections/ExpertEndorsement").then(m => m.ExpertEndorsement))
 
 export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
 
@@ -90,7 +93,7 @@ export default async function ProductPage() {
             </div>
 
             {/* Lifestyle Image Grid - Insole themed */}
-            <section className="py-12 border-y bg-muted/20 mb-24">
+            <section className="py-12 border-y bg-muted/20 mb-12">
                 <div className="container mx-auto px-4">
                     <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-wide">
                         {t.lifestyleTitle || "Tous les jours. Toutes les Chaussures."}
@@ -111,6 +114,46 @@ export default async function ProductPage() {
                     </div>
                 </div>
             </section>
+
+            {/* La Différence Biarritz — 4 pillars */}
+            <section className="py-20 bg-background">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-12">
+                        <span className="inline-block text-xs font-black uppercase tracking-widest text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">
+                            Notre Différence
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+                            La Différence Biarritz
+                        </h2>
+                        <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+                            Une conception pensée pour votre confort au quotidien, quelles que soient vos activités.
+                        </p>
+                    </div>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        {[
+                            { emoji: "🦴", title: "Améliore la Posture", desc: "Le soutien de la voûte favorise un meilleur alignement de la colonne vertébrale." },
+                            { emoji: "⚡", title: "Booste les Performances", desc: "Chaque pas gagne en amorti, rendant la marche et la course plus légères." },
+                            { emoji: "✂️", title: "Taille Ajustable", desc: "Découpez simplement le long des lignes pointillées pour un ajustement parfait." },
+                            { emoji: "💧", title: "Facilement Lavables", desc: "Lavage à la main avec de l'eau et du savon — séchage naturel en quelques heures." },
+                        ].map((item, i) => (
+                            <div key={i} className="bg-muted/30 rounded-3xl p-6 border text-center hover:shadow-md transition-shadow">
+                                <div className="text-4xl mb-4">{item.emoji}</div>
+                                <h3 className="font-black text-base mb-2">{item.title}</h3>
+                                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Clinical Stats */}
+            <ClinicalStats />
+
+            {/* Use Cases - Profiles */}
+            <UseCases />
+
+            {/* Expert Endorsement */}
+            <ExpertEndorsement />
 
             {/* Social Proof & FAQ */}
             <Testimonials />

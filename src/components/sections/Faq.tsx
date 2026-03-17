@@ -21,8 +21,24 @@ export function Faq() {
         },
         {
             question: "Et si elles ne fonctionnent pas pour moi ?",
-            answer: "Nous offrons une garantie de confort de 30 jours. Si vous ne ressentez pas le soulagement espéré, retournez-les simplement dans les 30 jours pour un remboursement complet, sans poser de questions.",
-        }
+            answer: "Nous offrons une garantie de confort de 90 jours. Si vous ne ressentez pas le soulagement espéré, retournez-les simplement dans les 90 jours pour un remboursement complet, sans poser de questions.",
+        },
+        {
+            question: "Ma semelle est trop grande, que faire ?",
+            answer: "Si vous êtes entre deux tailles, choisissez toujours la taille supérieure et découpez la semelle le long des marquages pointillés indiqués à l'arrière. C'est simple, rapide et donne un résultat parfaitement ajusté à votre chaussure.",
+        },
+        {
+            question: "Combien de temps durent les semelles ?",
+            answer: "Nos semelles sont conçues pour durer. Avec un entretien régulier (lavage à la main), vous pouvez vous attendre à plus de 12 mois de confort et de soutien optimal. Plus vous les entretenez, plus elles durent.",
+        },
+        {
+            question: "Aident-elles contre la fasciite plantaire et les douleurs au talon ?",
+            answer: "Oui, nos semelles sont particulièrement efficaces contre les conditions comme l'aponévrosite plantaire, les douleurs d'arche, les douleurs de talon et la métatarsalgie. Le soutien ciblé aide à distribuer la pression uniformément sur toute la plante du pied.",
+        },
+        {
+            question: "Fonctionnent-elles dans les chaussures de sécurité ou de travail ?",
+            answer: "Tout à fait ! Nos semelles s'insèrent facilement dans la plupart des chaussures de sécurité, bottes de chantier, chaussures de cuisine ou d'hôpital. Elles sont particulièrement appréciées par les travailleurs qui sont debout de longues heures sur des surfaces dures.",
+        },
     ]
 
     return (
