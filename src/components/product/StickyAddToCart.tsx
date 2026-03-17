@@ -71,7 +71,12 @@ export function StickyAddToCart({ bundles, dbProduct }: { bundles: Bundle[]; dbP
                                 />
                             </div>
                             <div className="min-w-0">
-                                <p className="font-black text-sm truncate">{dbProduct?.name || "Semelles de Biarritz"}</p>
+                                <p className="font-black text-sm truncate text-gray-900">
+                                    🧲 {dbProduct?.name || "Semelles Magnétiques Biarritz"}
+                                </p>
+                                <p className="text-xs font-semibold text-gray-500">
+                                    ⭐⭐⭐⭐⭐ <span className="text-gray-400">(4.9 · +50k avis)</span>
+                                </p>
                                 <p className="text-xs text-primary font-bold">€{activeBundle?.price.toFixed(2)} <span className="text-gray-400 line-through font-normal">€{activeBundle?.original.toFixed(2)}</span></p>
                             </div>
                         </div>
