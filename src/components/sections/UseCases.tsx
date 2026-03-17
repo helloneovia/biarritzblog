@@ -61,7 +61,7 @@ export function UseCases() {
                         Pour Tous les Profils
                     </span>
                     <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
-                        Fabriquées para Tous, Chaque Jour
+                        Fabriquées pour Tous, Chaque Jour
                     </h2>
                     <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
                         Que vous soyez sportif, professionnel de santé, ou simplement actif au quotidien — nos semelles s&apos;adaptent à votre vie.

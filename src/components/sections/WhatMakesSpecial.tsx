@@ -57,7 +57,7 @@ export function WhatMakesSpecial() {
                             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                                 {p.emoji}
                             </div>
-                            <h3 className="font-black text-lg mb-2">{p.title}</h3>
+                            <h3 className="font-black text-lg mb-2 text-gray-900">{p.title}</h3>
                             <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
                         </div>
                     ))}

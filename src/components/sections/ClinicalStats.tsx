@@ -44,7 +44,7 @@ export function ClinicalStats() {
                                 {s.icon}
                             </div>
                             <span className="text-5xl font-black text-primary mb-2">{s.percent}</span>
-                            <p className="font-bold text-lg mb-2">{s.label}</p>
+                            <p className="font-bold text-lg mb-2 text-gray-900">{s.label}</p>
                             <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                         </div>
                     ))}
