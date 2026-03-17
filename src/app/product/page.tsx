@@ -21,6 +21,10 @@ const ExpertEndorsement = dynamic(() => import("@/components/sections/ExpertEndo
 const PlantarFasciitisArticle = dynamic(() => import("@/components/sections/PlantarFasciitisArticle").then(m => m.PlantarFasciitisArticle))
 const CoinFlipGame = dynamic(() => import("@/components/sections/CoinFlipGame").then(m => m.CoinFlipGame))
 const StickyAddToCart = dynamic(() => import("@/components/product/StickyAddToCart").then(m => m.StickyAddToCart))
+const TrustBar = dynamic(() => import("@/components/sections/TrustBar").then(m => m.TrustBar))
+const WhatMakesSpecial = dynamic(() => import("@/components/sections/WhatMakesSpecial").then(m => m.WhatMakesSpecial))
+const SocialProofFeed = dynamic(() => import("@/components/sections/SocialProofFeed").then(m => m.SocialProofFeed))
+const FreeEbook = dynamic(() => import("@/components/sections/FreeEbook").then(m => m.FreeEbook))
 
 export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynamic
 
@@ -81,6 +85,8 @@ export default async function ProductPage() {
 
     return (
         <main className="py-12 md:py-24">
+            {/* Trust badges scrolling bar */}
+            <TrustBar />
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24 overflow-hidden">
                     {/* Left Column: Gallery */}
@@ -158,11 +164,20 @@ export default async function ProductPage() {
             {/* Expert Endorsement */}
             <ExpertEndorsement />
 
+            {/* What Makes Us Special — 6 pillars + benefits list */}
+            <WhatMakesSpecial />
+
             {/* Plantar Fasciitis Article - Medical Authority Content */}
             <PlantarFasciitisArticle />
 
             {/* Social Proof */}
             <Testimonials />
+
+            {/* Social Feed - real persona testimonials */}
+            <SocialProofFeed />
+
+            {/* Free eBook offer */}
+            <FreeEbook />
 
             {/* Coin Flip Mini-Game */}
             <CoinFlipGame />
