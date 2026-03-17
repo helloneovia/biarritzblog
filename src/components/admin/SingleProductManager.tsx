@@ -5,11 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Package, Tag, UploadCloud, Video, X } from "lucide-react";
 import dynamic from 'next/dynamic';
-import 'react-quill-new/dist/quill.snow.css'; // Use react-quill-new to avoid old deps problems, wait actually let's try standard react-quill if it installed correctly
+import 'react-quill-new/dist/quill.snow.css';
 
-const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
-
-
+const ReactQuill = dynamic(
+    async () => {
+        const { default: RQ } = await import("react-quill-new");
+        return function Comp({ forwardedRef, ...props }: any) {
+            return <RQ ref={forwardedRef} {...props} />;
+        };
+    },
+    { ssr: false }
+);
 type Product = {
     id: string; name: string; description: string; price: number; compareAt: number | null;
     images: string[]; features: string[]; isPopular: boolean;
@@ -60,6 +66,54 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const quillRef = useRef<any>(null);
+
+    const imageHandler = () => {
+        const input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", "image/*");
+        input.click();
+        
+        input.onchange = async () => {
+            const file = input.files ? input.files[0] : null;
+            if (!file) return;
+
+            setUploading(true);
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+                if (!res.ok) throw new Error("Upload failed");
+                const data = await res.json();
+                
+                const editor = quillRef.current?.getEditor();
+                if (editor) {
+                    const range = editor.getSelection();
+                    editor.insertEmbed(range?.index || 0, "image", data.url);
+                }
+            } catch {
+                alert("Erreur lors de l'upload de l'image.");
+            } finally {
+                setUploading(false);
+            }
+        };
+    };
+
+    const modules = useMemo(() => ({
+        toolbar: {
+            container: [
+                [{ header: [1, 2, 3, false] }],
+                ["bold", "italic", "underline", "strike", "blockquote"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link", "image", "video"],
+                ["clean"]
+            ],
+            handlers: {
+                image: imageHandler
+            }
+        }
+    }), []);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -217,9 +271,11 @@ export function SingleProductManager({ initialProduct, initialBundles, initialUp
                                 <label className="text-sm font-bold text-gray-700 block mb-1.5">Description complète</label>
                                 <div className="bg-white rounded-xl border border-gray-300 overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-shadow">
                                     <ReactQuill 
+                                        forwardedRef={quillRef}
                                         theme="snow" 
                                         value={pDesc} 
                                         onChange={setPDesc} 
+                                        modules={modules}
                                         className="text-gray-900 min-h-[150px] [&_.ql-editor]:min-h-[150px] [&_.ql-toolbar]:bg-gray-50/80 [&_.ql-toolbar]:border-none [&_.ql-toolbar]:border-b [&_.ql-toolbar]:border-gray-200 [&_.ql-container]:border-none [&_.ql-container]:bg-white"
                                         placeholder="Description complète et détaillée du produit..."
                                     />
