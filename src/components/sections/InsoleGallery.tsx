@@ -3,12 +3,12 @@ import Image from "next/image"
 
 export function InsoleGallery({ texts = {} }: { texts?: any }) {
     const images = [
-        { src: "/insole_science_tech.png", label: "Technologie Acupression" },
-        { src: "/gallery_angle.png", label: "Design Ergonomique" },
-        { src: "/lifestyle_daily_new.png", label: "Confort Quotidien" },
-        { src: "/lifestyle_running_new.png", label: "Performance Sportive" },
-        { src: "/lifestyle_work_new.png", label: "Soutien au Travail" },
-        { src: "/gallery_premium.png", label: "Qualité Supérieure" }
+        { src: "/assets/science_tech.jpg", label: "Technologie Acupression" },
+        { src: "/assets/product_detail.jpg", label: "Design Ergonomique" },
+        { src: "/assets/lifestyle_1.jpg", label: "Confort Quotidien" },
+        { src: "/assets/hero_lifestyle.jpg", label: "Performance Sportive" },
+        { src: "/assets/lifestyle_1.jpg", label: "Soutien au Travail" },
+       { src: "/assets/product_detail.jpg", label: "Qualité Supérieure" },
     ]
 
     return (
