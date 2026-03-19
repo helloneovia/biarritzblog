@@ -23,7 +23,7 @@ export function BeforeAfter({ texts }: { texts?: any }) {
             </div>
             <div className="relative aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
               <img 
-                src="/assets/premium_science.jpg" 
+                src="/assets/real_product_science.jpg" 
                 alt="Avant - Douleur" 
                 className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
               />
@@ -50,7 +50,7 @@ export function BeforeAfter({ texts }: { texts?: any }) {
             </div>
             <div className="relative aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
               <img 
-                src="/assets/premium_science.jpg" 
+                src="/assets/real_product_science.jpg" 
                 alt="Après - Soulagement" 
                 className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
               />
