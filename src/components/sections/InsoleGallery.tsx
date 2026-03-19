@@ -3,12 +3,12 @@ import Image from "next/image"
 
 export function InsoleGallery({ texts = {} }: { texts?: any }) {
     const images = [
-        { src: "/insole-science.png", label: "Technologie Acupression" },
-        { src: "/insole-angle.png", label: "Design Ergonomique" },
-        { src: "/insole-daily.png", label: "Confort Quotidien" },
-        { src: "/insole-running.png", label: "Performance Sportive" },
-        { src: "/insole-work.png", label: "Soutien au Travail" },
-        { src: "/temu-product.jpg", label: "Qualité Supérieure" }
+        { src: "/insole_science_tech.png", label: "Technologie Acupression" },
+        { src: "/gallery_angle.png", label: "Design Ergonomique" },
+        { src: "/lifestyle_daily_new.png", label: "Confort Quotidien" },
+        { src: "/lifestyle_running_new.png", label: "Performance Sportive" },
+        { src: "/lifestyle_work_new.png", label: "Soutien au Travail" },
+        { src: "/gallery_premium.png", label: "Qualité Supérieure" }
     ]
 
     return (

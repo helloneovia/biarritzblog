@@ -12,7 +12,7 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
     } else if (dbProduct?.images?.[0] && dbProduct.images[0].trim() !== "") {
         heroSrc = dbProduct.images[0];
     } else {
-        heroSrc = "/temu-product.jpg";
+        heroSrc = "/hero_premium_insole.png";
     }
 
     const isVideo = heroSrc.match(/\.(mp4|webm)$/i);
