@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero"
 import { Features } from "@/components/sections/Features"
+import { BeforeAfter } from "@/components/sections/BeforeAfter"
 import { Testimonials } from "@/components/sections/Testimonials"
 import { ReasonsToBuy } from "@/components/sections/ReasonsToBuy"
 import { InsoleGallery } from "@/components/sections/InsoleGallery"
@@ -53,10 +54,10 @@ export default async function Home() {
       {/* Visual Break - Science section */}
       <section className="py-24 bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white relative overflow-hidden border-t border-white/5">
         <div className="absolute inset-0 opacity-20 mix-blend-overlay">
-          {(texts.scienceBgImage || "/insole-science.png").match(/\.(mp4|webm)$/i) ? (
+          {(texts.scienceBgImage || "/insole-science_tech.png").match(/\.(mp4|webm)$/i) ? (
             <video src={texts.scienceBgImage} className="w-full h-full object-cover" autoPlay loop muted playsInline />
           ) : (
-            <img src={texts.scienceBgImage || "/insole-science.png"} alt="Background Texture" className="w-full h-full object-cover" />
+            <img src={texts.scienceBgImage || "/insole_science_tech.png"} alt="Background Texture" className="w-full h-full object-cover" />
           )}
         </div>
         
@@ -90,15 +91,17 @@ export default async function Home() {
             </div>
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)] aspect-square md:aspect-[4/3] border border-white/10 group perspective-[1000px]">
               <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none" />
-              {(localOrFallback(texts.scienceImage, "/insole-science.png")).match(/\.(mp4|webm)$/i) ? (
+              {(localOrFallback(texts.scienceImage, "/insole_science_tech.png")).match(/\.(mp4|webm)$/i) ? (
                 <video src={texts.scienceImage} className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105" autoPlay loop muted playsInline />
               ) : (
-                <img src={localOrFallback(texts.scienceImage, "/insole-science.png")} alt="Acupressure visual" className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105" />
+                <img src={localOrFallback(texts.scienceImage, "/insole_science_tech.png")} alt="Acupressure visual" className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105" />
               )}
             </div>
           </div>
         </div>
       </section>
+
+      <BeforeAfter texts={texts} />
 
       {/* Lifestyle Grid Section */}
       <section className="py-20 border-y bg-gradient-to-b from-background to-muted/30">
@@ -108,9 +111,9 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { img: localOrFallback(texts.lifestyle1, "/insole-running.png"), label: texts.lifestyle1Label || "Sport & Running" },
-              { img: localOrFallback(texts.lifestyle2, "/insole-daily.png"), label: texts.lifestyle2Label || "Marche Quotidienne" },
-              { img: localOrFallback(texts.lifestyle3, "/insole-work.png"), label: texts.lifestyle3Label || "Travail & Bureau" }
+              { img: localOrFallback(texts.lifestyle1, "/lifestyle_running_new.png"), label: texts.lifestyle1Label || "Sport & Running" },
+              { img: localOrFallback(texts.lifestyle2, "/lifestyle_daily_new.png"), label: texts.lifestyle2Label || "Marche Quotidienne" },
+              { img: localOrFallback(texts.lifestyle3, "/lifestyle_work_new.png"), label: texts.lifestyle3Label || "Travail & Bureau" }
             ].map((item, i) => (
               <div key={i} className="group aspect-[4/3] relative rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-border/50">
                 {item.img.match(/\.(mp4|webm)$/i) ? (
