@@ -3,10 +3,10 @@ import Image from "next/image"
 
 export function InsoleGallery({ texts = {} }: { texts?: any }) {
     const images = [
-        { src: "/assets/real_product_hero.jpg", label: "Design Premium" },
-        { src: "/assets/real_product_science.jpg", label: "Technologie Magnétique" },
-        { src: "/assets/real_product_flex.jpg", label: "Qualité & Flexibilité" },
-        { src: "/assets/real_product_shoe.jpg", label: "Adaptabilité" },
+        { src: "/assets/authentic_hero.jpg", label: "Design Biarritz Signature" },
+        { src: "/assets/authentic_science.jpg", label: "Technologie Magnétique" },
+        { src: "/assets/authentic_flex.jpg", label: "Qualité & Flexibilité" },
+        { src: "/assets/authentic_shoe.jpg", label: "Adaptabilité Quotidienne" },
     ]
 
     return (
