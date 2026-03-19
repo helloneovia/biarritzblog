@@ -7,30 +7,25 @@ import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/Analytics";
 import { Providers } from "@/components/auth/Providers";
-import { LazySupportWidget } from "@/components/layout/LazySupportWidget";
-import { CartProvider } from "@/lib/store/CartContext";
+import { LazySupportWidget } from "@/components/layout/LazySupportWidget"
+import { CartProvider } from "@/lib/store/CartContext"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
+import { generateSEOMetadata } from "@/lib/seo-metadata"
+import { StructuredData } from "@/components/StructuredData"
 import { cookies } from "next/headers"
 
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const config = await getSiteConfig() as any
-  const siteTitle = config.homeTitle || "Biarritz | Premium Orthopaedic Insoles"
-
+  const cookieStore = await cookies()
+  const locale = (cookieStore.get("NEXT_LOCALE")?.value || "FR") as Locale
+  
+  const baseMeta = generateSEOMetadata(locale, "home")
+  
   return {
-    title: siteTitle,
-    description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles. Designed for posture correction, foot support, and all-day comfort. Shop now!",
+    ...baseMeta,
     icons: {
       icon: "/favicon.svg",
-    },
-    openGraph: {
-      title: siteTitle,
-      description: "Experience ultimate comfort and pain relief with Biarritz orthopaedic insoles.",
-      url: "https://biarritz.blog",
-      siteName: "Biarritz",
-      locale: "fr_FR",
-      type: "website",
     },
   }
 }
@@ -47,6 +42,9 @@ export default async function RootLayout({
 
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <StructuredData locale={locale} type="all" />
+      </head>
       <body className={`${inter.className} min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-primary selection:text-primary-foreground`} suppressHydrationWarning>
         <Providers>
           <form style={{ display: 'none' }} /> {/* Temp fix for some next.js hydration quirks */}

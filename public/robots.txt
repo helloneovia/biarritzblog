@@ -1,0 +1,28 @@
+# Robots.txt for Biarritz Blog
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /product
+Allow: /blog
+Allow: /benefits
+Allow: /reviews
+Allow: /faq
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /.next/
+Disallow: /node_modules/
+
+# Specific crawl delays for different bots
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://biarritz.blog/sitemap.xml

@@ -3,10 +3,10 @@ import Image from "next/image"
 
 export function InsoleGallery({ texts = {} }: { texts?: any }) {
     const images = [
-        { src: "/assets/authentic_hero.jpg", label: "Design Biarritz Signature" },
-        { src: "/assets/authentic_science.jpg", label: "Technologie Magnétique" },
-        { src: "/assets/authentic_flex.jpg", label: "Qualité & Flexibilité" },
-        { src: "/assets/authentic_shoe.jpg", label: "Adaptabilité Quotidienne" },
+        { src: "/assets/authentic_hero.jpg", label: "Design Biarritz Signature", alt: "Semelles orthopédiques Biarritz Signature avec technologie d'acupression magnétique" },
+        { src: "/assets/authentic_science.jpg", label: "Technologie Magnétique", alt: "Technologie magnétique avancée des semelles Biarritz avec 450+ points d'acupression" },
+        { src: "/assets/authentic_flex.jpg", label: "Qualité & Flexibilité", alt: "Flexibilité et qualité de la mousse EVA médicale des semelles Biarritz" },
+        { src: "/assets/authentic_shoe.jpg", label: "Adaptabilité Quotidienne", alt: "Semelles Biarritz adaptées dans une chaussure blanche pour le confort quotidien" },
     ]
 
     return (
@@ -26,7 +26,7 @@ export function InsoleGallery({ texts = {} }: { texts?: any }) {
                         <div key={idx} className="group relative aspect-square rounded-3xl overflow-hidden border bg-muted/20 hover:border-primary/50 transition-all duration-500">
                             <Image
                                 src={img.src}
-                                alt={img.label}
+                                alt={img.alt || img.label}
                                 fill
                                 sizes="(max-width: 768px) 50vw, 33vw"
                                 className="object-cover group-hover:scale-110 transition-transform duration-700"

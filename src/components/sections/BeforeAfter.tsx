@@ -24,7 +24,7 @@ export function BeforeAfter({ texts }: { texts?: any }) {
             <div className="relative aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
               <img 
                 src="/assets/authentic_science.jpg" 
-                alt="Avant - Douleur" 
+                alt="Avant: Douleur plantaire et mauvaise posture - Semelles Biarritz" 
                 className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-red-950/90 py-8 px-6 via-red-900/40 to-transparent">
@@ -51,7 +51,7 @@ export function BeforeAfter({ texts }: { texts?: any }) {
             <div className="relative aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
               <img 
                 src="/assets/authentic_science.jpg" 
-                alt="Après - Soulagement" 
+                alt="Après: Soulagement immédiat et alignement postural avec les semelles Biarritz" 
                 className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald-950/90 py-8 px-6 via-emerald-900/40 to-transparent">
