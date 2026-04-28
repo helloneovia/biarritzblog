@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { unstable_cache } from "next/cache"
 import dynamic from "next/dynamic"
+import { OpenCartButton } from "@/components/ui/OpenCartButton"
 
 const Faq = dynamic(() => import("@/components/sections/Faq").then(mod => mod.Faq))
 
@@ -255,12 +256,12 @@ export default async function Home() {
             </p>
           </div>
           <Button size="lg" variant="secondary" className="rounded-2xl font-black h-16 sm:h-20 px-10 sm:px-14 text-xl sm:text-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition-all duration-300 bg-white text-orange-600 hover:bg-gray-50 border-none w-full sm:w-auto overflow-hidden group" asChild>
-            <Link href="/product">
+            <OpenCartButton>
               <span className="relative z-10 flex items-center text-center">
                 {texts.ctaButton || "Obtenir ma paire avec -50%"}
                 <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
               </span>
-            </Link>
+            </OpenCartButton>
           </Button>
           <div className="flex flex-col items-center gap-3 mt-8">
             <p className="text-sm font-black bg-white/10 backdrop-blur-md text-white px-5 py-2.5 rounded-full border border-white/20 shadow-sm inline-flex items-center gap-2 uppercase tracking-wide">

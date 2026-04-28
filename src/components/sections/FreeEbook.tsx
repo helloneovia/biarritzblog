@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { BookOpen, CheckCircle } from "lucide-react"
+import { OpenCartButton } from "@/components/ui/OpenCartButton"
 
 const EBOOK_POINTS = [
     "Les 7 erreurs qui aggravent votre fasciite plantaire",
@@ -64,13 +65,12 @@ export function FreeEbook() {
                             ))}
                         </ul>
 
-                        <Link
-                            href="/product"
+                        <OpenCartButton
                             className="inline-flex items-center gap-2 bg-primary text-white font-black px-8 py-4 rounded-2xl text-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                         >
                             <BookOpen className="w-5 h-5" />
                             Obtenir Mon eBook Gratuit →
-                        </Link>
+                        </OpenCartButton>
                         <p className="text-xs text-muted-foreground mt-3">
                             Envoyé automatiquement après votre commande. Aucune inscription requise.
                         </p>

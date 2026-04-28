@@ -1,3 +1,5 @@
+import { OpenCartButton } from "@/components/ui/OpenCartButton"
+
 const pillars = [
     {
         emoji: "🧬",
@@ -77,12 +79,11 @@ export function WhatMakesSpecial() {
                     <p className="text-2xl font-black mb-6">
                         🧡 Élimination des mauvaises odeurs
                     </p>
-                    <a
-                        href="#product-form"
+                    <OpenCartButton
                         className="inline-block bg-white text-primary font-black px-8 py-4 rounded-2xl text-lg hover:bg-primary-foreground transition-colors"
                     >
                         Commander Maintenant →
-                    </a>
+                    </OpenCartButton>
                 </div>
             </div>
         </section>

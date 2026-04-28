@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useCart } from "@/lib/store/CartContext"
 
 type CoinSide = "heads" | "tails" | null
 type GameState = "idle" | "flipping" | "result"
@@ -14,6 +15,7 @@ export function CoinFlipGame() {
     const [flips, setFlips] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
     const router = useRouter()
+    const { setCartOpen } = useCart()
 
     const handleChoice = (picked: CoinSide) => {
         setChoice(picked)
@@ -117,7 +119,7 @@ export function CoinFlipGame() {
                                     <p className="text-xl font-black text-yellow-400">Le destin a parlé — tu achètes ! 🚀</p>
                                     <p className="text-slate-300 text-sm">Tu vas adorer. 50 000+ clients ne peuvent pas se tromper.</p>
                                     <button
-                                        onClick={() => document.getElementById("product-form")?.scrollIntoView({ behavior: "smooth" })}
+                                        onClick={() => setCartOpen(true)}
                                         className="mt-4 inline-block bg-primary hover:bg-primary/90 text-white font-black px-8 py-3 rounded-2xl shadow-[0_4px_15px_rgba(255,102,0,0.4)] transition-all hover:scale-105"
                                     >
                                         🛒 Commander maintenant →
@@ -139,7 +141,7 @@ export function CoinFlipGame() {
                                 <>
                                     <p className="text-xl font-black text-yellow-400">Pile ! Même quand tu ne veux pas, le destin dit d&apos;acheter ! 😂</p>
                                     <button
-                                        onClick={() => document.getElementById("product-form")?.scrollIntoView({ behavior: "smooth" })}
+                                        onClick={() => setCartOpen(true)}
                                         className="mt-4 inline-block bg-primary hover:bg-primary/90 text-white font-black px-8 py-3 rounded-2xl shadow-[0_4px_15px_rgba(255,102,0,0.4)] transition-all hover:scale-105"
                                     >
                                         🛒 J&apos;obéis au destin →

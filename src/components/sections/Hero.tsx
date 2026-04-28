@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Star } from "lucide-react"
+import { OpenCartButton } from "@/components/ui/OpenCartButton"
 
 export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }) {
     // Priority: 1) CMS heroImage (set by admin), 2) DB product image, 3) generic fallback
@@ -55,9 +56,9 @@ export function Hero({ texts = {}, dbProduct }: { texts?: any, dbProduct?: any }
 
                         <div className="flex flex-col gap-3 sm:flex-row justify-center lg:justify-start pt-2">
                             <Button size="lg" className="rounded-2xl font-black uppercase tracking-wider h-14 sm:h-16 px-6 sm:px-10 text-lg sm:text-xl bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-600 border-none shadow-[0_8px_30px_rgb(255,102,0,0.4)] hover:shadow-[0_12px_40px_rgb(255,102,0,0.6)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto" asChild>
-                                <Link href="/product">
+                                <OpenCartButton>
                                     Commander Maintenant <ArrowRight className="ml-2 h-5 w-5" />
-                                </Link>
+                                </OpenCartButton>
                             </Button>
                             <Button size="lg" variant="outline" className="rounded-2xl font-black uppercase h-12 sm:h-16 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto border-2 hover:bg-muted/50 backdrop-blur-sm transition-colors duration-300" asChild>
                                 <Link href="#faq">Questions ?</Link>
