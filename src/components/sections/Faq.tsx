@@ -4,6 +4,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import { OpenCartButton } from "@/components/ui/OpenCartButton"
+import { ArrowRight } from "lucide-react"
 
 export function Faq() {
     const faqs = [
@@ -44,6 +46,16 @@ export function Faq() {
     return (
         <section id="faq" className="py-24 bg-muted/20">
             <div className="container mx-auto px-4 md:px-6 max-w-3xl">
+                <div className="flex justify-center mb-20 w-full">
+                    <div className="relative group w-full sm:w-auto">
+                        <div className="absolute inset-0 bg-orange-500/40 blur-3xl group-hover:blur-2xl transition-all duration-500 rounded-full animate-pulse" />
+                        <OpenCartButton className="relative flex items-center justify-center gap-3 bg-gradient-to-r from-primary to-orange-500 text-white font-black px-6 sm:px-14 py-6 sm:py-8 rounded-3xl text-xl sm:text-3xl uppercase tracking-widest shadow-2xl hover:-translate-y-2 transition-transform duration-300 w-full overflow-hidden border-2 border-white/20">
+                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-150%] animate-[shimmer_2s_infinite]" />
+                            COMMANDER MAINTENANT <ArrowRight className="w-8 h-8 sm:w-10 sm:h-10 group-hover:translate-x-3 transition-transform" />
+                        </OpenCartButton>
+                    </div>
+                </div>
+
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
                         Questions Fréquemment Posées
