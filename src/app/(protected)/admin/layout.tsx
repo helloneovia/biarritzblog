@@ -41,7 +41,7 @@ export default async function AdminLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+        <div className="min-h-screen bg-gray-50 text-slate-900 flex flex-col md:flex-row">
             {/* Admin Sidebar */}
             <aside className="w-full md:w-64 bg-white border-r border-gray-200 flex flex-col">
                 <div className="p-6 border-b border-gray-200 flex items-center justify-between">
