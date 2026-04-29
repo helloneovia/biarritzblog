@@ -6,6 +6,7 @@ import { Package, MessageCircle, Settings, LogOut, ShieldCheck, Gift } from "luc
 import { SignOutButton } from "@/components/auth/SignOutButton"
 import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { cookies } from "next/headers"
+import { MobileDashboardMenu } from "@/components/dashboard/MobileDashboardMenu"
 
 export const dynamic = "force-dynamic"
 
@@ -57,14 +58,28 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             </div>
                         </div>
 
-                        <nav className="flex overflow-x-auto md:flex-col gap-2 md:gap-0 md:space-y-2 pb-2 md:pb-0 -mx-2 px-2 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                        {/* Mobile Navigation Dropdown */}
+                        <div className="md:hidden mt-2 mb-2">
+                            <MobileDashboardMenu 
+                                items={[
+                                    ...navItems,
+                                    ...(session?.user?.role === "AFFILIATE" ? [{ label: t.dashAffiliate || "Tableau de Bord Affilié", href: "/affiliate/dashboard", icon: Gift, colorClass: "text-green-600" }] : []),
+                                    ...(session?.user?.role === "USER" ? [{ label: t.dashBecomeAffiliate || "Devenir Affilié (-15%)", href: "/affiliate/register", icon: Gift, colorClass: "text-green-600" }] : []),
+                                    ...(session?.user?.role === "ADMIN" ? [{ label: t.navAdmin || "Admin Panel", href: "/admin", icon: ShieldCheck, colorClass: "text-primary" }] : [])
+                                ]}
+                                signOutNode={<SignOutButton label={t.dashSignOut || "Sign Out"} />}
+                            />
+                        </div>
+
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex flex-col space-y-2 pb-0">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors whitespace-nowrap shrink-0"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors"
                                 >
-                                    <item.icon className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
+                                    <item.icon className="h-5 w-5 text-muted-foreground" />
                                     {item.label}
                                 </Link>
                             ))}
@@ -73,17 +88,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             {session?.user?.role === "AFFILIATE" ? (
                                 <Link
                                     href="/affiliate/dashboard"
-                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-green-600 whitespace-nowrap shrink-0"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
                                 >
-                                    <Gift className="h-4 w-4 md:h-5 md:w-5" />
+                                    <Gift className="h-5 w-5" />
                                     {t.dashAffiliate || "Tableau de Bord Affilié"}
                                 </Link>
                             ) : session?.user?.role === "USER" ? (
                                 <Link
                                     href="/affiliate/register"
-                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-green-600 whitespace-nowrap shrink-0"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
                                 >
-                                    <Gift className="h-4 w-4 md:h-5 md:w-5" />
+                                    <Gift className="h-5 w-5" />
                                     {t.dashBecomeAffiliate || "Devenir Affilié (-15%)"}
                                 </Link>
                             ) : null}
@@ -92,14 +107,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             {session?.user?.role === "ADMIN" && (
                                 <Link
                                     href="/admin"
-                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-primary whitespace-nowrap shrink-0"
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-primary"
                                 >
-                                    <ShieldCheck className="h-4 w-4 md:h-5 md:w-5" />
+                                    <ShieldCheck className="h-5 w-5" />
                                     {t.navAdmin || "Admin Panel"}
                                 </Link>
                             )}
 
-                            <div className="md:pt-4 md:mt-6 md:border-t shrink-0 flex items-center">
+                            <div className="pt-4 mt-4 border-t">
                                 <SignOutButton label={t.dashSignOut || "Sign Out"} />
                             </div>
                         </nav>

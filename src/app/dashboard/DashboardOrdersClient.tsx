@@ -25,8 +25,8 @@ interface Order {
     items: OrderItem[]
 }
 
-function OrderCard({ order }: { order: Order }) {
-    const [open, setOpen] = useState(false)
+function OrderCard({ order, defaultOpen = false }: { order: Order, defaultOpen?: boolean }) {
+    const [open, setOpen] = useState(defaultOpen)
 
     const statusColors: Record<string, string> = {
         DELIVERED: 'bg-green-100 text-green-700',
@@ -137,7 +137,7 @@ export function DashboardOrdersClient({ orders }: { orders: Order[] }) {
                 </div>
             ) : (
                 <div className="space-y-4 mt-2">
-                    {orders.map(order => <OrderCard key={order.id} order={order} />)}
+                    {orders.map((order, index) => <OrderCard key={order.id} order={order} defaultOpen={index === 0} />)}
                 </div>
             )}
         </div>
