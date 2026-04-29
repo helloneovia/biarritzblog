@@ -77,7 +77,7 @@ export async function Navbar() {
                     )}
                     <CartDrawer t={t} />
                     <Button className="hidden lg:inline-flex rounded-xl font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all" asChild>
-                        <Link href="/product">{t.navShop}</Link>
+                        <Link href="/product-orange">{t.navShop}</Link>
                     </Button>
                     <Sheet>
                         <SheetTrigger asChild>
