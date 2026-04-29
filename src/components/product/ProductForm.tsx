@@ -22,13 +22,16 @@ interface Bundle {
 export function ProductForm({
     bundles,
     t,
-    dbProduct
+    dbProduct,
+    colors
 }: {
     bundles: Bundle[],
     t: Record<string, string>,
-    dbProduct?: any
+    dbProduct?: any,
+    colors?: { id: string, name: string, hex: string }[]
 }) {
     const [size, setSize] = useState<string>("EU 40-41")
+    const [color, setColor] = useState<string>(colors?.[0]?.id ?? "")
     const [bundle, setBundle] = useState<number | string>(bundles[1]?.id ?? bundles[0]?.id ?? 2) // Default to 2nd bundle (Most Popular)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [timeLeft, setTimeLeft] = useState(14 * 60 + 32); // 14 mins 32 seconds
@@ -56,7 +59,7 @@ export function ProductForm({
             name: dbProduct?.name || "Semelles Magnétiques d'Acupression",
             image: dbProduct?.images?.[0] || "/temu-product.jpg",
             bundle: activeBundle.name,
-            size: size,
+            size: color && colors ? `${size} - ${colors.find(c => c.id === color)?.name}` : size,
             price: activeBundle.price,
             quantity: 1
         })
@@ -122,6 +125,35 @@ export function ProductForm({
                     ))}
                 </div>
             </div>
+
+            {colors && colors.length > 0 && (
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <h3 className="font-semibold">Couleur</h3>
+                        <span className="text-sm font-medium">{colors.find(c => c.id === color)?.name}</span>
+                    </div>
+                    <div className="flex gap-4">
+                        {colors.map((c) => (
+                            <button
+                                key={c.id}
+                                onClick={() => setColor(c.id)}
+                                className={cn(
+                                    "w-10 h-10 rounded-full border-2 transition-all shadow-sm flex items-center justify-center shrink-0",
+                                    color === c.id
+                                        ? "border-primary ring-4 ring-primary/20 scale-110"
+                                        : "border-transparent hover:scale-105"
+                                )}
+                                style={{ backgroundColor: c.hex }}
+                                title={c.name}
+                            >
+                                {color === c.id && (
+                                    <div className={cn("w-2.5 h-2.5 rounded-full", c.hex.toLowerCase() === '#ffffff' ? 'bg-black' : 'bg-white')} />
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="space-y-3">
                 <h3 className="font-black text-base uppercase tracking-wide">Choisissez votre Pack</h3>

@@ -89,9 +89,15 @@ export default async function ProductPage() {
 
     const customDbProduct = dbProduct ? {
         ...dbProduct,
-        name: "Semelles Magnétiques Biarritz - Édition Orange",
+        name: "Semelles Biarritz - Édition Orange",
         images: productImages
     } : null;
+
+    const productColors = [
+        { id: 'orange', name: 'Orange', hex: '#F97316' },
+        { id: 'grey', name: 'Gris', hex: '#9CA3AF' },
+        { id: 'black', name: 'Noir', hex: '#111827' }
+    ];
 
 
     return (
@@ -107,7 +113,7 @@ export default async function ProductPage() {
 
                     {/* Right Column: Details & Form */}
                     <div className="min-w-0">
-                        <ProductForm bundles={bundles} t={t} dbProduct={customDbProduct} />
+                        <ProductForm bundles={bundles} t={t} dbProduct={customDbProduct} colors={productColors} />
                     </div>
                 </div>
             </div>

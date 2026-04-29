@@ -72,7 +72,7 @@ export function StickyAddToCart({ bundles, dbProduct }: { bundles: Bundle[]; dbP
                             </div>
                             <div className="min-w-0">
                                 <p className="font-black text-sm truncate text-gray-900">
-                                    🧲 {dbProduct?.name || "Semelles Magnétiques Biarritz"}
+                                    👟 {dbProduct?.name || "Semelles Biarritz"}
                                 </p>
                                 <p className="text-xs font-semibold text-gray-500">
                                     ⭐⭐⭐⭐⭐ <span className="text-gray-400">(4.9 · +50k avis)</span>
