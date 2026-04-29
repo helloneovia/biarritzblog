@@ -1,13 +1,14 @@
 import { headers } from "next/headers"
 import { NextResponse } from "next/server"
-import { stripe } from "@/lib/stripe"
+import { getStripe, getStripeKeys } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import { sendAccountCreatedEmail, sendOrderConfirmationEmail } from "@/lib/email"
 
 export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+    const { webhookSecret } = await getStripeKeys()
+    const stripe = await getStripe()
 
     const logs = (global as any).__WEBHOOK_LOGS__ || [];
     (global as any).__WEBHOOK_LOGS__ = logs;

@@ -10,7 +10,8 @@ import {
     LogOut,
     ArrowLeft,
     ShoppingBag,
-    Users
+    Users,
+    CreditCard
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +39,7 @@ export default async function AdminLayout({
         { name: "Support", href: "/admin/support", icon: MessageSquare },
         { name: "Affiliés & Virements", href: "/admin/affiliates", icon: Users },
         { name: "Paramètres (CMS)", href: "/admin/settings", icon: Settings },
+        { name: "Modes de Paiement", href: "/admin/payments", icon: CreditCard },
     ];
 
     return (

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { stripe } from "@/lib/stripe"
+import { getStripe, getStripeKeys } from "@/lib/stripe"
 
 export const dynamic = "force-dynamic"
 
@@ -12,7 +12,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Cart is empty" }, { status: 400 })
         }
 
-        if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === "dummy_key_for_build") {
+        const stripe = await getStripe();
+        const { publicKey, secretKey } = await getStripeKeys();
+
+        if (!secretKey || secretKey === "dummy_key_for_build") {
             return NextResponse.json({ error: "Stripe non configuré" }, { status: 500 })
         }
 
@@ -34,6 +37,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             clientSecret: paymentIntent.client_secret,
+            publicKey,
             amount,
         })
     } catch (error: any) {

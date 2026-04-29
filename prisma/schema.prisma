@@ -273,7 +273,11 @@ model SiteConfig {
   language      String @default("FR")
   contactEmail  String @default("support@biarritz.blog")
   homeTitle     String @default("Premium Orthopaedic Insoles")
-  texts         Json?  
+  texts         Json?
+  
+  stripePublicKey     String?
+  stripeSecretKey     String?
+  stripeWebhookSecret String?
 }
 
 model Upload {

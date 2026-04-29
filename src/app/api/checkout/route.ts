@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { stripe } from "@/lib/stripe"
+import { getStripe, getStripeKeys } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 
 export const dynamic = "force-dynamic"
@@ -13,8 +13,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Cart is empty" }, { status: 400 })
         }
 
-        if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === "dummy_key_for_build") {
-            console.error("CHECKOUT_ERROR: STRIPE_SECRET_KEY is not configured in .env")
+        const stripe = await getStripe()
+        const { secretKey } = await getStripeKeys()
+
+        if (!secretKey || secretKey === "dummy_key_for_build") {
+            console.error("CHECKOUT_ERROR: Stripe keys are not configured in DB or .env")
             return NextResponse.json({ error: "Le paiement n'est pas encore configuré. Veuillez contacter le support." }, { status: 500 })
         }
 

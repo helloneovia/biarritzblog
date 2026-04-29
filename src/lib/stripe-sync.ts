@@ -1,9 +1,10 @@
-import { stripe } from "@/lib/stripe"
+import { getStripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import { sendAccountCreatedEmail, sendOrderConfirmationEmail } from "@/lib/email"
 import bcrypt from "bcryptjs"
 
 export async function syncPaymentIntent(paymentIntentId: string) {
+    const stripe = await getStripe();
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
         expand: ['payment_method']
     }) as any;

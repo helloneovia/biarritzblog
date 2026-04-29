@@ -13,20 +13,11 @@ import { Button } from "@/components/ui/button"
 export default function CheckoutPage() {
     const { items, totalAmount, addToCart } = useCart()
     const [clientSecret, setClientSecret] = useState("")
+    const [stripePromise, setStripePromise] = useState<any>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [upsells, setUpsells] = useState<any[]>([])
     const [upsellQtys, setUpsellQtys] = useState<Record<string, number>>({})
-
-    // Guard: only load Stripe if we have a real key (pk_test_ or pk_live_)
-    const stripePromise = useMemo(() => {
-        let key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
-        key = key.replace(/^=+/, "").trim() // Automatically strip accidental equals signs (e.g. KEY==pk_...)
-        if (key.startsWith("pk_test_") || key.startsWith("pk_live_")) {
-            return loadStripe(key)
-        }
-        return null
-    }, [])
 
     const totalOriginal = items.reduce((acc, item) => acc + item.price * item.quantity * 2, 0)
     const savings = totalOriginal - totalAmount
@@ -41,7 +32,11 @@ export default function CheckoutPage() {
         })
             .then(r => r.json())
             .then(data => {
-                if (data.clientSecret) {
+                if (data.clientSecret && data.publicKey) {
+                    let key = data.publicKey.replace(/^=+/, "").trim() // Strip accidental equals signs
+                    if (key.startsWith("pk_test_") || key.startsWith("pk_live_")) {
+                        setStripePromise(loadStripe(key))
+                    }
                     setClientSecret(data.clientSecret)
                 } else {
                     setError(data.error || "Erreur de configuration du paiement.")
