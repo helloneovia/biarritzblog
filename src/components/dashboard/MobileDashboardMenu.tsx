@@ -4,6 +4,8 @@ import Link from "next/link"
 import { ChevronDown, Menu, Package, MessageCircle, Settings, ShieldCheck, Gift } from "lucide-react"
 import { usePathname } from "next/navigation"
 
+import { SignOutButton } from "@/components/auth/SignOutButton"
+
 const iconMap: Record<string, any> = {
     Package,
     MessageCircle,
@@ -20,7 +22,7 @@ type NavItem = {
     colorClass?: string
 }
 
-export function MobileDashboardMenu({ items, signOutNode }: { items: NavItem[], signOutNode: React.ReactNode }) {
+export function MobileDashboardMenu({ items, signOutLabel }: { items: NavItem[], signOutLabel: string }) {
     const [open, setOpen] = useState(false)
     const pathname = usePathname()
 
@@ -68,7 +70,7 @@ export function MobileDashboardMenu({ items, signOutNode }: { items: NavItem[], 
                         )
                     })}
                     <div className="pt-2 mt-2 border-t">
-                        {signOutNode}
+                        <SignOutButton label={signOutLabel} />
                     </div>
                 </div>
             )}

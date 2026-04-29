@@ -62,12 +62,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
                         <div className="md:hidden mt-2 mb-2">
                             <MobileDashboardMenu 
                                 items={[
-                                    ...navItems.map(item => ({ ...item, iconName: item.icon.displayName || item.icon.name || "Package" })),
+                                    ...navItems.map(({ icon, ...rest }) => ({ ...rest, iconName: icon.displayName || icon.name || "Package" })),
                                     ...(session?.user?.role === "AFFILIATE" ? [{ label: t.dashAffiliate || "Tableau de Bord Affilié", href: "/affiliate/dashboard", iconName: "Gift", colorClass: "text-green-600" }] : []),
                                     ...(session?.user?.role === "USER" ? [{ label: t.dashBecomeAffiliate || "Devenir Affilié (-15%)", href: "/affiliate/register", iconName: "Gift", colorClass: "text-green-600" }] : []),
                                     ...(session?.user?.role === "ADMIN" ? [{ label: t.navAdmin || "Admin Panel", href: "/admin", iconName: "ShieldCheck", colorClass: "text-primary" }] : [])
                                 ]}
-                                signOutNode={<SignOutButton label={t.dashSignOut || "Sign Out"} />}
+                                signOutLabel={t.dashSignOut || "Sign Out"}
                             />
                         </div>
 
