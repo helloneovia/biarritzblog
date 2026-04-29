@@ -11,7 +11,8 @@ import {
     ArrowLeft,
     ShoppingBag,
     Users,
-    CreditCard
+    CreditCard,
+    BarChart3
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +35,7 @@ export default async function AdminLayout({
 
     const navItems = [
         { name: "Tableau de Bord", href: "/admin", icon: LayoutDashboard },
+        { name: "Statistiques", href: "/admin/stats", icon: BarChart3 },
         { name: "Commandes", href: "/admin/orders", icon: Package },
         { name: "Produits & Offres", href: "/admin/products", icon: ShoppingBag },
         { name: "Support", href: "/admin/support", icon: MessageSquare },

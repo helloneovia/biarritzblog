@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getStripe, getStripeKeys } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
+import { UAParser } from "ua-parser-js"
 
 export const dynamic = "force-dynamic"
 
@@ -35,6 +36,12 @@ export async function POST(req: Request) {
             console.error("Failed to load site config for stripe upsell", e);
         }
 
+        const userAgentString = req.headers.get("user-agent") || "";
+        const parser = new UAParser(userAgentString);
+        const browser = parser.getBrowser().name || "Unknown";
+        const os = parser.getOS().name || "Unknown";
+        const deviceType = parser.getDevice().type || "Desktop";
+
         const sessionPayload: any = {
             payment_method_types: ["card"],
             billing_address_collection: "required",
@@ -65,6 +72,9 @@ export async function POST(req: Request) {
             metadata: {
                 // Will be used in webhook to create DB Order
                 items: JSON.stringify(items.map((i: any) => ({ id: i.id, size: i.size, q: i.quantity || 1, p: i.price || 0 }))),
+                device: deviceType,
+                os: os,
+                browser: browser
             },
         };
 

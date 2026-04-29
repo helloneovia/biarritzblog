@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { getStripe, getStripeKeys } from "@/lib/stripe"
+import { UAParser } from "ua-parser-js"
 
 export const dynamic = "force-dynamic"
 
@@ -24,6 +25,12 @@ export async function POST(req: Request) {
             items.reduce((sum: number, item: any) => sum + item.price * (item.quantity || 1), 0) * 100
         )
 
+        const userAgentString = req.headers.get("user-agent") || "";
+        const parser = new UAParser(userAgentString);
+        const browser = parser.getBrowser().name || "Unknown";
+        const os = parser.getOS().name || "Unknown";
+        const deviceType = parser.getDevice().type || "Desktop";
+
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
             currency: "eur",
@@ -32,6 +39,9 @@ export async function POST(req: Request) {
                 items: JSON.stringify(
                     items.map((i: any) => ({ id: i.id, name: i.name, size: i.size, q: i.quantity || 1, p: i.price }))
                 ),
+                device: deviceType,
+                os: os,
+                browser: browser
             },
         })
 

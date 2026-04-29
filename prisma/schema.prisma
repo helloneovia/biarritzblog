@@ -175,6 +175,10 @@ model Order {
   trackingNumber String?
   trackingUrl    String?
 
+  device        String?
+  os            String?
+  browser       String?
+
   totalAmount   Float
   status        OrderStatus @default(PENDING)
   stripeSession String?     @unique

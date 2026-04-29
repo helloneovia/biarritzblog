@@ -111,6 +111,9 @@ export async function POST(req: Request) {
                     status: "PAID",
                     stripeSession: session.id,
                     userId: user.id,
+                    device: session.metadata?.device || null,
+                    os: session.metadata?.os || null,
+                    browser: session.metadata?.browser || null,
                     items: {
                         create: items.map((item: any) => ({
                             product: {
