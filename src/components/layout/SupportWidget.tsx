@@ -45,7 +45,7 @@ export function SupportWidget({ t }: { t: Record<string, string> }) {
     };
 
     return (
-        <div className="fixed bottom-[90px] right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end">
+        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40 flex flex-col items-end">
             {/* Popover Form */}
             {isOpen && (
                 <div className="mb-4 w-[calc(100vw-2rem)] max-w-[340px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-300">

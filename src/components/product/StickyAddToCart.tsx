@@ -28,9 +28,10 @@ export function StickyAddToCart({ bundles, dbProduct }: { bundles: Bundle[]; dbP
     // Show sticky bar when user scrolls past 800px, hide if dismissed
     useEffect(() => {
         const handleScroll = () => {
-            if (!dismissed && window.scrollY > 800) {
+            const threshold = typeof document !== 'undefined' ? document.documentElement.scrollHeight * 0.3 : 800;
+            if (!dismissed && window.scrollY > threshold) {
                 setVisible(true)
-            } else if (window.scrollY <= 800) {
+            } else if (window.scrollY <= threshold) {
                 setVisible(false)
             }
         }

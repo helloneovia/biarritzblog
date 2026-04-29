@@ -50,14 +50,19 @@ export function UrgencyBar() {
         </div>
 
         {/* Center: Main message */}
-        <Link href="/product" className="flex items-center gap-2 text-center hover:underline underline-offset-2 flex-1 justify-center">
-          <Flame className="w-4 h-4 text-yellow-300 shrink-0 animate-pulse" />
-          <span className="uppercase tracking-wider">
-            🔥 Offre Flash : <span className="text-yellow-300">-50% + 1 paire offerte</span> — Expire dans&nbsp;
-          </span>
-          <span className="bg-black/30 rounded-lg px-2 py-0.5 font-mono text-yellow-300 text-sm tabular-nums">
-            {pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
-          </span>
+        <Link href="/product" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-center hover:underline underline-offset-2 flex-1 justify-center">
+          <div className="flex items-center justify-center gap-1">
+            <Flame className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-300 shrink-0 animate-pulse" />
+            <span className="uppercase tracking-wider text-[10px] sm:text-sm font-black leading-tight">
+              Offre Flash : <span className="text-yellow-300">-50% + 1 offerte</span>
+            </span>
+          </div>
+          <div className="flex items-center justify-center gap-1">
+            <span className="hidden sm:inline uppercase tracking-wider">— Expire dans</span>
+            <span className="bg-black/30 rounded px-1.5 py-0.5 sm:px-2 sm:py-0.5 font-mono text-yellow-300 text-[10px] sm:text-sm tabular-nums ml-1">
+              {pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+            </span>
+          </div>
         </Link>
 
         {/* Right: CTA */}
