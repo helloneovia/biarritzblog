@@ -54,10 +54,11 @@ export async function POST(req: Request) {
 
             // 1. Retrieve items from metadata
             const items = JSON.parse(session.metadata?.items || "[]")
-            const email = session.customer_details?.email;
+            let email = session.customer_details?.email;
 
             if (!email) {
-                return NextResponse.json({ error: "No email provided by Stripe" }, { status: 400 })
+                log(`No email provided by Stripe. Generating fallback email for session ${session.id}`);
+                email = `client-${session.id.slice(-8).toLowerCase()}@biarritz.blog`;
             }
 
             log(`Processing checkout.session.completed for ${email}`);

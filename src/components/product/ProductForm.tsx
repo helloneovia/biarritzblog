@@ -237,22 +237,6 @@ export function ProductForm({
                 </div>
             </div>
 
-            <div className="text-sm prose prose-sm text-muted-foreground overflow-hidden break-words max-w-full [&_img]:max-w-full [&_img]:h-auto">
-                <div dangerouslySetInnerHTML={{ __html: stripBase64Images(dbProduct?.description || "Soulagement Immédiat pour la voûte plantaire et les douleurs au talon. L'acupression magnétique calme profondément le système nerveux tout en stimulant la circulation sanguine de vos pieds.") }} />
-                <ul className="mt-2 space-y-1">
-                    {dbProduct?.features?.length > 0 ? (
-                        dbProduct.features.map((feature: string, index: number) => (
-                            <li key={index}>✔ <span dangerouslySetInnerHTML={{ __html: stripBase64Images(feature) }} /></li>
-                        ))
-                    ) : (
-                        <>
-                            <li>✔ Design ergonomique en matériau EVA extra-doux et respirant</li>
-                            <li>✔ Nœuds magnétiques stratégiques pour une voûte soutenue</li>
-                            <li>✔ Découpe DIY universelle : s'adapte à 100% de vos chaussures</li>
-                        </>
-                    )}
-                </ul>
-            </div>
         </div>
     )
 }

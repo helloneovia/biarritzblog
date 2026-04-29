@@ -101,10 +101,12 @@ export default async function ProductPage() {
 
 
     return (
-        <main className="py-12 md:py-24">
-            {/* Trust badges scrolling bar */}
+        <>
+            {/* Trust badges scrolling bar at the very top */}
             <TrustBar />
-            <div className="container mx-auto px-4 md:px-6">
+            
+            <main className="pb-12 md:pb-24 pt-8 md:pt-16">
+                <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-24 overflow-hidden">
                     {/* Left Column: Gallery */}
                     <div className="lg:sticky lg:top-24 h-fit min-w-0 overflow-hidden">
@@ -205,5 +207,6 @@ export default async function ProductPage() {
             {/* Sticky bottom add-to-cart bar */}
             <StickyAddToCart bundles={bundles} dbProduct={customDbProduct} />
         </main>
+        </>
     )
 }

@@ -215,7 +215,7 @@ export default function CheckoutPage() {
                                     </div>
                                     <div className="flex justify-between text-sm text-green-600 font-semibold gap-2">
                                         <span className="shrink-0">Livraison</span>
-                                        <span className="text-right text-xs sm:text-sm">Suivie (4-6 jours)</span>
+                                        <span className="text-right text-xs sm:text-sm">Suivie (10 jours)</span>
                                     </div>
                                     <div className="flex justify-between font-black text-lg sm:text-xl border-t pt-3 mt-2 gap-2">
                                         <span>Total</span>
@@ -262,7 +262,7 @@ export default function CheckoutPage() {
                                             <div className="mt-3 sm:mt-4 flex gap-3">
                                                 <div className="flex-1 min-w-0">
                                                     <label className="text-[10px] text-gray-500 font-bold uppercase mb-1 block">Variant</label>
-                                                    <div className="h-9 border rounded-md px-3 flex items-center text-sm bg-gray-50">Standard</div>
+                                                    <div className="h-9 border rounded-md px-3 flex items-center text-sm bg-gray-50 text-gray-900 font-semibold">Express 48h</div>
                                                 </div>
                                                 <div className="w-[100px] shrink-0">
                                                     <label className="text-[10px] text-gray-500 font-bold uppercase mb-1 block">Quantity</label>
