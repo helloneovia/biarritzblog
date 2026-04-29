@@ -105,6 +105,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         // Sticky CTA
         stickyAddToCart: "Add to Cart",
         stickyAdded: "Added ✓",
+        // Dashboard
+        dashOrders: "My Orders",
+        dashSupport: "Support Tickets",
+        dashSettings: "Settings",
+        dashMember: "Member",
+        dashSignOut: "Sign Out",
+        dashAffiliate: "Affiliate Dashboard",
+        dashBecomeAffiliate: "Become Affiliate (-15%)",
     },
     FR: {
         heroBadge: "🎉 Nouvelle collection 2024",
@@ -199,6 +207,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         // Sticky CTA
         stickyAddToCart: "Ajouter au panier",
         stickyAdded: "Ajouté ✓",
+        // Dashboard
+        dashOrders: "Mes Commandes",
+        dashSupport: "Tickets Support",
+        dashSettings: "Paramètres",
+        dashMember: "Membre",
+        dashSignOut: "Déconnexion",
+        dashAffiliate: "Tableau de Bord Affilié",
+        dashBecomeAffiliate: "Devenir Affilié (-15%)",
     },
     ES: {
         heroBadge: "🎉 Nuevo diseño 2024",
@@ -293,6 +309,14 @@ const DEFAULTS: Record<Locale, Record<string, string>> = {
         // Sticky CTA
         stickyAddToCart: "Añadir al carrito",
         stickyAdded: "Añadido ✓",
+        // Dashboard
+        dashOrders: "Mis Pedidos",
+        dashSupport: "Tickets de Soporte",
+        dashSettings: "Configuración",
+        dashMember: "Miembro",
+        dashSignOut: "Cerrar Sesión",
+        dashAffiliate: "Panel de Afiliado",
+        dashBecomeAffiliate: "Convertirse en Afiliado (-15%)",
     },
 }
 

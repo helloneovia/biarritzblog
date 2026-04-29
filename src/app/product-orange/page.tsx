@@ -78,8 +78,8 @@ export default async function ProductPage() {
         ]
 
     const productImages = [
-        "/product-orange/chaussures_biarritz_1080.png",
         "/product-orange/semelle_biarritz_1080.png",
+        "/product-orange/chaussures_biarritz_1080.png",
         "/product-orange/semelle_biarritz_1080_massage.png",
         "/product-orange/semelle_biarritz_1080_trimmable.png",
         "/product-orange/0b1b47319db40461fef06ec0fba5965bf160c9febbf261ea21e6a3c4ae75183b.mp4",

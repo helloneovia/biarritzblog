@@ -28,17 +28,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
     ]
 
     return (
-        <div className="container mx-auto px-4 py-12 min-h-screen mt-16 max-w-6xl">
-            <div className="flex flex-col md:flex-row gap-8">
+        <div className="container mx-auto px-4 py-8 md:py-12 min-h-screen mt-16 max-w-6xl">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
 
                 {/* Sidebar */}
                 <div className="w-full md:w-64 shrink-0">
-                    <div className="bg-card rounded-3xl p-6 shadow-sm border sticky top-24">
-                        <div className="flex items-center gap-3 mb-8 pb-6 border-b">
+                    <div className="bg-card rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border sticky top-20 md:top-24 z-10">
+                        {/* Profile header - Desktop */}
+                        <div className="hidden md:flex items-center gap-3 mb-8 pb-6 border-b">
                             <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xl">
                                 {session.user?.email?.charAt(0).toUpperCase()}
                             </div>
-                            <div>
+                            <div className="min-w-0">
                                 <p className="font-semibold truncate max-w-[150px]">{session.user?.name || (t.dashMember || "Member")}</p>
                                 {session?.user?.role === "ADMIN" && (
                                     <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full mt-1 inline-block">Admin</span>
@@ -46,14 +47,24 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             </div>
                         </div>
 
-                        <nav className="space-y-2">
+                        {/* Profile header - Mobile */}
+                        <div className="md:hidden flex items-center gap-3 mb-4 pb-4 border-b">
+                            <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg shrink-0">
+                                {session.user?.email?.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <p className="font-semibold truncate text-sm">{session.user?.name || (t.dashMember || "Member")}</p>
+                            </div>
+                        </div>
+
+                        <nav className="flex overflow-x-auto md:flex-col gap-2 md:gap-0 md:space-y-2 pb-2 md:pb-0 -mx-2 px-2 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors"
+                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors whitespace-nowrap shrink-0"
                                 >
-                                    <item.icon className="h-4 w-4 text-muted-foreground" />
+                                    <item.icon className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
                                     {item.label}
                                 </Link>
                             ))}
@@ -62,18 +73,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             {session?.user?.role === "AFFILIATE" ? (
                                 <Link
                                     href="/affiliate/dashboard"
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
+                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-green-600 whitespace-nowrap shrink-0"
                                 >
-                                    <Gift className="h-4 w-4" />
-                                    Tableau de Bord Affilié
+                                    <Gift className="h-4 w-4 md:h-5 md:w-5" />
+                                    {t.dashAffiliate || "Tableau de Bord Affilié"}
                                 </Link>
                             ) : session?.user?.role === "USER" ? (
                                 <Link
                                     href="/affiliate/register"
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-green-600"
+                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-green-600 whitespace-nowrap shrink-0"
                                 >
-                                    <Gift className="h-4 w-4" />
-                                    Devenir Affilié (-15%)
+                                    <Gift className="h-4 w-4 md:h-5 md:w-5" />
+                                    {t.dashBecomeAffiliate || "Devenir Affilié (-15%)"}
                                 </Link>
                             ) : null}
 
@@ -81,15 +92,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
                             {session?.user?.role === "ADMIN" && (
                                 <Link
                                     href="/admin"
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted text-sm font-medium transition-colors text-primary"
+                                    className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 md:bg-transparent hover:bg-muted text-sm font-medium transition-colors text-primary whitespace-nowrap shrink-0"
                                 >
-                                    <ShieldCheck className="h-4 w-4" />
+                                    <ShieldCheck className="h-4 w-4 md:h-5 md:w-5" />
                                     {t.navAdmin || "Admin Panel"}
                                 </Link>
                             )}
 
-                            <div className="pt-4 mt-6 border-t">
-                                <SignOutButton />
+                            <div className="md:pt-4 md:mt-6 md:border-t shrink-0 flex items-center">
+                                <SignOutButton label={t.dashSignOut || "Sign Out"} />
                             </div>
                         </nav>
                     </div>
