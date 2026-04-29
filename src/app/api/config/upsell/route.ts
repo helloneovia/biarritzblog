@@ -14,7 +14,7 @@ export async function GET() {
             name: u.name,
             price: u.price,
             compareAt: u.compareAt,
-            image: u.images?.[0] || ""
+            image: u.name.toLowerCase().includes("livraison") ? "/express_delivery_logo.png" : (u.images?.[0] || "")
         })));
     } catch {
         return NextResponse.json([]);

@@ -267,9 +267,15 @@ export default function CheckoutPage() {
                                                 <div className="w-[100px] shrink-0">
                                                     <label className="text-[10px] text-gray-500 font-bold uppercase mb-1 block">Quantity</label>
                                                     <div className="h-9 border rounded-md flex items-center justify-between px-2 bg-gray-50">
-                                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: Math.max(1, p[u.id] - 1)}))} className="p-1 hover:bg-gray-200 rounded"><Minus className="h-3 w-3" /></button>
-                                                        <span className="text-xs font-bold">{upsellQtys[u.id] || 1}</span>
-                                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: (p[u.id] || 1) + 1}))} className="p-1 hover:bg-gray-200 rounded"><Plus className="h-3 w-3" /></button>
+                                                        {u.name.toLowerCase().includes("livraison") ? (
+                                                            <span className="text-xs font-bold w-full text-center">1</span>
+                                                        ) : (
+                                                            <>
+                                                                <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: Math.max(1, p[u.id] - 1)}))} className="p-1 hover:bg-gray-200 rounded"><Minus className="h-3 w-3" /></button>
+                                                                <span className="text-xs font-bold">{upsellQtys[u.id] || 1}</span>
+                                                                <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: (p[u.id] || 1) + 1}))} className="p-1 hover:bg-gray-200 rounded"><Plus className="h-3 w-3" /></button>
+                                                            </>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>

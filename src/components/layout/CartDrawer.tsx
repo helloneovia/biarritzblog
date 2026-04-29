@@ -160,9 +160,15 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                                         </div>
                                         <div className="flex justify-between items-center mt-2">
                                             <div className="flex items-center border rounded-lg overflow-hidden">
-                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2.5 py-1.5 hover:bg-muted text-sm font-bold"><Minus className="h-3 w-3" /></button>
-                                                <span className="text-sm font-bold px-3 border-x">{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2.5 py-1.5 hover:bg-muted text-sm font-bold"><Plus className="h-3 w-3" /></button>
+                                                {item.name.toLowerCase().includes("livraison") ? (
+                                                    <span className="text-sm font-bold px-4 py-1.5 w-[80px] text-center">{item.quantity}</span>
+                                                ) : (
+                                                    <>
+                                                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2.5 py-1.5 hover:bg-muted text-sm font-bold"><Minus className="h-3 w-3" /></button>
+                                                        <span className="text-sm font-bold px-3 border-x">{item.quantity}</span>
+                                                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2.5 py-1.5 hover:bg-muted text-sm font-bold"><Plus className="h-3 w-3" /></button>
+                                                    </>
+                                                )}
                                             </div>
                                             <button onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive transition-colors">
                                                 <X className="h-4 w-4" />
@@ -250,9 +256,15 @@ export function CartDrawer({ t }: { t: Record<string, string> }) {
                                 </div>
                                 <div className="flex flex-col gap-2 shrink-0 items-end">
                                     <div className="flex items-center border rounded-lg overflow-hidden shrink-0 w-[100px]">
-                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: Math.max(1, p[u.id] - 1)}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Minus className="h-3 w-3" /></button>
-                                        <span className="text-sm font-bold px-3 border-x">{upsellQtys[u.id] || 1}</span>
-                                        <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: (p[u.id] || 1) + 1}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Plus className="h-3 w-3" /></button>
+                                        {u.name.toLowerCase().includes("livraison") ? (
+                                            <span className="text-sm font-bold px-3 w-full text-center py-1.5">1</span>
+                                        ) : (
+                                            <>
+                                                <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: Math.max(1, p[u.id] - 1)}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Minus className="h-3 w-3" /></button>
+                                                <span className="text-sm font-bold px-3 border-x">{upsellQtys[u.id] || 1}</span>
+                                                <button onClick={() => setUpsellQtys(p => ({...p, [u.id]: (p[u.id] || 1) + 1}))} className="flex-1 py-1.5 hover:bg-muted text-sm font-bold flex justify-center"><Plus className="h-3 w-3" /></button>
+                                            </>
+                                        )}
                                     </div>
                                     {upsellsAdded[u.id] ? (
                                         <Button disabled className="w-[100px] h-9 text-xs font-bold bg-green-600 text-white rounded-lg">Ajouté ✓</Button>
