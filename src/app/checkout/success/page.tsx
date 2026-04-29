@@ -30,6 +30,18 @@ export default async function CheckoutSuccessPage({
             if (order) break
             await new Promise(r => setTimeout(r, 1000))
         }
+
+        // Fallback: If webhook completely failed (or wasn't configured for payment_intent.succeeded),
+        // manually sync it here on the server side.
+        if (!order && sessionId.startsWith('pi_')) {
+            const { syncPaymentIntent } = await import('@/lib/stripe-sync');
+            try {
+                order = await syncPaymentIntent(sessionId);
+            } catch (e) {
+                console.error("Manual sync failed:", e);
+            }
+        }
+
         email = order?.email ?? null
     }
 
