@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic'
 export default async function CheckoutSuccessPage({
     searchParams,
 }: {
-    searchParams: Promise<{ session_id?: string }>
+    searchParams: Promise<{ session_id?: string, payment_intent?: string }>
 }) {
     const params = await searchParams
-    const sessionId = params.session_id
+    const sessionId = params.session_id || params.payment_intent
 
     const tempPassword = sessionId ? `Biarritz-${sessionId.slice(-6)}` : null
 

@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { useStripe, useElements, PaymentElement, AddressElement } from "@stripe/react-stripe-js"
+import { useStripe, useElements, PaymentElement, AddressElement, LinkAuthenticationElement } from "@stripe/react-stripe-js"
 import { useCart } from "@/lib/store/CartContext"
 import { Lock, ArrowRight } from "lucide-react"
 
@@ -36,9 +36,15 @@ export function CheckoutForm({ items, totalAmount }: { items: any[], totalAmount
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Contact / Email */}
+            <div>
+                <label className="block text-sm font-black mb-3 uppercase tracking-wide">Contact</label>
+                <LinkAuthenticationElement />
+            </div>
+
             {/* Shipping address */}
             <div>
-                <label className="block text-sm font-black mb-3 uppercase tracking-wide">Adresse de livraison</label>
+                <label className="block text-sm font-black mb-3 mt-6 uppercase tracking-wide">Adresse de livraison</label>
                 <AddressElement
                     options={{
                         mode: "shipping",

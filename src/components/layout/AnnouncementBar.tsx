@@ -27,30 +27,32 @@ export function AnnouncementBar({ t }: { t?: Record<string, string> }) {
     }, [])
 
     const announcements = [
-        <>
-            <Flame className="inline w-4 h-4 text-yellow-400 mr-1.5 animate-pulse" />
-            <span>Offre Flash : </span>
-            <span className="text-yellow-300 font-black">-50% + 1 paire offerte</span>
-            <span> — Il reste </span>
-            <span className="text-yellow-300 font-black">{stock} paires</span>
-            <span> — Expire dans </span>
-            <span className="font-mono text-yellow-300 font-black">{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}</span>
-        </>,
-        <>
-            <span>📦 </span>
+        <div key="1" className="flex items-center flex-wrap justify-center gap-1">
+            <Flame className="inline w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 animate-pulse shrink-0" />
+            <span>Offre Flash :</span>
+            <span className="text-yellow-300 font-black">-50% + 1 offerte</span>
+            <span className="hidden sm:inline">— Il reste</span>
+            <span className="hidden sm:inline text-yellow-300 font-black">{stock} paires</span>
+            <span className="hidden sm:inline">— Expire dans</span>
+            <span className="font-mono text-yellow-300 font-black">
+                {pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+            </span>
+        </div>,
+        <div key="2" className="flex items-center flex-wrap justify-center gap-1">
+            <span>📦</span>
             <span className="text-yellow-300 font-black">Livraison express gratuite</span>
-            <span> en France métropolitaine 🇫🇷</span>
-        </>,
-        <>
-            <span>⭐ </span>
+            <span className="hidden sm:inline">en France métropolitaine 🇫🇷</span>
+        </div>,
+        <div key="3" className="flex items-center flex-wrap justify-center gap-1">
+            <span>⭐</span>
             <span className="text-yellow-300 font-black">50 000+ clients satisfaits</span>
-            <span> · Note 4.9/5 sur Trustpilot</span>
-        </>,
-        <>
-            <span>🔒 </span>
+            <span className="hidden sm:inline">· Note 4.9/5</span>
+        </div>,
+        <div key="4" className="flex items-center flex-wrap justify-center gap-1">
+            <span>🔒</span>
             <span className="text-yellow-300 font-black">Garantie 30 jours</span>
-            <span> satisfait ou intégralement remboursé</span>
-        </>,
+            <span className="hidden sm:inline">satisfait ou remboursé</span>
+        </div>,
     ]
 
     useEffect(() => {
@@ -65,11 +67,11 @@ export function AnnouncementBar({ t }: { t?: Record<string, string> }) {
     }, [])
 
     return (
-        <Link href="/product" className="block bg-gradient-to-r from-red-700 via-red-600 to-orange-600 text-white w-full overflow-hidden text-xs sm:text-sm font-bold tracking-wide relative border-b-2 border-orange-400 h-10 flex items-center justify-center hover:from-red-800 hover:to-orange-700 transition-colors duration-300">
+        <Link href="/product" className="block bg-gradient-to-r from-red-700 via-red-600 to-orange-600 text-white w-full overflow-hidden text-[11px] sm:text-sm font-bold tracking-wide relative border-b-2 border-orange-400 min-h-8 sm:min-h-10 flex items-center justify-center hover:from-red-800 hover:to-orange-700 transition-colors duration-300 py-1 sm:py-0 px-2">
             {/* Shimmer */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-[shimmer_3s_ease-in-out_infinite] pointer-events-none" />
             <div
-                className="absolute w-full text-center px-4 transition-all duration-300 ease-in-out flex items-center justify-center gap-1"
+                className="w-full text-center transition-all duration-300 ease-in-out flex items-center justify-center"
                 style={{
                     transform: isAnimating ? 'translateY(-20px)' : 'translateY(0)',
                     opacity: isAnimating ? 0 : 1,
