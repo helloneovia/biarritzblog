@@ -16,6 +16,7 @@ export default function StatsDashboard({ data }: { data: any }) {
     const {
         totalRevenue,
         totalOrders,
+        totalVisits,
         revenueOverTime,
         salesByCountry,
         salesByDevice,
@@ -24,6 +25,7 @@ export default function StatsDashboard({ data }: { data: any }) {
     } = data
 
     const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0
+    const conversionRate = totalVisits > 0 ? (totalOrders / totalVisits) * 100 : 0
 
     const CustomTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
@@ -42,14 +44,14 @@ export default function StatsDashboard({ data }: { data: any }) {
     return (
         <div className="space-y-8">
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
                     <div className="bg-indigo-100 p-3 rounded-full">
                         <CreditCard className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
                         <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Chiffre d'Affaires</p>
-                        <p className="text-3xl font-black">{formatCurrency(totalRevenue)}</p>
+                        <p className="text-2xl font-black">{formatCurrency(totalRevenue)}</p>
                     </div>
                 </div>
                 
@@ -59,7 +61,18 @@ export default function StatsDashboard({ data }: { data: any }) {
                     </div>
                     <div>
                         <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Commandes</p>
-                        <p className="text-3xl font-black">{totalOrders}</p>
+                        <p className="text-2xl font-black">{totalOrders}</p>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                    <div className="bg-blue-100 p-3 rounded-full">
+                        <Users className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                        <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Visites</p>
+                        <p className="text-2xl font-black">{totalVisits}</p>
+                        <p className="text-xs text-muted-foreground mt-1 font-medium">{conversionRate.toFixed(2)}% conv.</p>
                     </div>
                 </div>
 
@@ -69,7 +82,7 @@ export default function StatsDashboard({ data }: { data: any }) {
                     </div>
                     <div>
                         <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">Panier Moyen</p>
-                        <p className="text-3xl font-black">{formatCurrency(avgOrderValue)}</p>
+                        <p className="text-2xl font-black">{formatCurrency(avgOrderValue)}</p>
                     </div>
                 </div>
             </div>
@@ -103,7 +116,7 @@ export default function StatsDashboard({ data }: { data: any }) {
                         {salesByDevice.length > 0 ? (
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={salesByDevice} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                                    <Pie data={salesByDevice} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
                                         {salesByDevice.map((entry: any, index: number) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
@@ -125,7 +138,7 @@ export default function StatsDashboard({ data }: { data: any }) {
                         {salesByBrowser.length > 0 ? (
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={salesByBrowser} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                                    <Pie data={salesByBrowser} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
                                         {salesByBrowser.map((entry: any, index: number) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
                                         ))}
@@ -147,7 +160,7 @@ export default function StatsDashboard({ data }: { data: any }) {
                         {salesByCountry.length > 0 ? (
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={salesByCountry} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                                    <Pie data={salesByCountry} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
                                         {salesByCountry.map((entry: any, index: number) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
                                         ))}

@@ -1,9 +1,23 @@
 "use client"
 import Script from "next/script"
+import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 export function Analytics() {
     const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID
     const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID
+    const pathname = usePathname()
+
+    useEffect(() => {
+        // Track internal visit silently
+        if (pathname && !pathname.startsWith('/admin')) {
+            fetch("/api/track", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ path: pathname })
+            }).catch(() => {}) // Ignore errors to not block the user
+        }
+    }, [pathname])
 
     return (
         <>

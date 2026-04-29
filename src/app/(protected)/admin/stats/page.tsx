@@ -31,26 +31,33 @@ export default async function AdminStatsPage() {
         revenue: Math.round(revenue * 100) / 100
     }))
 
-    // Sales by Country
+    // VISITS DATA (Replaces Order data for Pie charts)
+    const visits = await prisma.visit.findMany({
+        orderBy: { createdAt: "desc" }
+    })
+    
+    const totalVisits = visits.length
+
+    // Sales/Visits by Country
     const countryMap = new Map<string, number>()
-    orders.forEach(o => {
-        const country = o.country || "Inconnu"
+    visits.forEach(v => {
+        const country = v.country || "Inconnu"
         countryMap.set(country, (countryMap.get(country) || 0) + 1)
     })
     const salesByCountry = Array.from(countryMap.entries()).map(([name, value]) => ({ name, value }))
 
-    // Sales by Device
+    // Sales/Visits by Device
     const deviceMap = new Map<string, number>()
-    orders.forEach(o => {
-        const device = o.device || "Inconnu"
+    visits.forEach(v => {
+        const device = v.device || "Inconnu"
         deviceMap.set(device, (deviceMap.get(device) || 0) + 1)
     })
     const salesByDevice = Array.from(deviceMap.entries()).map(([name, value]) => ({ name, value }))
 
-    // Sales by Browser
+    // Sales/Visits by Browser
     const browserMap = new Map<string, number>()
-    orders.forEach(o => {
-        const browser = o.browser || "Inconnu"
+    visits.forEach(v => {
+        const browser = v.browser || "Inconnu"
         browserMap.set(browser, (browserMap.get(browser) || 0) + 1)
     })
     const salesByBrowser = Array.from(browserMap.entries()).map(([name, value]) => ({ name, value }))
@@ -80,6 +87,7 @@ export default async function AdminStatsPage() {
     const statsData = {
         totalRevenue,
         totalOrders,
+        totalVisits,
         revenueOverTime,
         salesByCountry,
         salesByDevice,
