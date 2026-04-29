@@ -31,7 +31,7 @@ export const revalidate = 60 // ISR: regenerate every 60s instead of force-dynam
 const getCachedProductData = unstable_cache(
     async () => {
         try {
-            const prod = await prisma.product.findFirst({ where: { type: "ORANGE" }, orderBy: { createdAt: 'desc' } });
+            const prod = await prisma.product.findFirst({ where: { type: "MAIN" }, orderBy: { createdAt: 'desc' } });
             if (prod) {
                 const bundles = await prisma.bundle.findMany({ orderBy: { quantity: 'asc' } });
                 return { dbProduct: prod, dbBundles: bundles || [] };
@@ -77,7 +77,7 @@ export default async function ProductPage() {
             { id: 3, name: "3 Paires", price: 75, original: 177, subtitle: "Cure intégrale de la famille", badge: "ÉCONOMISEZ 57%" }
         ]
 
-    const productImages = dbProduct?.images?.length ? dbProduct.images : [
+    const productImages = [
         "/product-orange/chaussures_biarritz_1080.png",
         "/product-orange/semelle_biarritz_1080.png",
         "/product-orange/semelle_biarritz_1080_massage.png",
