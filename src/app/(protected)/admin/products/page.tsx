@@ -12,10 +12,26 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
     const selectedId = params?.id;
 
     // Fetch ALL primary products
-    const allProducts = await prisma.product.findMany({
+    let allProducts = await prisma.product.findMany({
         where: { type: "MAIN" },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: 'asc' },
     })
+
+    // Auto-create the Orange Edition if it doesn't exist yet
+    const hasOrange = allProducts.some(p => p.name.includes("Orange"));
+    if (!hasOrange) {
+        const orangeProduct = await prisma.product.create({
+            data: {
+                name: "Semelles Biarritz - Édition Orange",
+                description: "<p>Nouvelle édition Orange dynamique.</p>",
+                price: 29.90,
+                compareAt: 49.90,
+                images: [],
+                type: "MAIN"
+            }
+        });
+        allProducts.push(orangeProduct);
+    }
 
     const targetId = selectedId || allProducts[0]?.id;
 
