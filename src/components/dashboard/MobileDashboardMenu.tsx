@@ -1,13 +1,22 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ChevronDown, Menu } from "lucide-react"
+import { ChevronDown, Menu, Package, MessageCircle, Settings, ShieldCheck, Gift } from "lucide-react"
 import { usePathname } from "next/navigation"
+
+const iconMap: Record<string, any> = {
+    Package,
+    MessageCircle,
+    Settings,
+    ShieldCheck,
+    Gift,
+    Menu
+}
 
 type NavItem = {
     label: string
     href: string
-    icon: any
+    iconName?: string
     colorClass?: string
 }
 
@@ -22,7 +31,7 @@ export function MobileDashboardMenu({ items, signOutNode }: { items: NavItem[], 
 
     // Find current active item
     const activeItem = items.find(item => item.href === pathname) || items[0]
-    const ActiveIcon = activeItem?.icon || Menu
+    const ActiveIcon = activeItem?.iconName ? iconMap[activeItem.iconName] || Menu : Menu
 
     return (
         <div className="md:hidden relative">
@@ -40,7 +49,7 @@ export function MobileDashboardMenu({ items, signOutNode }: { items: NavItem[], 
             {open && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border rounded-xl shadow-lg z-50 flex flex-col p-2 space-y-1 animate-in fade-in slide-in-from-top-2">
                     {items.map((item) => {
-                        const Icon = item.icon
+                        const Icon = item.iconName ? iconMap[item.iconName] || Menu : Menu
                         const isActive = pathname === item.href
                         return (
                             <Link
