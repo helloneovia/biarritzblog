@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { CheckCircle, UserCircle, Key, Package, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
+import { PurchaseTracker } from '@/components/tracking/PurchaseTracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,7 @@ export default async function CheckoutSuccessPage({
 
     return (
         <div className="container mx-auto px-4 py-24 min-h-screen mt-16 flex flex-col items-center justify-center">
+            <PurchaseTracker order={order} />
             <div className="max-w-lg w-full">
 
                 {/* Success Header */}

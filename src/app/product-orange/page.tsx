@@ -87,6 +87,12 @@ export default async function ProductPage() {
         "/product-orange/fa5fe2d95b32cc92aecf4f51df2e7dff41f56be7aad359defe86709bf2b2d3b9.mp4"
     ]
 
+    const customDbProduct = dbProduct ? {
+        ...dbProduct,
+        name: "Semelles Magnétiques Biarritz - Édition Orange",
+        images: productImages
+    } : null;
+
 
     return (
         <main className="py-12 md:py-24">
@@ -101,7 +107,7 @@ export default async function ProductPage() {
 
                     {/* Right Column: Details & Form */}
                     <div className="min-w-0">
-                        <ProductForm bundles={bundles} t={t} dbProduct={dbProduct} />
+                        <ProductForm bundles={bundles} t={t} dbProduct={customDbProduct} />
                     </div>
                 </div>
             </div>
@@ -191,7 +197,7 @@ export default async function ProductPage() {
             <Faq />
 
             {/* Sticky bottom add-to-cart bar */}
-            <StickyAddToCart bundles={bundles} dbProduct={dbProduct} />
+            <StickyAddToCart bundles={bundles} dbProduct={customDbProduct} />
         </main>
     )
 }

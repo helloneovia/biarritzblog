@@ -73,6 +73,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
             description: `${newItem.name} (${newItem.size})`,
         });
 
+        // Fire pixel events
+        try {
+            if (typeof window !== 'undefined') {
+                if ((window as any).snaptr) {
+                    (window as any).snaptr('track', 'ADD_CART', {
+                        'price': newItem.price,
+                        'currency': 'EUR',
+                        'item_ids': [String(newItem.productId)],
+                        'number_items': newItem.quantity
+                    });
+                }
+                if ((window as any).ttq) {
+                    (window as any).ttq.track('AddToCart', {
+                        'value': newItem.price,
+                        'currency': 'EUR',
+                        'contents': [
+                            {
+                                'content_id': String(newItem.productId),
+                                'content_type': 'product',
+                                'quantity': newItem.quantity
+                            }
+                        ]
+                    });
+                }
+            }
+        } catch (e) {
+            console.error("Failed to fire tracking pixel", e);
+        }
+
         setCartOpen(true);
     };
 
