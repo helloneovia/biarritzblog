@@ -13,6 +13,7 @@ import { getSiteConfig, getTexts, Locale } from "@/lib/i18n"
 import { generateSEOMetadata } from "@/lib/seo-metadata"
 import { StructuredData } from "@/components/StructuredData"
 import { cookies } from "next/headers"
+import { ClarityScript } from "@/components/tracking/ClarityScript"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,6 +45,7 @@ export default async function RootLayout({
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <StructuredData locale={locale} type="all" />
+        <ClarityScript />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-primary selection:text-primary-foreground`} suppressHydrationWarning>
         <Providers>

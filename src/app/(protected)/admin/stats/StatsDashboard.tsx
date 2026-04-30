@@ -90,19 +90,19 @@ export default function StatsDashboard({ data }: { data: any }) {
             {/* Line Chart: Revenue Over Time */}
             <div className="bg-white p-6 rounded-2xl border shadow-sm">
                 <h3 className="text-lg font-bold mb-6">Évolution du Chiffre d'Affaires</h3>
-                <div className="h-80 w-full">
+                <div className="w-full overflow-x-auto pb-4">
                     {revenueOverTime.length > 0 ? (
-                        <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={revenueOverTime} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <div style={{ width: '800px', height: '320px' }}>
+                            <LineChart width={800} height={320} data={revenueOverTime} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                                 <XAxis dataKey="date" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `€${value}`} />
                                 <RechartsTooltip content={<CustomTooltip />} />
                                 <Line type="monotone" dataKey="revenue" name="revenu" stroke="#4f46e5" strokeWidth={4} dot={{ r: 4, fill: '#4f46e5', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6 }} />
                             </LineChart>
-                        </ResponsiveContainer>
+                        </div>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">Pas assez de données.</div>
+                        <div className="w-full h-80 flex items-center justify-center text-muted-foreground">Pas assez de données.</div>
                     )}
                 </div>
             </div>
@@ -110,67 +110,61 @@ export default function StatsDashboard({ data }: { data: any }) {
             {/* Pie Charts */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Device Pie Chart */}
-                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col">
-                    <h3 className="text-lg font-bold mb-4">Répartition par Appareil</h3>
-                    <div className="h-64 w-full flex-1">
+                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col items-center">
+                    <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Appareil</h3>
+                    <div className="w-full flex justify-center py-4">
                         {salesByDevice.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={salesByDevice} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
-                                        {salesByDevice.map((entry: any, index: number) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <RechartsTooltip />
-                                    <Legend verticalAlign="bottom" height={36} iconType="circle" />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <PieChart width={250} height={250}>
+                                <Pie data={salesByDevice} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                                    {salesByDevice.map((entry: any, index: number) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <RechartsTooltip />
+                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                            </PieChart>
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
+                            <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
                         )}
                     </div>
                 </div>
 
                 {/* Browser Pie Chart */}
-                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col">
-                    <h3 className="text-lg font-bold mb-4">Répartition par Navigateur</h3>
-                    <div className="h-64 w-full flex-1">
+                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col items-center">
+                    <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Navigateur</h3>
+                    <div className="w-full flex justify-center py-4">
                         {salesByBrowser.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={salesByBrowser} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
-                                        {salesByBrowser.map((entry: any, index: number) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <RechartsTooltip />
-                                    <Legend verticalAlign="bottom" height={36} iconType="circle" />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <PieChart width={250} height={250}>
+                                <Pie data={salesByBrowser} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                                    {salesByBrowser.map((entry: any, index: number) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <RechartsTooltip />
+                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                            </PieChart>
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
+                            <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
                         )}
                     </div>
                 </div>
 
                 {/* Country Pie Chart */}
-                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col">
-                    <h3 className="text-lg font-bold mb-4">Répartition par Pays</h3>
-                    <div className="h-64 w-full flex-1">
+                <div className="bg-white p-6 rounded-2xl border shadow-sm flex flex-col items-center">
+                    <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Pays</h3>
+                    <div className="w-full flex justify-center py-4">
                         {salesByCountry.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={salesByCountry} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
-                                        {salesByCountry.map((entry: any, index: number) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <RechartsTooltip />
-                                    <Legend verticalAlign="bottom" height={36} iconType="circle" />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            <PieChart width={250} height={250}>
+                                <Pie data={salesByCountry} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                                    {salesByCountry.map((entry: any, index: number) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <RechartsTooltip />
+                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                            </PieChart>
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
+                            <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
                         )}
                     </div>
                 </div>
@@ -179,10 +173,10 @@ export default function StatsDashboard({ data }: { data: any }) {
             {/* Top Products Bar Chart */}
             <div className="bg-white p-6 rounded-2xl border shadow-sm">
                 <h3 className="text-lg font-bold mb-6">Top Produits & Bundles (Chiffre d'Affaires)</h3>
-                <div className="h-80 w-full">
+                <div className="w-full overflow-x-auto pb-4">
                     {topProducts.length > 0 ? (
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={topProducts} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <div style={{ width: '800px', height: '320px' }}>
+                            <BarChart width={800} height={320} data={topProducts} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                                 <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis yAxisId="left" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `€${value}`} />
@@ -192,9 +186,9 @@ export default function StatsDashboard({ data }: { data: any }) {
                                 <Bar yAxisId="left" dataKey="revenu" name="Revenu (€)" fill="#4f46e5" radius={[4, 4, 0, 0]} barSize={40} />
                                 <Bar yAxisId="right" dataKey="ventes" name="Unités vendues" fill="#ec4899" radius={[4, 4, 0, 0]} barSize={40} />
                             </BarChart>
-                        </ResponsiveContainer>
+                        </div>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">Pas assez de données.</div>
+                        <div className="w-full h-80 flex items-center justify-center text-muted-foreground">Pas assez de données.</div>
                     )}
                 </div>
             </div>
