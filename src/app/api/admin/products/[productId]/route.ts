@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth/options"
 import { prisma } from "@/lib/prisma"
-import { revalidatePath, revalidateTag } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 async function requireAdmin() {
     const session = await getServerSession(authOptions)
@@ -32,7 +32,6 @@ export async function PATCH(
             },
             include: { variants: true }
         })
-        revalidateTag("products")
         revalidatePath("/product", "page")
         revalidatePath("/product-orange", "page")
         return NextResponse.json(product)
