@@ -38,13 +38,22 @@ export default async function AdminStatsPage() {
     
     const totalVisits = visits.length
 
+    const groupOthers = (data: {name: string, value: number}[], maxItems: number = 4) => {
+        data.sort((a, b) => b.value - a.value)
+        if (data.length <= maxItems) return data
+        const top = data.slice(0, maxItems)
+        const othersValue = data.slice(maxItems).reduce((sum, item) => sum + item.value, 0)
+        if (othersValue > 0) top.push({ name: "Autres", value: othersValue })
+        return top
+    }
+
     // Sales/Visits by Country
     const countryMap = new Map<string, number>()
     visits.forEach(v => {
         const country = v.country || "Inconnu"
         countryMap.set(country, (countryMap.get(country) || 0) + 1)
     })
-    const salesByCountry = Array.from(countryMap.entries()).map(([name, value]) => ({ name, value }))
+    const salesByCountry = groupOthers(Array.from(countryMap.entries()).map(([name, value]) => ({ name, value })))
 
     // Sales/Visits by Device
     const deviceMap = new Map<string, number>()
@@ -52,7 +61,7 @@ export default async function AdminStatsPage() {
         const device = v.device || "Inconnu"
         deviceMap.set(device, (deviceMap.get(device) || 0) + 1)
     })
-    const salesByDevice = Array.from(deviceMap.entries()).map(([name, value]) => ({ name, value }))
+    const salesByDevice = groupOthers(Array.from(deviceMap.entries()).map(([name, value]) => ({ name, value })))
 
     // Sales/Visits by Browser
     const browserMap = new Map<string, number>()
@@ -60,7 +69,7 @@ export default async function AdminStatsPage() {
         const browser = v.browser || "Inconnu"
         browserMap.set(browser, (browserMap.get(browser) || 0) + 1)
     })
-    const salesByBrowser = Array.from(browserMap.entries()).map(([name, value]) => ({ name, value }))
+    const salesByBrowser = groupOthers(Array.from(browserMap.entries()).map(([name, value]) => ({ name, value })), 5)
 
     // Top Products/Bundles
     const productMap = new Map<string, { name: string, qty: number, revenue: number }>()

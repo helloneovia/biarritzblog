@@ -114,14 +114,14 @@ export default function StatsDashboard({ data }: { data: any }) {
                     <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Appareil</h3>
                     <div className="w-full flex justify-center py-4">
                         {salesByDevice.length > 0 ? (
-                            <PieChart width={250} height={250}>
-                                <Pie data={salesByDevice} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                            <PieChart width={280} height={320}>
+                                <Pie data={salesByDevice} cx="50%" cy="45%" innerRadius={70} outerRadius={90} paddingAngle={5} dataKey="value" nameKey="name">
                                     {salesByDevice.map((entry: any, index: number) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
                                 <RechartsTooltip />
-                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                                <Legend verticalAlign="bottom" height={48} iconType="circle" />
                             </PieChart>
                         ) : (
                             <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
@@ -134,14 +134,14 @@ export default function StatsDashboard({ data }: { data: any }) {
                     <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Navigateur</h3>
                     <div className="w-full flex justify-center py-4">
                         {salesByBrowser.length > 0 ? (
-                            <PieChart width={250} height={250}>
-                                <Pie data={salesByBrowser} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                            <PieChart width={280} height={320}>
+                                <Pie data={salesByBrowser} cx="50%" cy="45%" innerRadius={70} outerRadius={90} paddingAngle={5} dataKey="value" nameKey="name">
                                     {salesByBrowser.map((entry: any, index: number) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
                                     ))}
                                 </Pie>
                                 <RechartsTooltip />
-                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                                <Legend verticalAlign="bottom" height={48} iconType="circle" />
                             </PieChart>
                         ) : (
                             <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
@@ -154,14 +154,14 @@ export default function StatsDashboard({ data }: { data: any }) {
                     <h3 className="text-lg font-bold mb-4 w-full text-left">Répartition par Pays</h3>
                     <div className="w-full flex justify-center py-4">
                         {salesByCountry.length > 0 ? (
-                            <PieChart width={250} height={250}>
-                                <Pie data={salesByCountry} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" nameKey="name">
+                            <PieChart width={280} height={320}>
+                                <Pie data={salesByCountry} cx="50%" cy="45%" innerRadius={70} outerRadius={90} paddingAngle={5} dataKey="value" nameKey="name">
                                     {salesByCountry.map((entry: any, index: number) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
                                     ))}
                                 </Pie>
                                 <RechartsTooltip />
-                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                                <Legend verticalAlign="bottom" height={48} iconType="circle" />
                             </PieChart>
                         ) : (
                             <div className="w-full h-64 flex items-center justify-center text-muted-foreground text-sm">Pas de données.</div>
