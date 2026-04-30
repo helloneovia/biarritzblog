@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
 import { PurchaseTracker } from '@/components/tracking/PurchaseTracker'
 import { AutoLoginButton } from '@/components/checkout/AutoLoginButton'
+import { GoogleAdsConversion } from '@/components/tracking/GoogleAdsConversion'
 
 export const dynamic = 'force-dynamic'
 
@@ -50,6 +51,9 @@ export default async function CheckoutSuccessPage({
     return (
         <div className="min-h-screen bg-gray-50 py-12 sm:py-24">
             <PurchaseTracker order={order} />
+            {order && (
+                <GoogleAdsConversion transactionId={order.id} value={order.totalAmount} />
+            )}
             <div className="container mx-auto px-4">
                 <div className="max-w-3xl mx-auto space-y-6">
 

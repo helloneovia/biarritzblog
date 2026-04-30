@@ -14,6 +14,7 @@ import { generateSEOMetadata } from "@/lib/seo-metadata"
 import { StructuredData } from "@/components/StructuredData"
 import { cookies } from "next/headers"
 import { ClarityScript } from "@/components/tracking/ClarityScript"
+import { GoogleAdsScript } from "@/components/tracking/GoogleAdsScript"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,6 +47,7 @@ export default async function RootLayout({
       <head>
         <StructuredData locale={locale} type="all" />
         <ClarityScript />
+        <GoogleAdsScript />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-primary selection:text-primary-foreground`} suppressHydrationWarning>
         <Providers>
